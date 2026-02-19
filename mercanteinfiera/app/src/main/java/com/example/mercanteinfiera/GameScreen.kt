@@ -2,6 +2,7 @@ package com.example.mercanteinfiera
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.grid.GridCells
@@ -21,7 +22,9 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.compose.ui.window.Dialog
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.mercanteinfiera.models.CardModel
 import com.example.mercanteinfiera.models.GamePhase
 import com.example.mercanteinfiera.models.Player
 import com.example.mercanteinfiera.models.Prize
@@ -35,6 +38,8 @@ fun GameScreen(viewModel: GameViewModel = viewModel()) {
     val prizes by viewModel.prizes.collectAsState()
     val currentMessage by viewModel.currentMessage.collectAsState()
     val eliminatedCards by viewModel.eliminatedCards.collectAsState()
+    val inspectingPlayer by viewModel.inspectingPlayer.collectAsState()
+    val tradeDialogTarget by viewModel.tradeDialogTarget.collectAsState()
 
     val humanPlayer = players.find { it.isHuman }
     val aiPlayers = players.filter { !it.isHuman }
@@ -46,7 +51,7 @@ fun GameScreen(viewModel: GameViewModel = viewModel()) {
             .padding(16.dp),
         verticalArrangement = Arrangement.spacedBy(12.dp)
     ) {
-        // Header con Titolo e Reset
+        // Header
         Row(
             modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.SpaceBetween,
@@ -99,11 +104,16 @@ fun GameScreen(viewModel: GameViewModel = viewModel()) {
             horizontalArrangement = Arrangement.spacedBy(12.dp)
         ) {
             aiPlayers.forEach { ai ->
-                OpponentInfo(ai, modifier = Modifier.weight(1f))
+                OpponentInfo(
+                    ai, 
+                    modifier = Modifier
+                        .weight(1f)
+                        .clickable { viewModel.inspectPlayer(ai) }
+                )
             }
         }
 
-        // Sezione Giocatore (Le tue carte)
+        // Sezione Giocatore
         Divider()
         Row(
             modifier = Modifier.fillMaxWidth(),
@@ -111,9 +121,9 @@ fun GameScreen(viewModel: GameViewModel = viewModel()) {
             verticalAlignment = Alignment.CenterVertically
         ) {
             Text("Le tue carte:", style = MaterialTheme.typography.titleSmall)
-            if (humanPlayer != null && humanPlayer.winnings > 0) {
+            if (humanPlayer != null) {
                 Text(
-                    "Hai vinto: ${humanPlayer.winnings} €",
+                    "Saldo: ${humanPlayer.money} €",
                     style = MaterialTheme.typography.titleMedium,
                     color = Color(0xFF2E7D32),
                     fontWeight = FontWeight.Bold
@@ -150,31 +160,18 @@ fun GameScreen(viewModel: GameViewModel = viewModel()) {
             ) {
                 when (gameState) {
                     GamePhase.DISTRIBUTION -> {
-                        Button(
-                            onClick = { viewModel.startPrizesPhase() },
-                            modifier = Modifier.fillMaxWidth()
-                        ) {
+                        Button(onClick = { viewModel.startPrizesPhase() }, modifier = Modifier.fillMaxWidth()) {
                             Text("Stabilisci Premi")
                         }
                     }
                     GamePhase.ELIMINATION -> {
-                        Button(
-                            onClick = { viewModel.drawEliminationCard() },
-                            modifier = Modifier.fillMaxWidth()
-                        ) {
+                        Button(onClick = { viewModel.drawEliminationCard() }, modifier = Modifier.fillMaxWidth()) {
                             Text("Pesca Carta dal Mercante")
                         }
                     }
                     GamePhase.FINISHED -> {
-                        Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                            Text(
-                                "Gioco Terminato!",
-                                style = MaterialTheme.typography.titleMedium,
-                                fontWeight = FontWeight.Bold
-                            )
-                            Button(onClick = { viewModel.resetGame() }) {
-                                Text("Inizia Nuova Partita")
-                            }
+                        Button(onClick = { viewModel.resetGame() }) {
+                            Text("Inizia Nuova Partita")
                         }
                     }
                     else -> {}
@@ -182,6 +179,114 @@ fun GameScreen(viewModel: GameViewModel = viewModel()) {
             }
         }
     }
+
+    // Dialoghi
+    inspectingPlayer?.let { player ->
+        InspectionDialog(
+            player = player,
+            onDismiss = { viewModel.stopInspecting() },
+            onCardClick = { card -> viewModel.openTradeDialog(player, card) }
+        )
+    }
+
+    tradeDialogTarget?.let { (targetPlayer, targetCard) ->
+        TradeDialog(
+            targetPlayer = targetPlayer,
+            targetCard = targetCard,
+            myCards = humanPlayer?.cards ?: emptyList(),
+            myBalance = humanPlayer?.money ?: 0,
+            onDismiss = { viewModel.closeTradeDialog() },
+            onMoneyOffer = { amount -> viewModel.proposeMoneyTrade(targetPlayer, targetCard, amount) },
+            onCardOffer = { card -> viewModel.proposeCardTrade(targetPlayer, targetCard, card) }
+        )
+    }
+}
+
+@Composable
+fun InspectionDialog(player: Player, onDismiss: () -> Unit, onCardClick: (CardModel) -> Unit) {
+    AlertDialog(
+        onDismissRequest = onDismiss,
+        title = { Text("Carte di ${player.name}") },
+        text = {
+            LazyVerticalGrid(
+                columns = GridCells.Fixed(3),
+                modifier = Modifier.height(300.dp),
+                horizontalArrangement = Arrangement.spacedBy(8.dp),
+                verticalArrangement = Arrangement.spacedBy(8.dp)
+            ) {
+                items(player.cards) { card ->
+                    GameCard(
+                        card = card,
+                        modifier = Modifier
+                            .aspectRatio(3f / 4f)
+                            .clickable { onCardClick(card) }
+                    )
+                }
+            }
+        },
+        confirmButton = { Button(onClick = onDismiss) { Text("Chiudi") } }
+    )
+}
+
+@Composable
+fun TradeDialog(
+    targetPlayer: Player,
+    targetCard: CardModel,
+    myCards: List<CardModel>,
+    myBalance: Int,
+    onDismiss: () -> Unit,
+    onMoneyOffer: (Int) -> Unit,
+    onCardOffer: (CardModel) -> Unit
+) {
+    var offerAmount by remember { mutableStateOf("10") }
+    var showCardTrade by remember { mutableStateOf(false) }
+
+    AlertDialog(
+        onDismissRequest = onDismiss,
+        title = { Text("Scambia con ${targetPlayer.name}") },
+        text = {
+            Column(verticalArrangement = Arrangement.spacedBy(16.dp)) {
+                Text("Vuoi la carta: ${targetCard.name}?")
+                
+                if (!showCardTrade) {
+                    Text("Offri soldi (Saldo: $myBalance €):")
+                    TextField(
+                        value = offerAmount,
+                        onValueChange = { offerAmount = it.filter { char -> char.isDigit() } },
+                        modifier = Modifier.fillMaxWidth()
+                    )
+                    TextButton(
+                        onClick = { showCardTrade = true }
+                    ) {
+                        Text("Vuoi offrire una carta invece?")
+                    }
+                } else {
+                    Text("Scegli una tua carta da offrire:")
+                    LazyRow(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                        items(myCards) { card ->
+                            GameCard(
+                                card = card,
+                                modifier = Modifier
+                                    .size(60.dp, 80.dp)
+                                    .clickable { onCardOffer(card) }
+                            )
+                        }
+                    }
+                    TextButton(onClick = { showCardTrade = false }) {
+                        Text("Torna all'offerta in denaro")
+                    }
+                }
+            }
+        },
+        confirmButton = {
+            if (!showCardTrade) {
+                Button(onClick = { onMoneyOffer(offerAmount.toIntOrNull() ?: 0) }) {
+                    Text("Offri ${offerAmount} €")
+                }
+            }
+        },
+        dismissButton = { TextButton(onClick = onDismiss) { Text("Annulla") } }
+    )
 }
 
 @Composable
@@ -215,33 +320,17 @@ fun OpponentInfo(player: Player, modifier: Modifier = Modifier) {
             modifier = Modifier.padding(8.dp),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Text(
-                player.name, 
-                style = MaterialTheme.typography.titleSmall,
-                maxLines = 1
-            )
+            Text(player.name, style = MaterialTheme.typography.titleSmall, maxLines = 1)
             Spacer(modifier = Modifier.height(4.dp))
-            Row(
-                verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.Center
-            ) {
+            Row(verticalAlignment = Alignment.CenterVertically) {
                 Box(
-                    modifier = Modifier
-                        .size(28.dp)
-                        .background(MaterialTheme.colorScheme.secondaryContainer, CircleShape),
+                    modifier = Modifier.size(24.dp).background(MaterialTheme.colorScheme.secondaryContainer, CircleShape),
                     contentAlignment = Alignment.Center
                 ) {
-                    Text("${player.cards.size}", fontSize = 12.sp, fontWeight = FontWeight.Bold)
+                    Text("${player.cards.size}", fontSize = 11.sp, fontWeight = FontWeight.Bold)
                 }
-                if (player.winnings > 0) {
-                    Spacer(modifier = Modifier.width(8.dp))
-                    Text(
-                        "${player.winnings}€",
-                        fontSize = 14.sp,
-                        color = Color(0xFF2E7D32),
-                        fontWeight = FontWeight.Bold
-                    )
-                }
+                Spacer(modifier = Modifier.width(4.dp))
+                Text("${player.money}€", fontSize = 12.sp, color = Color(0xFF2E7D32), fontWeight = FontWeight.Bold)
             }
             Text("Carte", style = MaterialTheme.typography.labelSmall)
         }

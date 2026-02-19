@@ -32,6 +32,12 @@ class GameViewModel : ViewModel() {
     private val _currentMessage = MutableStateFlow("Benvenuti al Mercante in Fiera!")
     val currentMessage: StateFlow<String> = _currentMessage.asStateFlow()
 
+    private val _inspectingPlayer = MutableStateFlow<Player?>(null)
+    val inspectingPlayer: StateFlow<Player?> = _inspectingPlayer.asStateFlow()
+
+    private val _tradeDialogTarget = MutableStateFlow<Pair<Player, CardModel>?>(null)
+    val tradeDialogTarget: StateFlow<Pair<Player, CardModel>?> = _tradeDialogTarget.asStateFlow()
+
     private var merchantCardsRemaining = mutableListOf<CardModel>()
 
     init {
@@ -47,13 +53,11 @@ class GameViewModel : ViewModel() {
             val playerDeck = fullDeck.shuffled()
             
             if (isFirstTime) {
-                // Prima volta: creiamo i giocatori da zero
-                val human = Player(1, "Tu (Giocatore)", isHuman = true, cards = playerDeck.subList(0, 13))
-                val ai1 = Player(2, "IA 1", isHuman = false, cards = playerDeck.subList(13, 26))
-                val ai2 = Player(3, "IA 2", isHuman = false, cards = playerDeck.subList(26, 39))
+                val human = Player(1, "Tu (Giocatore)", isHuman = true, cards = playerDeck.subList(0, 13), money = 100)
+                val ai1 = Player(2, "IA 1", isHuman = false, cards = playerDeck.subList(13, 26), money = 100)
+                val ai2 = Player(3, "IA 2", isHuman = false, cards = playerDeck.subList(26, 39), money = 100)
                 _players.value = listOf(human, ai1, ai2)
             } else {
-                // Partite successive: aggiorniamo solo le carte, mantenendo le vincite
                 _players.update { currentPlayers ->
                     currentPlayers.mapIndexed { index, player ->
                         val start = index * 13
@@ -113,9 +117,8 @@ class GameViewModel : ViewModel() {
 
     private fun finishGame() {
         _gameState.value = GamePhase.FINISHED
-        _currentMessage.value = "Gioco terminato! Ecco le vincite finali di questo round."
+        _currentMessage.value = "Gioco terminato! Ecco le vincite finali."
         
-        // Calcola e AGGIUNGE le vincite per ogni giocatore
         _players.update { currentPlayers ->
             currentPlayers.map { player ->
                 var roundWinnings = 0
@@ -125,8 +128,8 @@ class GameViewModel : ViewModel() {
                         roundWinnings += prize.value
                     }
                 }
-                // Manteniamo le vincite precedenti e aggiungiamo quelle di questo round
-                player.copy(winnings = player.winnings + roundWinnings)
+                // Sommiamo le vincite direttamente al campo money
+                player.copy(money = player.money + roundWinnings)
             }
         }
     }
@@ -135,6 +138,88 @@ class GameViewModel : ViewModel() {
         _gameState.value = GamePhase.DISTRIBUTION
         _prizes.value = emptyList()
         _eliminatedCards.value = emptySet()
+        _inspectingPlayer.value = null
+        _tradeDialogTarget.value = null
         initializeGame(isFirstTime = false)
+    }
+
+    fun inspectPlayer(player: Player) {
+        _inspectingPlayer.value = player
+    }
+
+    fun stopInspecting() {
+        _inspectingPlayer.value = null
+    }
+
+    fun openTradeDialog(player: Player, card: CardModel) {
+        _tradeDialogTarget.value = player to card
+    }
+
+    fun closeTradeDialog() {
+        _tradeDialogTarget.value = null
+    }
+
+    fun proposeMoneyTrade(targetPlayer: Player, targetCard: CardModel, moneyOffer: Int) {
+        viewModelScope.launch {
+            val human = _players.value.find { it.isHuman } ?: return@launch
+            
+            if (human.money < moneyOffer) {
+                _currentMessage.value = "Non hai abbastanza soldi!"
+                return@launch
+            }
+
+            val accepted = Random.nextBoolean() 
+
+            if (accepted) {
+                _players.update { currentPlayers ->
+                    currentPlayers.map { p ->
+                        when (p.id) {
+                            human.id -> p.copy(
+                                money = p.money - moneyOffer,
+                                cards = p.cards + targetCard
+                            )
+                            targetPlayer.id -> p.copy(
+                                money = p.money + moneyOffer,
+                                cards = p.cards - targetCard
+                            )
+                            else -> p
+                        }
+                    }
+                }
+                _currentMessage.value = "${targetPlayer.name} ha accettato lo scambio per $moneyOffer €!"
+            } else {
+                _currentMessage.value = "${targetPlayer.name} ha rifiutato l'offerta."
+            }
+            closeTradeDialog()
+            stopInspecting()
+        }
+    }
+
+    fun proposeCardTrade(targetPlayer: Player, targetCard: CardModel, offeredCard: CardModel) {
+        viewModelScope.launch {
+            val human = _players.value.find { it.isHuman } ?: return@launch
+            val accepted = Random.nextBoolean()
+
+            if (accepted) {
+                _players.update { currentPlayers ->
+                    currentPlayers.map { p ->
+                        when (p.id) {
+                            human.id -> p.copy(
+                                cards = (p.cards - offeredCard) + targetCard
+                            )
+                            targetPlayer.id -> p.copy(
+                                cards = (p.cards - targetCard) + offeredCard
+                            )
+                            else -> p
+                        }
+                    }
+                }
+                _currentMessage.value = "${targetPlayer.name} ha scambiato ${targetCard.name} con ${offeredCard.name}!"
+            } else {
+                _currentMessage.value = "${targetPlayer.name} ha rifiutato lo scambio di carte."
+            }
+            closeTradeDialog()
+            stopInspecting()
+        }
     }
 }

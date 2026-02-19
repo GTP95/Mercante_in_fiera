@@ -12,8 +12,7 @@ data class Player(
     val name: String,
     val isHuman: Boolean = false,
     val cards: List<CardModel> = emptyList(),
-    val balance: Int = 100,
-    val winnings: Int = 0
+    val money: Int = 100 // Unico campo per il denaro del giocatore
 )
 
 data class Prize(
