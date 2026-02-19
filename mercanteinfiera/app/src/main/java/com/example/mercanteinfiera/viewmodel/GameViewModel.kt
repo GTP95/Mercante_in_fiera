@@ -41,7 +41,21 @@ class GameViewModel : ViewModel() {
     private val _offeringCard = MutableStateFlow<CardModel?>(null)
     val offeringCard: StateFlow<CardModel?> = _offeringCard.asStateFlow()
 
+    // Auction State
+    private val _auctionCard = MutableStateFlow<CardModel?>(null)
+    val auctionCard: StateFlow<CardModel?> = _auctionCard.asStateFlow()
+
+    private val _currentBid = MutableStateFlow(0)
+    val currentBid: StateFlow<Int> = _currentBid.asStateFlow()
+
+    private val _highestBidder = MutableStateFlow<Player?>(null)
+    val highestBidder: StateFlow<Player?> = _highestBidder.asStateFlow()
+
+    private val _merchantPot = MutableStateFlow(0)
+    val merchantPot: StateFlow<Int> = _merchantPot.asStateFlow()
+
     private var merchantCardsRemaining = mutableListOf<CardModel>()
+    private var cardsToAuction = mutableListOf<CardModel>()
 
     init {
         initializeGame(isFirstTime = true)
@@ -53,33 +67,151 @@ class GameViewModel : ViewModel() {
             _merchantDeck.value = fullDeck
             merchantCardsRemaining = fullDeck.toMutableList()
             
-            val playerDeck = fullDeck.shuffled()
+            val playerDeck = fullDeck.shuffled().toMutableList()
+            
+            // Give 10 cards to each player
+            val humanCards = playerDeck.take(10)
+            playerDeck.removeAll(humanCards)
+            val ai1Cards = playerDeck.take(10)
+            playerDeck.removeAll(ai1Cards)
+            val ai2Cards = playerDeck.take(10)
+            playerDeck.removeAll(ai2Cards)
+            
+            // Remaining 10 cards (actually 9 if 39 cards total, but DeckManager has 40)
+            // Let's use 10 each for 3 players = 30. 10 left for auction.
+            cardsToAuction = playerDeck.take(10).toMutableList()
             
             if (isFirstTime) {
-                val human = Player(1, "Tu (Giocatore)", isHuman = true, cards = playerDeck.subList(0, 13), money = 100)
-                val ai1 = Player(2, "IA 1", isHuman = false, cards = playerDeck.subList(13, 26), money = 100)
-                val ai2 = Player(3, "IA 2", isHuman = false, cards = playerDeck.subList(26, 39), money = 100)
+                val human = Player(1, "Tu (Giocatore)", isHuman = true, cards = humanCards, money = 100)
+                val ai1 = Player(2, "IA 1", isHuman = false, cards = ai1Cards, money = 100)
+                val ai2 = Player(3, "IA 2", isHuman = false, cards = ai2Cards, money = 100)
                 _players.value = listOf(human, ai1, ai2)
             } else {
                 _players.update { currentPlayers ->
-                    currentPlayers.mapIndexed { index, player ->
-                        val start = index * 13
-                        val end = (index + 1) * 13
-                        player.copy(cards = playerDeck.subList(start, end))
-                    }
+                    listOf(
+                        currentPlayers[0].copy(cards = humanCards),
+                        currentPlayers[1].copy(cards = ai1Cards),
+                        currentPlayers[2].copy(cards = ai2Cards)
+                    )
                 }
             }
             
-            _currentMessage.value = "Carte distribuite! Ora scegliamo i premi."
+            _merchantPot.value = 0
+            _currentMessage.value = "Carte iniziali distribuite! Inizia l'asta per le rimanenti."
+            _gameState.value = GamePhase.AUCTION
+            startNextAuction()
         }
+    }
+
+    private fun startNextAuction() {
+        if (cardsToAuction.isEmpty()) {
+            _gameState.value = GamePhase.DISTRIBUTION // Move to summary or next phase
+            _currentMessage.value = "Asta terminata! Il Mercante ha raccolto ${_merchantPot.value} €. Ora stabiliamo i premi."
+            _auctionCard.value = null
+            return
+        }
+
+        val card = cardsToAuction.removeAt(0)
+        _auctionCard.value = card
+        _currentBid.value = 0
+        _highestBidder.value = null
+        _currentMessage.value = "All'asta la carta: ${card.name}. Chi offre di più?"
+        
+        // Simple AI bidding simulation
+        viewModelScope.launch {
+            delay(2000)
+            simulateAiBidding()
+        }
+    }
+
+    private suspend fun simulateAiBidding() {
+        if (_gameState.value != GamePhase.AUCTION) return
+
+        var active = true
+        while (active) {
+            delay(1500)
+            val currentHighest = _currentBid.value
+            val aiPlayers = _players.value.filter { !it.isHuman }
+            
+            // Find an AI that wants to bid
+            val bidder = aiPlayers.filter { it.money > currentHighest + 2 }.shuffled().firstOrNull {
+                // AI bids if current price is low or they just feel like it
+                Random.nextInt(100) > 60 
+            }
+
+            if (bidder != null) {
+                val newBid = currentHighest + Random.nextInt(1, 5)
+                if (newBid <= bidder.money) {
+                    _currentBid.value = newBid
+                    _highestBidder.value = bidder
+                    _currentMessage.value = "${bidder.name} offre $newBid €!"
+                } else {
+                    active = false
+                }
+            } else {
+                active = false
+            }
+        }
+        
+        delay(1000)
+        _currentMessage.value = "Andata! A ${_highestBidder.value?.name ?: "nessuno"} per ${_currentBid.value} €"
+        delay(1000)
+        concludeAuction()
+    }
+
+    fun playerBid() {
+        if (_gameState.value != GamePhase.AUCTION) return
+        val human = _players.value.find { it.isHuman } ?: return
+        val newBid = _currentBid.value + 5
+        
+        if (newBid <= human.money) {
+            _currentBid.value = newBid
+            _highestBidder.value = human
+            _currentMessage.value = "Hai offerto $newBid €!"
+        } else {
+            _currentMessage.value = "Non hai abbastanza soldi!"
+        }
+    }
+
+    private fun concludeAuction() {
+        val winner = _highestBidder.value
+        val bid = _currentBid.value
+        val card = _auctionCard.value
+
+        if (winner != null && card != null) {
+            _players.update { currentPlayers ->
+                currentPlayers.map { p ->
+                    if (p.id == winner.id) {
+                        p.copy(money = p.money - bid, cards = p.cards + card)
+                    } else p
+                }
+            }
+            _merchantPot.value += bid
+        }
+
+        startNextAuction()
     }
     
     fun startPrizesPhase() {
         viewModelScope.launch {
             _gameState.value = GamePhase.PRIZES
-            val prizeValues = listOf(50, 30, 20, 10, 5)
-            val selectedPrizes = mutableListOf<Prize>()
             
+            // Distribute collected money into prizes
+            val pot = _merchantPot.value
+            val prizeValues = if (pot > 0) {
+                // Split pot into 5 prizes: 40%, 25%, 15%, 10%, 10% approx
+                listOf(
+                    (pot * 0.4).toInt().coerceAtLeast(5),
+                    (pot * 0.25).toInt().coerceAtLeast(3),
+                    (pot * 0.15).toInt().coerceAtLeast(2),
+                    (pot * 0.1).toInt().coerceAtLeast(1),
+                    (pot * 0.1).toInt().coerceAtLeast(1)
+                )
+            } else {
+                listOf(50, 30, 20, 10, 5)
+            }
+            
+            val selectedPrizes = mutableListOf<Prize>()
             val pool = merchantCardsRemaining.shuffled().toMutableList()
             for (value in prizeValues) {
                 if (pool.isNotEmpty()) {
@@ -90,7 +222,7 @@ class GameViewModel : ViewModel() {
             }
             
             _prizes.value = selectedPrizes
-            _currentMessage.value = "Premi stabiliti. Iniziamo l'eliminazione!"
+            _currentMessage.value = "Premi stabiliti in base all'asta. Iniziamo l'eliminazione!"
             delay(2000)
             _gameState.value = GamePhase.ELIMINATION
         }
@@ -143,6 +275,8 @@ class GameViewModel : ViewModel() {
         _inspectingPlayer.value = null
         _tradeDialogTarget.value = null
         _offeringCard.value = null
+        _auctionCard.value = null
+        _merchantPot.value = 0
         initializeGame(isFirstTime = false)
     }
 

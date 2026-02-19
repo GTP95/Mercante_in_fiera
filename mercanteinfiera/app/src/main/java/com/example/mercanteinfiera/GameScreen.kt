@@ -1,5 +1,6 @@
 package com.example.mercanteinfiera
 
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -41,6 +42,12 @@ fun GameScreen(viewModel: GameViewModel = viewModel()) {
     val inspectingPlayer by viewModel.inspectingPlayer.collectAsState()
     val tradeDialogTarget by viewModel.tradeDialogTarget.collectAsState()
     val offeringCard by viewModel.offeringCard.collectAsState()
+    
+    // Auction states
+    val auctionCard by viewModel.auctionCard.collectAsState()
+    val currentBid by viewModel.currentBid.collectAsState()
+    val highestBidder by viewModel.highestBidder.collectAsState()
+    val merchantPot by viewModel.merchantPot.collectAsState()
 
     val humanPlayer = players.find { it.isHuman }
     val aiPlayers = players.filter { !it.isHuman }
@@ -58,11 +65,20 @@ fun GameScreen(viewModel: GameViewModel = viewModel()) {
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically
         ) {
-            Text(
-                text = "Mercante in Fiera",
-                style = MaterialTheme.typography.headlineSmall,
-                fontWeight = FontWeight.Bold
-            )
+            Column {
+                Text(
+                    text = "Mercante in Fiera",
+                    style = MaterialTheme.typography.headlineSmall,
+                    fontWeight = FontWeight.Bold
+                )
+                if (humanPlayer != null) {
+                    Text(
+                        "Saldo: ${humanPlayer.money} €",
+                        style = MaterialTheme.typography.labelLarge,
+                        color = MaterialTheme.colorScheme.primary
+                    )
+                }
+            }
             if (gameState == GamePhase.FINISHED) {
                 IconButton(onClick = { viewModel.resetGame() }) {
                     Icon(Icons.Default.Refresh, contentDescription = "Nuova Partita")
@@ -86,9 +102,19 @@ fun GameScreen(viewModel: GameViewModel = viewModel()) {
             )
         }
 
+        // Sezione Asta (Visibile solo durante l'asta)
+        if (gameState == GamePhase.AUCTION && auctionCard != null) {
+            AuctionPanel(
+                card = auctionCard!!,
+                currentBid = currentBid,
+                highestBidder = highestBidder,
+                onBidClick = { viewModel.playerBid() }
+            )
+        }
+
         // Sezione Premi
         if (prizes.isNotEmpty()) {
-            Text("Premi in palio:", style = MaterialTheme.typography.titleSmall)
+            Text("Premi in palio (Pot: $merchantPot €):", style = MaterialTheme.typography.titleSmall)
             LazyRow(
                 horizontalArrangement = Arrangement.spacedBy(8.dp),
                 contentPadding = PaddingValues(vertical = 4.dp)
@@ -116,21 +142,7 @@ fun GameScreen(viewModel: GameViewModel = viewModel()) {
 
         // Sezione Giocatore
         Divider()
-        Row(
-            modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.SpaceBetween,
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            Text("Le tue carte:", style = MaterialTheme.typography.titleSmall)
-            if (humanPlayer != null) {
-                Text(
-                    "Saldo: ${humanPlayer.money} €",
-                    style = MaterialTheme.typography.titleMedium,
-                    color = Color(0xFF2E7D32),
-                    fontWeight = FontWeight.Bold
-                )
-            }
-        }
+        Text("Le tue carte:", style = MaterialTheme.typography.titleSmall)
 
         if (humanPlayer != null) {
             LazyVerticalGrid(
@@ -167,6 +179,11 @@ fun GameScreen(viewModel: GameViewModel = viewModel()) {
                             Text("Stabilisci Premi")
                         }
                     }
+                    GamePhase.AUCTION -> {
+                        Button(onClick = { viewModel.playerBid() }, modifier = Modifier.fillMaxWidth()) {
+                            Text("Fai un'offerta (+5€)")
+                        }
+                    }
                     GamePhase.ELIMINATION -> {
                         Button(onClick = { viewModel.drawEliminationCard() }, modifier = Modifier.fillMaxWidth()) {
                             Text("Pesca Carta dal Mercante")
@@ -183,7 +200,7 @@ fun GameScreen(viewModel: GameViewModel = viewModel()) {
         }
     }
 
-    // Dialoghi
+    // Dialoghi (Ispezione, Scambio, Offerta)
     inspectingPlayer?.let { player ->
         InspectionDialog(
             player = player,
@@ -212,6 +229,39 @@ fun GameScreen(viewModel: GameViewModel = viewModel()) {
             onSellClick = { target, amount -> viewModel.sellCardForMoney(target, card, amount) },
             onSwapClick = { target, targetCard -> viewModel.swapCardForCard(target, card, targetCard) }
         )
+    }
+}
+
+@Composable
+fun AuctionPanel(
+    card: CardModel,
+    currentBid: Int,
+    highestBidder: Player?,
+    onBidClick: () -> Unit
+) {
+    Card(
+        modifier = Modifier.fillMaxWidth(),
+        colors = CardDefaults.cardColors(containerColor = Color(0xFFE3F2FD)),
+        border = BorderStroke(2.dp, MaterialTheme.colorScheme.primary)
+    ) {
+        Row(
+            modifier = Modifier.padding(12.dp),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.spacedBy(16.dp)
+        ) {
+            GameCard(
+                card = card,
+                modifier = Modifier.size(60.dp, 80.dp)
+            )
+            Column(modifier = Modifier.weight(1f)) {
+                Text("All'asta!", fontWeight = FontWeight.Bold, color = MaterialTheme.colorScheme.primary)
+                Text("Offerta attuale: $currentBid €", fontSize = 18.sp, fontWeight = FontWeight.ExtraBold)
+                Text(
+                    text = "Miglior offerente: ${highestBidder?.name ?: "Nessuno"}",
+                    style = MaterialTheme.typography.bodySmall
+                )
+            }
+        }
     }
 }
 
