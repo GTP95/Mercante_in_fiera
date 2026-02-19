@@ -46,6 +46,7 @@ class GameViewModel : ViewModel() {
             
             val playerDeck = fullDeck.shuffled()
             
+            // Distribuiamo 39 carte (13 a testa per 3 giocatori)
             val human = Player(1, "Tu (Giocatore)", isHuman = true, cards = playerDeck.subList(0, 13))
             val ai1 = Player(2, "IA 1", isHuman = false, cards = playerDeck.subList(13, 26))
             val ai2 = Player(3, "IA 2", isHuman = false, cards = playerDeck.subList(26, 39))
@@ -61,7 +62,6 @@ class GameViewModel : ViewModel() {
             val prizeValues = listOf(50, 30, 20, 10, 5)
             val selectedPrizes = mutableListOf<Prize>()
             
-            // Il mercante sceglie 5 carte a caso come premi e le toglie dal mazzo delle eliminazioni
             val pool = merchantCardsRemaining.shuffled().toMutableList()
             for (value in prizeValues) {
                 if (pool.isNotEmpty()) {
@@ -87,7 +87,6 @@ class GameViewModel : ViewModel() {
                 _eliminatedCards.update { it + card.id }
                 _currentMessage.value = "È uscita la carta: ${card.name}. Chi ce l'ha è eliminato!"
                 
-                // Rimuovi la carta dai giocatori
                 _players.update { currentPlayers ->
                     currentPlayers.map { player ->
                         player.copy(cards = player.cards.filter { it.id != card.id })
@@ -95,10 +94,35 @@ class GameViewModel : ViewModel() {
                 }
                 
                 if (merchantCardsRemaining.isEmpty()) {
-                    _gameState.value = GamePhase.FINISHED
-                    _currentMessage.value = "Gioco terminato! Vediamo chi ha vinto i premi."
+                    finishGame()
                 }
             }
         }
+    }
+
+    private fun finishGame() {
+        _gameState.value = GamePhase.FINISHED
+        _currentMessage.value = "Gioco terminato! Ecco le vincite finali."
+        
+        // Calcola le vincite per ogni giocatore
+        _players.update { currentPlayers ->
+            currentPlayers.map { player ->
+                var totalWinnings = 0
+                player.cards.forEach { card ->
+                    val prize = _prizes.value.find { it.card.id == card.id }
+                    if (prize != null) {
+                        totalWinnings += prize.value
+                    }
+                }
+                player.copy(winnings = totalWinnings)
+            }
+        }
+    }
+
+    fun resetGame() {
+        _gameState.value = GamePhase.DISTRIBUTION
+        _prizes.value = emptyList()
+        _eliminatedCards.value = emptySet()
+        initializeGame()
     }
 }

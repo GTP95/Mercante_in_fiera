@@ -12,7 +12,8 @@ data class Player(
     val name: String,
     val isHuman: Boolean = false,
     val cards: List<CardModel> = emptyList(),
-    val balance: Int = 100 // Monete virtuali per l'asta
+    val balance: Int = 100,
+    val winnings: Int = 0
 )
 
 data class Prize(

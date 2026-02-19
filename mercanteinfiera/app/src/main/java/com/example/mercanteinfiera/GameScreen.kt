@@ -10,6 +10,8 @@ import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Refresh
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -42,27 +44,45 @@ fun GameScreen(viewModel: GameViewModel = viewModel()) {
             .fillMaxSize()
             .background(Color(0xFFF5F5F5))
             .padding(16.dp),
-        verticalArrangement = Arrangement.spacedBy(16.dp)
+        verticalArrangement = Arrangement.spacedBy(12.dp)
     ) {
+        // Header con Titolo e Reset
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.SpaceBetween,
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Text(
+                text = "Mercante in Fiera",
+                style = MaterialTheme.typography.headlineSmall,
+                fontWeight = FontWeight.Bold
+            )
+            if (gameState == GamePhase.FINISHED) {
+                IconButton(onClick = { viewModel.resetGame() }) {
+                    Icon(Icons.Default.Refresh, contentDescription = "Nuova Partita")
+                }
+            }
+        }
+
         // Messaggio del Mercante
         Surface(
             modifier = Modifier.fillMaxWidth(),
             shape = RoundedCornerShape(12.dp),
             color = MaterialTheme.colorScheme.primaryContainer,
-            shadowElevation = 4.dp
+            shadowElevation = 2.dp
         ) {
             Text(
                 text = currentMessage,
-                style = MaterialTheme.typography.bodyLarge,
+                style = MaterialTheme.typography.bodyMedium,
                 textAlign = TextAlign.Center,
-                modifier = Modifier.padding(16.dp),
+                modifier = Modifier.padding(12.dp),
                 color = MaterialTheme.colorScheme.onPrimaryContainer
             )
         }
 
         // Sezione Premi
         if (prizes.isNotEmpty()) {
-            Text("Premi in palio:", style = MaterialTheme.typography.titleMedium)
+            Text("Premi in palio:", style = MaterialTheme.typography.titleSmall)
             LazyRow(
                 horizontalArrangement = Arrangement.spacedBy(8.dp),
                 contentPadding = PaddingValues(vertical = 4.dp)
@@ -76,7 +96,7 @@ fun GameScreen(viewModel: GameViewModel = viewModel()) {
         // Sezione Avversari
         Row(
             modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.spacedBy(16.dp)
+            horizontalArrangement = Arrangement.spacedBy(12.dp)
         ) {
             aiPlayers.forEach { ai ->
                 OpponentInfo(ai, modifier = Modifier.weight(1f))
@@ -84,10 +104,26 @@ fun GameScreen(viewModel: GameViewModel = viewModel()) {
         }
 
         // Sezione Giocatore (Le tue carte)
-        Text("Le tue carte:", style = MaterialTheme.typography.titleMedium)
+        Divider()
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.SpaceBetween,
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Text("Le tue carte:", style = MaterialTheme.typography.titleSmall)
+            if (humanPlayer != null && humanPlayer.winnings > 0) {
+                Text(
+                    "Hai vinto: ${humanPlayer.winnings} €",
+                    style = MaterialTheme.typography.titleMedium,
+                    color = Color(0xFF2E7D32),
+                    fontWeight = FontWeight.Bold
+                )
+            }
+        }
+
         if (humanPlayer != null) {
             LazyVerticalGrid(
-                columns = GridCells.Adaptive(minSize = 80.dp),
+                columns = GridCells.Adaptive(minSize = 70.dp),
                 verticalArrangement = Arrangement.spacedBy(8.dp),
                 horizontalArrangement = Arrangement.spacedBy(8.dp),
                 modifier = Modifier.weight(1f)
@@ -103,27 +139,46 @@ fun GameScreen(viewModel: GameViewModel = viewModel()) {
         }
 
         // Azioni
-        Box(
+        Surface(
             modifier = Modifier.fillMaxWidth(),
-            contentAlignment = Alignment.Center
+            shape = RoundedCornerShape(topStart = 16.dp, topEnd = 16.dp),
+            tonalElevation = 8.dp
         ) {
-            when (gameState) {
-                GamePhase.DISTRIBUTION -> {
-                    Button(onClick = { viewModel.startPrizesPhase() }) {
-                        Text("Stabilisci Premi")
+            Box(
+                modifier = Modifier.padding(16.dp),
+                contentAlignment = Alignment.Center
+            ) {
+                when (gameState) {
+                    GamePhase.DISTRIBUTION -> {
+                        Button(
+                            onClick = { viewModel.startPrizesPhase() },
+                            modifier = Modifier.fillMaxWidth()
+                        ) {
+                            Text("Stabilisci Premi")
+                        }
                     }
-                }
-                GamePhase.ELIMINATION -> {
-                    Button(onClick = { viewModel.drawEliminationCard() }) {
-                        Text("Pesca Carta dal Mercante")
+                    GamePhase.ELIMINATION -> {
+                        Button(
+                            onClick = { viewModel.drawEliminationCard() },
+                            modifier = Modifier.fillMaxWidth()
+                        ) {
+                            Text("Pesca Carta dal Mercante")
+                        }
                     }
-                }
-                GamePhase.FINISHED -> {
-                    Button(onClick = { /* Potresti resettare il gioco qui */ }) {
-                        Text("Gioco Terminato")
+                    GamePhase.FINISHED -> {
+                        Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                            Text(
+                                "Gioco Terminato!",
+                                style = MaterialTheme.typography.titleMedium,
+                                fontWeight = FontWeight.Bold
+                            )
+                            Button(onClick = { viewModel.resetGame() }) {
+                                Text("Inizia Nuova Partita")
+                            }
+                        }
                     }
+                    else -> {}
                 }
-                else -> {}
             }
         }
     }
@@ -133,17 +188,18 @@ fun GameScreen(viewModel: GameViewModel = viewModel()) {
 fun PrizeItem(prize: Prize, isRevealed: Boolean) {
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
-        modifier = Modifier.width(70.dp)
+        modifier = Modifier.width(60.dp)
     ) {
         GameCard(
             card = prize.card,
             isFaceUp = isRevealed,
-            modifier = Modifier.size(60.dp, 80.dp)
+            modifier = Modifier.size(50.dp, 70.dp)
         )
         Text(
             text = "${prize.value} €",
             style = MaterialTheme.typography.labelSmall,
-            fontWeight = FontWeight.Bold
+            fontWeight = FontWeight.Bold,
+            color = if (isRevealed) Color(0xFFD32F2F) else Color.DarkGray
         )
     }
 }
@@ -159,16 +215,33 @@ fun OpponentInfo(player: Player, modifier: Modifier = Modifier) {
             modifier = Modifier.padding(8.dp),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Text(player.name, style = MaterialTheme.typography.titleSmall)
+            Text(
+                player.name, 
+                style = MaterialTheme.typography.titleSmall,
+                maxLines = 1
+            )
             Spacer(modifier = Modifier.height(4.dp))
-            Box(
-                modifier = Modifier
-                    .size(32.dp)
-                    .background(Color.LightGray, CircleShape)
-                    .border(1.dp, Color.Gray, CircleShape),
-                contentAlignment = Alignment.Center
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.Center
             ) {
-                Text("${player.cards.size}", fontSize = 14.sp)
+                Box(
+                    modifier = Modifier
+                        .size(28.dp)
+                        .background(MaterialTheme.colorScheme.secondaryContainer, CircleShape),
+                    contentAlignment = Alignment.Center
+                ) {
+                    Text("${player.cards.size}", fontSize = 12.sp, fontWeight = FontWeight.Bold)
+                }
+                if (player.winnings > 0) {
+                    Spacer(modifier = Modifier.width(8.dp))
+                    Text(
+                        "${player.winnings}€",
+                        fontSize = 14.sp,
+                        color = Color(0xFF2E7D32),
+                        fontWeight = FontWeight.Bold
+                    )
+                }
             }
             Text("Carte", style = MaterialTheme.typography.labelSmall)
         }
