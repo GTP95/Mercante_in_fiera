@@ -38,6 +38,9 @@ class GameViewModel : ViewModel() {
     private val _tradeDialogTarget = MutableStateFlow<Pair<Player, CardModel>?>(null)
     val tradeDialogTarget: StateFlow<Pair<Player, CardModel>?> = _tradeDialogTarget.asStateFlow()
 
+    private val _offeringCard = MutableStateFlow<CardModel?>(null)
+    val offeringCard: StateFlow<CardModel?> = _offeringCard.asStateFlow()
+
     private var merchantCardsRemaining = mutableListOf<CardModel>()
 
     init {
@@ -128,7 +131,6 @@ class GameViewModel : ViewModel() {
                         roundWinnings += prize.value
                     }
                 }
-                // Sommiamo le vincite direttamente al campo money
                 player.copy(money = player.money + roundWinnings)
             }
         }
@@ -140,6 +142,7 @@ class GameViewModel : ViewModel() {
         _eliminatedCards.value = emptySet()
         _inspectingPlayer.value = null
         _tradeDialogTarget.value = null
+        _offeringCard.value = null
         initializeGame(isFirstTime = false)
     }
 
@@ -157,6 +160,14 @@ class GameViewModel : ViewModel() {
 
     fun closeTradeDialog() {
         _tradeDialogTarget.value = null
+    }
+
+    fun openOfferDialog(card: CardModel) {
+        _offeringCard.value = card
+    }
+
+    fun closeOfferDialog() {
+        _offeringCard.value = null
     }
 
     fun proposeMoneyTrade(targetPlayer: Player, targetCard: CardModel, moneyOffer: Int) {
@@ -220,6 +231,66 @@ class GameViewModel : ViewModel() {
             }
             closeTradeDialog()
             stopInspecting()
+        }
+    }
+
+    fun sellCardForMoney(targetPlayer: Player, myCard: CardModel, moneyRequested: Int) {
+        viewModelScope.launch {
+            if (targetPlayer.money < moneyRequested) {
+                _currentMessage.value = "${targetPlayer.name} non ha abbastanza soldi!"
+                closeOfferDialog()
+                return@launch
+            }
+
+            val accepted = Random.nextBoolean() // IA logic
+
+            if (accepted) {
+                _players.update { currentPlayers ->
+                    currentPlayers.map { p ->
+                        when (p.id) {
+                            1 -> p.copy(
+                                money = p.money + moneyRequested,
+                                cards = p.cards - myCard
+                            )
+                            targetPlayer.id -> p.copy(
+                                money = p.money - moneyRequested,
+                                cards = p.cards + myCard
+                            )
+                            else -> p
+                        }
+                    }
+                }
+                _currentMessage.value = "${targetPlayer.name} ha comprato ${myCard.name} per $moneyRequested €!"
+            } else {
+                _currentMessage.value = "${targetPlayer.name} non è interessato all'acquisto."
+            }
+            closeOfferDialog()
+        }
+    }
+
+    fun swapCardForCard(targetPlayer: Player, myCard: CardModel, targetCard: CardModel) {
+        viewModelScope.launch {
+            val accepted = Random.nextBoolean() // IA logic
+
+            if (accepted) {
+                _players.update { currentPlayers ->
+                    currentPlayers.map { p ->
+                        when (p.id) {
+                            1 -> p.copy(
+                                cards = (p.cards - myCard) + targetCard
+                            )
+                            targetPlayer.id -> p.copy(
+                                cards = (p.cards - targetCard) + myCard
+                            )
+                            else -> p
+                        }
+                    }
+                }
+                _currentMessage.value = "${targetPlayer.name} ha accettato lo scambio: ${myCard.name} per ${targetCard.name}!"
+            } else {
+                _currentMessage.value = "${targetPlayer.name} ha rifiutato lo scambio di carte."
+            }
+            closeOfferDialog()
         }
     }
 }

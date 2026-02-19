@@ -40,6 +40,7 @@ fun GameScreen(viewModel: GameViewModel = viewModel()) {
     val eliminatedCards by viewModel.eliminatedCards.collectAsState()
     val inspectingPlayer by viewModel.inspectingPlayer.collectAsState()
     val tradeDialogTarget by viewModel.tradeDialogTarget.collectAsState()
+    val offeringCard by viewModel.offeringCard.collectAsState()
 
     val humanPlayer = players.find { it.isHuman }
     val aiPlayers = players.filter { !it.isHuman }
@@ -142,7 +143,9 @@ fun GameScreen(viewModel: GameViewModel = viewModel()) {
                     GameCard(
                         card = card,
                         isFaceUp = true,
-                        modifier = Modifier.aspectRatio(3f / 4f)
+                        modifier = Modifier
+                            .aspectRatio(3f / 4f)
+                            .clickable { viewModel.openOfferDialog(card) }
                     )
                 }
             }
@@ -200,6 +203,16 @@ fun GameScreen(viewModel: GameViewModel = viewModel()) {
             onCardOffer = { card -> viewModel.proposeCardTrade(targetPlayer, targetCard, card) }
         )
     }
+
+    offeringCard?.let { card ->
+        OfferDialog(
+            myCard = card,
+            aiPlayers = aiPlayers,
+            onDismiss = { viewModel.closeOfferDialog() },
+            onSellClick = { target, amount -> viewModel.sellCardForMoney(target, card, amount) },
+            onSwapClick = { target, targetCard -> viewModel.swapCardForCard(target, card, targetCard) }
+        )
+    }
 }
 
 @Composable
@@ -225,6 +238,78 @@ fun InspectionDialog(player: Player, onDismiss: () -> Unit, onCardClick: (CardMo
             }
         },
         confirmButton = { Button(onClick = onDismiss) { Text("Chiudi") } }
+    )
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun OfferDialog(
+    myCard: CardModel,
+    aiPlayers: List<Player>,
+    onDismiss: () -> Unit,
+    onSellClick: (Player, Int) -> Unit,
+    onSwapClick: (Player, CardModel) -> Unit
+) {
+    var selectedTarget by remember { mutableStateOf(aiPlayers.firstOrNull()) }
+    var requestAmount by remember { mutableStateOf("20") }
+    var isSwapMode by remember { mutableStateOf(false) }
+
+    AlertDialog(
+        onDismissRequest = onDismiss,
+        title = { Text("Offri ${myCard.name}") },
+        text = {
+            Column(verticalArrangement = Arrangement.spacedBy(16.dp)) {
+                Text("A chi vuoi offrire questa carta?")
+                Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                    aiPlayers.forEach { player ->
+                        FilterChip(
+                            selected = selectedTarget == player,
+                            onClick = { selectedTarget = player },
+                            label = { Text(player.name) }
+                        )
+                    }
+                }
+
+                Divider()
+
+                selectedTarget?.let { target ->
+                    if (!isSwapMode) {
+                        Text("Chiedi soldi (Saldo ${target.name}: ${target.money} €):")
+                        TextField(
+                            value = requestAmount,
+                            onValueChange = { requestAmount = it.filter { c -> c.isDigit() } },
+                            modifier = Modifier.fillMaxWidth()
+                        )
+                        TextButton(onClick = { isSwapMode = true }) {
+                            Text("Chiedi una carta in cambio")
+                        }
+                    } else {
+                        Text("Scegli una carta di ${target.name} da chiedere:")
+                        LazyRow(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                            items(target.cards) { card ->
+                                GameCard(
+                                    card = card,
+                                    modifier = Modifier
+                                        .size(60.dp, 80.dp)
+                                        .clickable { onSwapClick(target, card) }
+                                )
+                            }
+                        }
+                        TextButton(onClick = { isSwapMode = false }) {
+                            Text("Chiedi soldi invece")
+                        }
+                    }
+                }
+            }
+        },
+        confirmButton = {
+            if (!isSwapMode) {
+                Button(onClick = { selectedTarget?.let { onSellClick(it, requestAmount.toIntOrNull() ?: 0) } }) {
+                    Text("Offri per ${requestAmount} €")
+                }
+            }
+        },
+        dismissButton = { TextButton(onClick = onDismiss) { Text("Annulla") } }
     )
 }
 
