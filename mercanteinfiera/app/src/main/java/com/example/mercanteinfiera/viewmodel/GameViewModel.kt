@@ -35,10 +35,10 @@ class GameViewModel : ViewModel() {
     private var merchantCardsRemaining = mutableListOf<CardModel>()
 
     init {
-        initializeGame()
+        initializeGame(isFirstTime = true)
     }
     
-    private fun initializeGame() {
+    private fun initializeGame(isFirstTime: Boolean = false) {
         viewModelScope.launch {
             val fullDeck = DeckManager.createFullDeck()
             _merchantDeck.value = fullDeck
@@ -46,12 +46,23 @@ class GameViewModel : ViewModel() {
             
             val playerDeck = fullDeck.shuffled()
             
-            // Distribuiamo 39 carte (13 a testa per 3 giocatori)
-            val human = Player(1, "Tu (Giocatore)", isHuman = true, cards = playerDeck.subList(0, 13))
-            val ai1 = Player(2, "IA 1", isHuman = false, cards = playerDeck.subList(13, 26))
-            val ai2 = Player(3, "IA 2", isHuman = false, cards = playerDeck.subList(26, 39))
+            if (isFirstTime) {
+                // Prima volta: creiamo i giocatori da zero
+                val human = Player(1, "Tu (Giocatore)", isHuman = true, cards = playerDeck.subList(0, 13))
+                val ai1 = Player(2, "IA 1", isHuman = false, cards = playerDeck.subList(13, 26))
+                val ai2 = Player(3, "IA 2", isHuman = false, cards = playerDeck.subList(26, 39))
+                _players.value = listOf(human, ai1, ai2)
+            } else {
+                // Partite successive: aggiorniamo solo le carte, mantenendo le vincite
+                _players.update { currentPlayers ->
+                    currentPlayers.mapIndexed { index, player ->
+                        val start = index * 13
+                        val end = (index + 1) * 13
+                        player.copy(cards = playerDeck.subList(start, end))
+                    }
+                }
+            }
             
-            _players.value = listOf(human, ai1, ai2)
             _currentMessage.value = "Carte distribuite! Ora scegliamo i premi."
         }
     }
@@ -102,19 +113,20 @@ class GameViewModel : ViewModel() {
 
     private fun finishGame() {
         _gameState.value = GamePhase.FINISHED
-        _currentMessage.value = "Gioco terminato! Ecco le vincite finali."
+        _currentMessage.value = "Gioco terminato! Ecco le vincite finali di questo round."
         
-        // Calcola le vincite per ogni giocatore
+        // Calcola e AGGIUNGE le vincite per ogni giocatore
         _players.update { currentPlayers ->
             currentPlayers.map { player ->
-                var totalWinnings = 0
+                var roundWinnings = 0
                 player.cards.forEach { card ->
                     val prize = _prizes.value.find { it.card.id == card.id }
                     if (prize != null) {
-                        totalWinnings += prize.value
+                        roundWinnings += prize.value
                     }
                 }
-                player.copy(winnings = totalWinnings)
+                // Manteniamo le vincite precedenti e aggiungiamo quelle di questo round
+                player.copy(winnings = player.winnings + roundWinnings)
             }
         }
     }
@@ -123,6 +135,6 @@ class GameViewModel : ViewModel() {
         _gameState.value = GamePhase.DISTRIBUTION
         _prizes.value = emptyList()
         _eliminatedCards.value = emptySet()
-        initializeGame()
+        initializeGame(isFirstTime = false)
     }
 }
