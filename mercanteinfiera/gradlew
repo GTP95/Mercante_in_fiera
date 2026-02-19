@@ -1,0 +1,34 @@
+#!/bin/sh
+# Use the system-installed gradle if available, otherwise try the wrapper
+# Since we have Android SDK installed, we'll use the gradle wrapper approach
+
+# Locate the project root
+PRJROOT="$(dirname "$0")"
+cd "$PRJROOT"
+
+# Check if gradle is available in the system
+if [ -x "$(command -v gradle)" ]; then
+    exec gradle "$@"
+else
+    # Use the Gradle wrapper if gradle is not in PATH
+    if [ -f "gradle/wrapper/gradle-wrapper.jar" ]; then
+        java -jar "gradle/wrapper/gradle-wrapper.jar" "$@"
+    else
+        echo "Gradle wrapper JAR not found. Attempting to download..."
+        # Download the gradle wrapper jar
+        if [ ! -d "gradle/wrapper" ]; then
+            mkdir -p "gradle/wrapper"
+        fi
+        
+        # Try to download using the Android SDK tools if available
+        if [ -x "$(command -v sdkmanager)" ]; then
+            echo "Using Android SDK manager to get Gradle..."
+            # Just run the gradle command which should trigger wrapper download
+            java -classpath "gradle/wrapper/gradle-wrapper.jar" org.gradle.wrapper.GradleWrapperMain "$@"
+        else
+            echo "Neither gradle nor Android SDK manager found in PATH."
+            echo "Please install Gradle or Android SDK with build tools."
+            exit 1
+        fi
+    fi
+fi

@@ -1,0 +1,42 @@
+# Ignore Gradle project-specific cache directory
+.gradle
+
+# Ignore Gradle build output directory
+build
+
+# Local configuration file (SDK path, etc)
+local.properties
+
+# Android Studio / IntelliJ IDEA
+.idea/workspace.xml
+.idea/tasks.xml
+.idea/gradle.xml
+.idea/assetWizardSettings.xml
+.idea/dictionaries
+.idea/libraries
+.idea/caches
+.idea/modules.xml
+.idea/navEditor.xml
+*.iml
+
+# Android Studio captures folder
+captures/
+
+# Keystore files (Keep your keys safe!)
+*.jks
+*.keystore
+
+# External native build folder
+.externalNativeBuild
+.cxx/
+
+# Bundle/APK output
+*.aab
+*.apk
+
+# Log files
+*.log
+
+# Project specific temporary/export files
+resume.txt
+qwen-code-export-*
