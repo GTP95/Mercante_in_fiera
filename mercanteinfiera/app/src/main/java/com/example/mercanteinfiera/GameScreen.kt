@@ -52,149 +52,151 @@ fun GameScreen(viewModel: GameViewModel = viewModel()) {
     val humanPlayer = players.find { it.isHuman }
     val aiPlayers = players.filter { !it.isHuman }
 
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .background(Color(0xFFF5F5F5))
-            .padding(16.dp),
-        verticalArrangement = Arrangement.spacedBy(12.dp)
-    ) {
-        // Header
-        Row(
-            modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.SpaceBetween,
-            verticalAlignment = Alignment.CenterVertically
+    if (gameState == GamePhase.MENU) {
+        MainMenu(onSinglePlayerClick = { viewModel.startSinglePlayer() })
+    } else {
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .background(Color(0xFFF5F5F5))
+                .padding(16.dp),
+            verticalArrangement = Arrangement.spacedBy(12.dp)
         ) {
-            Column {
-                Text(
-                    text = "Mercante in Fiera",
-                    style = MaterialTheme.typography.headlineSmall,
-                    fontWeight = FontWeight.Bold
-                )
-                if (humanPlayer != null) {
+            // Header
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Column {
                     Text(
-                        "Saldo: ${humanPlayer.money} €",
-                        style = MaterialTheme.typography.labelLarge,
-                        color = MaterialTheme.colorScheme.primary
+                        text = "Mercante in Fiera",
+                        style = MaterialTheme.typography.headlineSmall,
+                        fontWeight = FontWeight.Bold
                     )
+                    if (humanPlayer != null) {
+                        Text(
+                            "Saldo: ${humanPlayer.money} €",
+                            style = MaterialTheme.typography.labelLarge,
+                            color = MaterialTheme.colorScheme.primary
+                        )
+                    }
+                }
+                IconButton(onClick = { viewModel.goToMenu() }) {
+                    Icon(Icons.Default.Refresh, contentDescription = "Torna al Menu")
                 }
             }
-            if (gameState == GamePhase.FINISHED) {
-                IconButton(onClick = { viewModel.resetGame() }) {
-                    Icon(Icons.Default.Refresh, contentDescription = "Nuova Partita")
-                }
-            }
-        }
 
-        // Messaggio del Mercante
-        Surface(
-            modifier = Modifier.fillMaxWidth(),
-            shape = RoundedCornerShape(12.dp),
-            color = MaterialTheme.colorScheme.primaryContainer,
-            shadowElevation = 2.dp
-        ) {
-            Text(
-                text = currentMessage,
-                style = MaterialTheme.typography.bodyMedium,
-                textAlign = TextAlign.Center,
-                modifier = Modifier.padding(12.dp),
-                color = MaterialTheme.colorScheme.onPrimaryContainer
-            )
-        }
-
-        // Sezione Asta (Visibile solo durante l'asta)
-        if (gameState == GamePhase.AUCTION && auctionCard != null) {
-            AuctionPanel(
-                card = auctionCard!!,
-                currentBid = currentBid,
-                highestBidder = highestBidder,
-                onBidClick = { viewModel.playerBid() }
-            )
-        }
-
-        // Sezione Premi
-        if (prizes.isNotEmpty()) {
-            Text("Premi in palio (Pot: $merchantPot €):", style = MaterialTheme.typography.titleSmall)
-            LazyRow(
-                horizontalArrangement = Arrangement.spacedBy(8.dp),
-                contentPadding = PaddingValues(vertical = 4.dp)
+            // Messaggio del Mercante
+            Surface(
+                modifier = Modifier.fillMaxWidth(),
+                shape = RoundedCornerShape(12.dp),
+                color = MaterialTheme.colorScheme.primaryContainer,
+                shadowElevation = 2.dp
             ) {
-                items(prizes) { prize ->
-                    PrizeItem(prize, isRevealed = gameState == GamePhase.FINISHED || eliminatedCards.contains(prize.card.id))
-                }
-            }
-        }
-
-        // Sezione Avversari
-        Row(
-            modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.spacedBy(12.dp)
-        ) {
-            aiPlayers.forEach { ai ->
-                OpponentInfo(
-                    ai, 
-                    modifier = Modifier
-                        .weight(1f)
-                        .clickable { viewModel.inspectPlayer(ai) }
+                Text(
+                    text = currentMessage,
+                    style = MaterialTheme.typography.bodyMedium,
+                    textAlign = TextAlign.Center,
+                    modifier = Modifier.padding(12.dp),
+                    color = MaterialTheme.colorScheme.onPrimaryContainer
                 )
             }
-        }
 
-        // Sezione Giocatore
-        Divider()
-        Text("Le tue carte:", style = MaterialTheme.typography.titleSmall)
+            // Sezione Asta (Visibile solo durante l'asta)
+            if (gameState == GamePhase.AUCTION && auctionCard != null) {
+                AuctionPanel(
+                    card = auctionCard!!,
+                    currentBid = currentBid,
+                    highestBidder = highestBidder,
+                    onBidClick = { viewModel.playerBid() }
+                )
+            }
 
-        if (humanPlayer != null) {
-            LazyVerticalGrid(
-                columns = GridCells.Adaptive(minSize = 70.dp),
-                verticalArrangement = Arrangement.spacedBy(8.dp),
-                horizontalArrangement = Arrangement.spacedBy(8.dp),
-                modifier = Modifier.weight(1f)
+            // Sezione Premi
+            if (prizes.isNotEmpty()) {
+                Text("Premi in palio (Pot: $merchantPot €):", style = MaterialTheme.typography.titleSmall)
+                LazyRow(
+                    horizontalArrangement = Arrangement.spacedBy(8.dp),
+                    contentPadding = PaddingValues(vertical = 4.dp)
+                ) {
+                    items(prizes) { prize ->
+                        PrizeItem(prize, isRevealed = gameState == GamePhase.FINISHED || eliminatedCards.contains(prize.card.id))
+                    }
+                }
+            }
+
+            // Sezione Avversari
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.spacedBy(12.dp)
             ) {
-                items(humanPlayer.cards) { card ->
-                    GameCard(
-                        card = card,
-                        isFaceUp = true,
+                aiPlayers.forEach { ai ->
+                    OpponentInfo(
+                        ai, 
                         modifier = Modifier
-                            .aspectRatio(3f / 4f)
-                            .clickable { viewModel.openOfferDialog(card) }
+                            .weight(1f)
+                            .clickable { viewModel.inspectPlayer(ai) }
                     )
                 }
             }
-        }
 
-        // Azioni
-        Surface(
-            modifier = Modifier.fillMaxWidth(),
-            shape = RoundedCornerShape(topStart = 16.dp, topEnd = 16.dp),
-            tonalElevation = 8.dp
-        ) {
-            Box(
-                modifier = Modifier.padding(16.dp),
-                contentAlignment = Alignment.Center
+            // Sezione Giocatore
+            Divider()
+            Text("Le tue carte:", style = MaterialTheme.typography.titleSmall)
+
+            if (humanPlayer != null) {
+                LazyVerticalGrid(
+                    columns = GridCells.Adaptive(minSize = 70.dp),
+                    verticalArrangement = Arrangement.spacedBy(8.dp),
+                    horizontalArrangement = Arrangement.spacedBy(8.dp),
+                    modifier = Modifier.weight(1f)
+                ) {
+                    items(humanPlayer.cards) { card ->
+                        GameCard(
+                            card = card,
+                            isFaceUp = true,
+                            modifier = Modifier
+                                .aspectRatio(3f / 4f)
+                                .clickable { viewModel.openOfferDialog(card) }
+                        )
+                    }
+                }
+            }
+
+            // Azioni
+            Surface(
+                modifier = Modifier.fillMaxWidth(),
+                shape = RoundedCornerShape(topStart = 16.dp, topEnd = 16.dp),
+                tonalElevation = 8.dp
             ) {
-                when (gameState) {
-                    GamePhase.DISTRIBUTION -> {
-                        Button(onClick = { viewModel.startPrizesPhase() }, modifier = Modifier.fillMaxWidth()) {
-                            Text("Stabilisci Premi")
+                Box(
+                    modifier = Modifier.padding(16.dp),
+                    contentAlignment = Alignment.Center
+                ) {
+                    when (gameState) {
+                        GamePhase.DISTRIBUTION -> {
+                            Button(onClick = { viewModel.startPrizesPhase() }, modifier = Modifier.fillMaxWidth()) {
+                                Text("Stabilisci Premi")
+                            }
                         }
-                    }
-                    GamePhase.AUCTION -> {
-                        Button(onClick = { viewModel.playerBid() }, modifier = Modifier.fillMaxWidth()) {
-                            Text("Fai un'offerta (+5€)")
+                        GamePhase.AUCTION -> {
+                            Button(onClick = { viewModel.playerBid() }, modifier = Modifier.fillMaxWidth()) {
+                                Text("Fai un'offerta (+5€)")
+                            }
                         }
-                    }
-                    GamePhase.ELIMINATION -> {
-                        Button(onClick = { viewModel.drawEliminationCard() }, modifier = Modifier.fillMaxWidth()) {
-                            Text("Pesca Carta dal Mercante")
+                        GamePhase.ELIMINATION -> {
+                            Button(onClick = { viewModel.drawEliminationCard() }, modifier = Modifier.fillMaxWidth()) {
+                                Text("Pesca Carta dal Mercante")
+                            }
                         }
-                    }
-                    GamePhase.FINISHED -> {
-                        Button(onClick = { viewModel.resetGame() }) {
-                            Text("Inizia Nuova Partita")
+                        GamePhase.FINISHED -> {
+                            Button(onClick = { viewModel.resetGame() }) {
+                                Text("Inizia Nuova Partita")
+                            }
                         }
+                        else -> {}
                     }
-                    else -> {}
                 }
             }
         }
@@ -229,6 +231,58 @@ fun GameScreen(viewModel: GameViewModel = viewModel()) {
             onSellClick = { target, amount -> viewModel.sellCardForMoney(target, card, amount) },
             onSwapClick = { target, targetCard -> viewModel.swapCardForCard(target, card, targetCard) }
         )
+    }
+}
+
+@Composable
+fun MainMenu(
+    onSinglePlayerClick: () -> Unit
+) {
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .background(Color(0xFFF5F5F5))
+            .padding(32.dp),
+        verticalArrangement = Arrangement.Center,
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        Text(
+            text = "Mercante in Fiera",
+            style = MaterialTheme.typography.displayMedium,
+            fontWeight = FontWeight.Bold,
+            color = MaterialTheme.colorScheme.primary,
+            textAlign = TextAlign.Center,
+            modifier = Modifier.padding(bottom = 48.dp)
+        )
+        
+        Column(
+            modifier = Modifier.width(IntrinsicSize.Max),
+            verticalArrangement = Arrangement.spacedBy(16.dp)
+        ) {
+            Button(
+                onClick = onSinglePlayerClick,
+                modifier = Modifier.fillMaxWidth(),
+                shape = RoundedCornerShape(12.dp)
+            ) {
+                Text("Giocatore singolo", modifier = Modifier.padding(8.dp), fontSize = 18.sp)
+            }
+            
+            Button(
+                onClick = { /* Non fa nulla */ },
+                modifier = Modifier.fillMaxWidth(),
+                shape = RoundedCornerShape(12.dp)
+            ) {
+                Text("Multigiocatore", modifier = Modifier.padding(8.dp), fontSize = 18.sp)
+            }
+            
+            Button(
+                onClick = { /* Non fa nulla */ },
+                modifier = Modifier.fillMaxWidth(),
+                shape = RoundedCornerShape(12.dp)
+            ) {
+                Text("Impostazioni", modifier = Modifier.padding(8.dp), fontSize = 18.sp)
+            }
+        }
     }
 }
 

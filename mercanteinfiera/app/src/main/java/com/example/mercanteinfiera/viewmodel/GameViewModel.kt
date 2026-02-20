@@ -14,7 +14,7 @@ import kotlin.random.Random
 
 class GameViewModel : ViewModel() {
     
-    private val _gameState = MutableStateFlow(GamePhase.DISTRIBUTION)
+    private val _gameState = MutableStateFlow(GamePhase.MENU)
     val gameState: StateFlow<GamePhase> = _gameState.asStateFlow()
     
     private val _merchantDeck = MutableStateFlow<List<CardModel>>(emptyList())
@@ -57,10 +57,10 @@ class GameViewModel : ViewModel() {
     private var merchantCardsRemaining = mutableListOf<CardModel>()
     private var cardsToAuction = mutableListOf<CardModel>()
 
-    init {
+    fun startSinglePlayer() {
         initializeGame(isFirstTime = true)
     }
-    
+
     private fun initializeGame(isFirstTime: Boolean = false) {
         viewModelScope.launch {
             val fullDeck = DeckManager.createFullDeck()
@@ -69,7 +69,6 @@ class GameViewModel : ViewModel() {
             
             val playerDeck = fullDeck.shuffled().toMutableList()
             
-            // Give 10 cards to each player
             val humanCards = playerDeck.take(10)
             playerDeck.removeAll(humanCards)
             val ai1Cards = playerDeck.take(10)
@@ -77,8 +76,6 @@ class GameViewModel : ViewModel() {
             val ai2Cards = playerDeck.take(10)
             playerDeck.removeAll(ai2Cards)
             
-            // Remaining 10 cards (actually 9 if 39 cards total, but DeckManager has 40)
-            // Let's use 10 each for 3 players = 30. 10 left for auction.
             cardsToAuction = playerDeck.take(10).toMutableList()
             
             if (isFirstTime) {
@@ -105,7 +102,7 @@ class GameViewModel : ViewModel() {
 
     private fun startNextAuction() {
         if (cardsToAuction.isEmpty()) {
-            _gameState.value = GamePhase.DISTRIBUTION // Move to summary or next phase
+            _gameState.value = GamePhase.DISTRIBUTION
             _currentMessage.value = "Asta terminata! Il Mercante ha raccolto ${_merchantPot.value} €. Ora stabiliamo i premi."
             _auctionCard.value = null
             return
@@ -117,7 +114,6 @@ class GameViewModel : ViewModel() {
         _highestBidder.value = null
         _currentMessage.value = "All'asta la carta: ${card.name}. Chi offre di più?"
         
-        // Simple AI bidding simulation
         viewModelScope.launch {
             delay(2000)
             simulateAiBidding()
@@ -133,9 +129,7 @@ class GameViewModel : ViewModel() {
             val currentHighest = _currentBid.value
             val aiPlayers = _players.value.filter { !it.isHuman }
             
-            // Find an AI that wants to bid
             val bidder = aiPlayers.filter { it.money > currentHighest + 2 }.shuffled().firstOrNull {
-                // AI bids if current price is low or they just feel like it
                 Random.nextInt(100) > 60 
             }
 
@@ -196,10 +190,8 @@ class GameViewModel : ViewModel() {
         viewModelScope.launch {
             _gameState.value = GamePhase.PRIZES
             
-            // Distribute collected money into prizes
             val pot = _merchantPot.value
             val prizeValues = if (pot > 0) {
-                // Split pot into 5 prizes: 40%, 25%, 15%, 10%, 10% approx
                 listOf(
                     (pot * 0.4).toInt().coerceAtLeast(5),
                     (pot * 0.25).toInt().coerceAtLeast(3),
@@ -278,6 +270,10 @@ class GameViewModel : ViewModel() {
         _auctionCard.value = null
         _merchantPot.value = 0
         initializeGame(isFirstTime = false)
+    }
+
+    fun goToMenu() {
+        _gameState.value = GamePhase.MENU
     }
 
     fun inspectPlayer(player: Player) {
