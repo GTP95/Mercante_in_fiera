@@ -1,8 +1,10 @@
 package com.example.mercanteinfiera.viewmodel
 
-import androidx.lifecycle.ViewModel
+import android.app.Application
+import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.mercanteinfiera.data.DeckManager
+import com.example.mercanteinfiera.data.SettingsManager
 import com.example.mercanteinfiera.models.*
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -12,7 +14,9 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import kotlin.random.Random
 
-class GameViewModel : ViewModel() {
+class GameViewModel(application: Application) : AndroidViewModel(application) {
+    
+    private val settingsManager = SettingsManager(application)
     
     private val _gameState = MutableStateFlow(GamePhase.MENU)
     val gameState: StateFlow<GamePhase> = _gameState.asStateFlow()
@@ -54,6 +58,10 @@ class GameViewModel : ViewModel() {
     private val _merchantPot = MutableStateFlow(0)
     val merchantPot: StateFlow<Int> = _merchantPot.asStateFlow()
 
+    // Settings State - Inizializzato dal SettingsManager
+    private val _playerName = MutableStateFlow(settingsManager.getPlayerName())
+    val playerName: StateFlow<String> = _playerName.asStateFlow()
+
     private var merchantCardsRemaining = mutableListOf<CardModel>()
     private var cardsToAuction = mutableListOf<CardModel>()
 
@@ -79,14 +87,15 @@ class GameViewModel : ViewModel() {
             cardsToAuction = playerDeck.take(10).toMutableList()
             
             if (isFirstTime) {
-                val human = Player(1, "Tu (Giocatore)", isHuman = true, cards = humanCards, money = 100)
+                val human = Player(1, _playerName.value, isHuman = true, cards = humanCards, money = 100)
                 val ai1 = Player(2, "IA 1", isHuman = false, cards = ai1Cards, money = 100)
                 val ai2 = Player(3, "IA 2", isHuman = false, cards = ai2Cards, money = 100)
                 _players.value = listOf(human, ai1, ai2)
             } else {
                 _players.update { currentPlayers ->
+                    if (currentPlayers.isEmpty()) return@update currentPlayers
                     listOf(
-                        currentPlayers[0].copy(cards = humanCards),
+                        currentPlayers[0].copy(name = _playerName.value, cards = humanCards),
                         currentPlayers[1].copy(cards = ai1Cards),
                         currentPlayers[2].copy(cards = ai2Cards)
                     )
@@ -274,6 +283,15 @@ class GameViewModel : ViewModel() {
 
     fun goToMenu() {
         _gameState.value = GamePhase.MENU
+    }
+
+    fun goToSettings() {
+        _gameState.value = GamePhase.SETTINGS
+    }
+
+    fun updatePlayerName(newName: String) {
+        _playerName.value = newName
+        settingsManager.savePlayerName(newName)
     }
 
     fun inspectPlayer(player: Player) {

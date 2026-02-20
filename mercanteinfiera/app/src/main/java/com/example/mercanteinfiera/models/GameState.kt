@@ -2,6 +2,7 @@ package com.example.mercanteinfiera.models
 
 enum class GamePhase {
     MENU,
+    SETTINGS,
     DISTRIBUTION,
     AUCTION,
     PRIZES,
