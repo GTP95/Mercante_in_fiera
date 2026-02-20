@@ -58,9 +58,12 @@ class GameViewModel(application: Application) : AndroidViewModel(application) {
     private val _merchantPot = MutableStateFlow(0)
     val merchantPot: StateFlow<Int> = _merchantPot.asStateFlow()
 
-    // Settings State - Inizializzato dal SettingsManager
+    // Settings State
     private val _playerName = MutableStateFlow(settingsManager.getPlayerName())
     val playerName: StateFlow<String> = _playerName.asStateFlow()
+
+    private val _themeMode = MutableStateFlow(settingsManager.getThemeMode())
+    val themeMode: StateFlow<String> = _themeMode.asStateFlow()
 
     private var merchantCardsRemaining = mutableListOf<CardModel>()
     private var cardsToAuction = mutableListOf<CardModel>()
@@ -157,7 +160,7 @@ class GameViewModel(application: Application) : AndroidViewModel(application) {
         }
         
         delay(1000)
-        _currentMessage.value = "Andata! A ${_highestBidder.value?.name ?: "nessuno"} per ${_currentBid.value} €"
+        _currentMessage.value = "Andata! A ${_highestBidder.value?.name ?: "nessuno"} perLoad card images ${_currentBid.value} €"
         delay(1000)
         concludeAuction()
     }
@@ -292,6 +295,11 @@ class GameViewModel(application: Application) : AndroidViewModel(application) {
     fun updatePlayerName(newName: String) {
         _playerName.value = newName
         settingsManager.savePlayerName(newName)
+    }
+
+    fun updateThemeMode(newMode: String) {
+        _themeMode.value = newMode
+        settingsManager.saveThemeMode(newMode)
     }
 
     fun inspectPlayer(player: Player) {

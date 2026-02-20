@@ -44,6 +44,7 @@ fun GameScreen(viewModel: GameViewModel = viewModel()) {
     val tradeDialogTarget by viewModel.tradeDialogTarget.collectAsState()
     val offeringCard by viewModel.offeringCard.collectAsState()
     val playerName by viewModel.playerName.collectAsState()
+    val themeMode by viewModel.themeMode.collectAsState()
     
     // Auction states
     val auctionCard by viewModel.auctionCard.collectAsState()
@@ -64,7 +65,9 @@ fun GameScreen(viewModel: GameViewModel = viewModel()) {
         GamePhase.SETTINGS -> {
             SettingsScreen(
                 currentName = playerName,
+                currentTheme = themeMode,
                 onNameChange = { viewModel.updatePlayerName(it) },
+                onThemeChange = { viewModel.updateThemeMode(it) },
                 onBackClick = { viewModel.goToMenu() }
             )
         }
@@ -72,7 +75,7 @@ fun GameScreen(viewModel: GameViewModel = viewModel()) {
             Column(
                 modifier = Modifier
                     .fillMaxSize()
-                    .background(Color(0xFFF5F5F5))
+                    .background(MaterialTheme.colorScheme.background)
                     .padding(16.dp),
                 verticalArrangement = Arrangement.spacedBy(12.dp)
             ) {
@@ -86,7 +89,8 @@ fun GameScreen(viewModel: GameViewModel = viewModel()) {
                         Text(
                             text = "Mercante in Fiera",
                             style = MaterialTheme.typography.headlineSmall,
-                            fontWeight = FontWeight.Bold
+                            fontWeight = FontWeight.Bold,
+                            color = MaterialTheme.colorScheme.onBackground
                         )
                         if (humanPlayer != null) {
                             Text(
@@ -97,7 +101,7 @@ fun GameScreen(viewModel: GameViewModel = viewModel()) {
                         }
                     }
                     IconButton(onClick = { viewModel.goToMenu() }) {
-                        Icon(Icons.Default.Refresh, contentDescription = "Torna al Menu")
+                        Icon(Icons.Default.Refresh, contentDescription = "Torna al Menu", tint = MaterialTheme.colorScheme.onBackground)
                     }
                 }
 
@@ -117,7 +121,7 @@ fun GameScreen(viewModel: GameViewModel = viewModel()) {
                     )
                 }
 
-                // Sezione Asta (Visibile solo durante l'asta)
+                // Sezione Asta
                 if (gameState == GamePhase.AUCTION && auctionCard != null) {
                     AuctionPanel(
                         card = auctionCard!!,
@@ -129,7 +133,7 @@ fun GameScreen(viewModel: GameViewModel = viewModel()) {
 
                 // Sezione Premi
                 if (prizes.isNotEmpty()) {
-                    Text("Premi in palio (Pot: $merchantPot €):", style = MaterialTheme.typography.titleSmall)
+                    Text("Premi in palio (Pot: $merchantPot €):", style = MaterialTheme.typography.titleSmall, color = MaterialTheme.colorScheme.onBackground)
                     LazyRow(
                         horizontalArrangement = Arrangement.spacedBy(8.dp),
                         contentPadding = PaddingValues(vertical = 4.dp)
@@ -156,8 +160,8 @@ fun GameScreen(viewModel: GameViewModel = viewModel()) {
                 }
 
                 // Sezione Giocatore
-                Divider()
-                Text("Le tue carte:", style = MaterialTheme.typography.titleSmall)
+                Divider(color = MaterialTheme.colorScheme.outlineVariant)
+                Text("Le tue carte:", style = MaterialTheme.typography.titleSmall, color = MaterialTheme.colorScheme.onBackground)
 
                 if (humanPlayer != null) {
                     LazyVerticalGrid(
@@ -217,7 +221,7 @@ fun GameScreen(viewModel: GameViewModel = viewModel()) {
         }
     }
 
-    // Dialoghi (Ispezione, Scambio, Offerta)
+    // Dialoghi
     inspectingPlayer?.let { player ->
         InspectionDialog(
             player = player,
@@ -257,7 +261,7 @@ fun MainMenu(
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .background(Color(0xFFF5F5F5))
+            .background(MaterialTheme.colorScheme.background)
             .padding(32.dp),
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
@@ -306,13 +310,15 @@ fun MainMenu(
 @Composable
 fun SettingsScreen(
     currentName: String,
+    currentTheme: String,
     onNameChange: (String) -> Unit,
+    onThemeChange: (String) -> Unit,
     onBackClick: () -> Unit
 ) {
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .background(Color(0xFFF5F5F5))
+            .background(MaterialTheme.colorScheme.background)
             .padding(16.dp)
     ) {
         Row(
@@ -320,12 +326,13 @@ fun SettingsScreen(
             verticalAlignment = Alignment.CenterVertically
         ) {
             IconButton(onClick = onBackClick) {
-                Icon(Icons.Default.ArrowBack, contentDescription = "Indietro")
+                Icon(Icons.Default.ArrowBack, contentDescription = "Indietro", tint = MaterialTheme.colorScheme.onBackground)
             }
             Text(
                 text = "Impostazioni",
                 style = MaterialTheme.typography.headlineMedium,
                 fontWeight = FontWeight.Bold,
+                color = MaterialTheme.colorScheme.onBackground,
                 modifier = Modifier.padding(start = 16.dp)
             )
         }
@@ -334,7 +341,7 @@ fun SettingsScreen(
         
         Card(
             modifier = Modifier.fillMaxWidth(),
-            colors = CardDefaults.cardColors(containerColor = Color.White),
+            colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface),
             elevation = CardDefaults.cardElevation(2.dp)
         ) {
             Column(modifier = Modifier.padding(16.dp)) {
@@ -345,7 +352,7 @@ fun SettingsScreen(
                     color = MaterialTheme.colorScheme.primary
                 )
                 Spacer(modifier = Modifier.height(16.dp))
-                Text(text = "Nome", style = MaterialTheme.typography.labelLarge)
+                Text(text = "Nome", style = MaterialTheme.typography.labelLarge, color = MaterialTheme.colorScheme.onSurface)
                 TextField(
                     value = currentName,
                     onValueChange = onNameChange,
@@ -353,6 +360,29 @@ fun SettingsScreen(
                     singleLine = true,
                     placeholder = { Text("Inserisci il tuo nome") }
                 )
+                
+                Spacer(modifier = Modifier.height(32.dp))
+                
+                Text(
+                    text = "Aspetto",
+                    style = MaterialTheme.typography.titleLarge,
+                    fontWeight = FontWeight.Bold,
+                    color = MaterialTheme.colorScheme.primary
+                )
+                Spacer(modifier = Modifier.height(16.dp))
+                Text(text = "Tema", style = MaterialTheme.typography.labelLarge, color = MaterialTheme.colorScheme.onSurface)
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.spacedBy(8.dp)
+                ) {
+                    listOf("System", "Light", "Dark").forEach { mode ->
+                        FilterChip(
+                            selected = currentTheme == mode,
+                            onClick = { onThemeChange(mode) },
+                            label = { Text(mode) }
+                        )
+                    }
+                }
             }
         }
     }
@@ -367,7 +397,7 @@ fun AuctionPanel(
 ) {
     Card(
         modifier = Modifier.fillMaxWidth(),
-        colors = CardDefaults.cardColors(containerColor = Color(0xFFE3F2FD)),
+        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.secondaryContainer),
         border = BorderStroke(2.dp, MaterialTheme.colorScheme.primary)
     ) {
         Row(
@@ -381,10 +411,11 @@ fun AuctionPanel(
             )
             Column(modifier = Modifier.weight(1f)) {
                 Text("All'asta!", fontWeight = FontWeight.Bold, color = MaterialTheme.colorScheme.primary)
-                Text("Offerta attuale: $currentBid €", fontSize = 18.sp, fontWeight = FontWeight.ExtraBold)
+                Text("Offerta attuale: $currentBid €", fontSize = 18.sp, fontWeight = FontWeight.ExtraBold, color = MaterialTheme.colorScheme.onSecondaryContainer)
                 Text(
                     text = "Miglior offerente: ${highestBidder?.name ?: "Nessuno"}",
-                    style = MaterialTheme.typography.bodySmall
+                    style = MaterialTheme.typography.bodySmall,
+                    color = MaterialTheme.colorScheme.onSecondaryContainer
                 )
             }
         }
@@ -565,7 +596,7 @@ fun PrizeItem(prize: Prize, isRevealed: Boolean) {
             text = "${prize.value} €",
             style = MaterialTheme.typography.labelSmall,
             fontWeight = FontWeight.Bold,
-            color = if (isRevealed) Color(0xFFD32F2F) else Color.DarkGray
+            color = if (isRevealed) Color(0xFFD32F2F) else MaterialTheme.colorScheme.onSurfaceVariant
         )
     }
 }
@@ -574,26 +605,26 @@ fun PrizeItem(prize: Prize, isRevealed: Boolean) {
 fun OpponentInfo(player: Player, modifier: Modifier = Modifier) {
     Card(
         modifier = modifier,
-        colors = CardDefaults.cardColors(containerColor = Color.White),
+        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceVariant),
         elevation = CardDefaults.cardElevation(2.dp)
     ) {
         Column(
             modifier = Modifier.padding(8.dp),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Text(player.name, style = MaterialTheme.typography.titleSmall, maxLines = 1)
+            Text(player.name, style = MaterialTheme.typography.titleSmall, maxLines = 1, color = MaterialTheme.colorScheme.onSurfaceVariant)
             Spacer(modifier = Modifier.height(4.dp))
             Row(verticalAlignment = Alignment.CenterVertically) {
                 Box(
                     modifier = Modifier.size(24.dp).background(MaterialTheme.colorScheme.secondaryContainer, CircleShape),
                     contentAlignment = Alignment.Center
                 ) {
-                    Text("${player.cards.size}", fontSize = 11.sp, fontWeight = FontWeight.Bold)
+                    Text("${player.cards.size}", fontSize = 11.sp, fontWeight = FontWeight.Bold, color = MaterialTheme.colorScheme.onSecondaryContainer)
                 }
                 Spacer(modifier = Modifier.width(4.dp))
                 Text("${player.money}€", fontSize = 12.sp, color = Color(0xFF2E7D32), fontWeight = FontWeight.Bold)
             }
-            Text("Carte", style = MaterialTheme.typography.labelSmall)
+            Text("Carte", style = MaterialTheme.typography.labelSmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
         }
     }
 }
