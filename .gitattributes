@@ -3,10 +3,12 @@
 #
 # Linux start script should use lf
 /gradlew        text eol=lf
-
 # These are Windows script files and should use crlf
 *.bat           text eol=crlf
-
 # Binary files should be left untouched
 *.jar           binary
-
+mercanteinfiera/app/src/main/assets/deck_images/default_deck/il_bambino.png filter=lfs diff=lfs merge=lfs -text
+mercanteinfiera/app/src/main/assets/deck_images/default_deck/il_pane_e_il_grano.png filter=lfs diff=lfs merge=lfs -text
+mercanteinfiera/app/src/main/assets/deck_images/default_deck/la_brocca_d'acqua.png filter=lfs diff=lfs merge=lfs -text
+mercanteinfiera/app/src/main/assets/deck_images/default_deck/la_gondola.png filter=lfs diff=lfs merge=lfs -text
+mercanteinfiera/app/src/main/assets/deck_images/default_deck/vino_rosso.png filter=lfs diff=lfs merge=lfs -text
