@@ -59,7 +59,7 @@
     <string name="msg_hai_offerto">Hai offerto %1$d €!</string>
     <string name="msg_non_abbastanza_soldi">Non hai abbastanza soldi!</string>
     <string name="msg_premi_stabiliti">Premi stabiliti in base all\'asta. Iniziamo l\'eliminazione!</string>
-    <string name="msg_uscita_carta">È uscita la carta: %1$s. Chi ce l\'ha è eliminato!</string>
+    <string name="msg_uscita_carta">È uscita la carta: %1$s. Questa carta è eliminata dal gioco!</string>
     <string name="msg_gioco_terminato">Gioco terminato! Ecco le vincite finali.</string>
     <string name="msg_scambio_accettato">%1$s ha accettato lo scambio per %2$d €!</string>
     <string name="msg_scambio_rifiutato">%1$s ha rifiutato l\'offerta.</string>
