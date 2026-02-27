@@ -2,8 +2,9 @@ package com.example.mercanteinfiera.data
 
 import android.content.Context
 import android.content.SharedPreferences
+import com.example.mercanteinfiera.R
 
-class SettingsManager(context: Context) {
+class SettingsManager(private val context: Context) {
     private val prefs: SharedPreferences = context.getSharedPreferences("mercante_prefs", Context.MODE_PRIVATE)
 
     companion object {
@@ -16,7 +17,8 @@ class SettingsManager(context: Context) {
     }
 
     fun getPlayerName(): String {
-        return prefs.getString(KEY_PLAYER_NAME, "Tu (Giocatore)") ?: "Tu (Giocatore)"
+        val defaultName = context.getString(R.string.default_player_name)
+        return prefs.getString(KEY_PLAYER_NAME, defaultName) ?: defaultName
     }
 
     fun savePlayerName(name: String) {

@@ -2,7 +2,6 @@ package com.example.mercanteinfiera
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
-import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyRow
@@ -20,11 +19,11 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.compose.ui.window.Dialog
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.mercanteinfiera.models.CardModel
 import com.example.mercanteinfiera.models.GamePhase
@@ -87,21 +86,21 @@ fun GameScreen(viewModel: GameViewModel = viewModel()) {
                 ) {
                     Column {
                         Text(
-                            text = "Mercante in Fiera",
+                            text = stringResource(R.string.app_name),
                             style = MaterialTheme.typography.headlineSmall,
                             fontWeight = FontWeight.Bold,
                             color = MaterialTheme.colorScheme.onBackground
                         )
                         if (humanPlayer != null) {
                             Text(
-                                "Saldo: ${humanPlayer.money} €",
+                                stringResource(R.string.saldo, humanPlayer.money),
                                 style = MaterialTheme.typography.labelLarge,
                                 color = MaterialTheme.colorScheme.primary
                             )
                         }
                     }
                     IconButton(onClick = { viewModel.goToMenu() }) {
-                        Icon(Icons.Default.Refresh, contentDescription = "Torna al Menu", tint = MaterialTheme.colorScheme.onBackground)
+                        Icon(Icons.Default.Refresh, contentDescription = stringResource(R.string.torna_al_menu), tint = MaterialTheme.colorScheme.onBackground)
                     }
                 }
 
@@ -133,7 +132,7 @@ fun GameScreen(viewModel: GameViewModel = viewModel()) {
 
                 // Sezione Premi
                 if (prizes.isNotEmpty()) {
-                    Text("Premi in palio (Pot: $merchantPot €):", style = MaterialTheme.typography.titleSmall, color = MaterialTheme.colorScheme.onBackground)
+                    Text(stringResource(R.string.premi_in_palio, merchantPot), style = MaterialTheme.typography.titleSmall, color = MaterialTheme.colorScheme.onBackground)
                     LazyRow(
                         horizontalArrangement = Arrangement.spacedBy(8.dp),
                         contentPadding = PaddingValues(vertical = 4.dp)
@@ -161,7 +160,7 @@ fun GameScreen(viewModel: GameViewModel = viewModel()) {
 
                 // Sezione Giocatore
                 Divider(color = MaterialTheme.colorScheme.outlineVariant)
-                Text("Le tue carte:", style = MaterialTheme.typography.titleSmall, color = MaterialTheme.colorScheme.onBackground)
+                Text(stringResource(R.string.le_tue_carte), style = MaterialTheme.typography.titleSmall, color = MaterialTheme.colorScheme.onBackground)
 
                 if (humanPlayer != null) {
                     LazyVerticalGrid(
@@ -195,22 +194,22 @@ fun GameScreen(viewModel: GameViewModel = viewModel()) {
                         when (gameState) {
                             GamePhase.DISTRIBUTION -> {
                                 Button(onClick = { viewModel.startPrizesPhase() }, modifier = Modifier.fillMaxWidth()) {
-                                    Text("Stabilisci Premi")
+                                    Text(stringResource(R.string.stabilisci_premi))
                                 }
                             }
                             GamePhase.AUCTION -> {
                                 Button(onClick = { viewModel.playerBid() }, modifier = Modifier.fillMaxWidth()) {
-                                    Text("Fai un'offerta (+5€)")
+                                    Text(stringResource(R.string.fai_un_offerta))
                                 }
                             }
                             GamePhase.ELIMINATION -> {
                                 Button(onClick = { viewModel.drawEliminationCard() }, modifier = Modifier.fillMaxWidth()) {
-                                    Text("Pesca Carta dal Mercante")
+                                    Text(stringResource(R.string.pesca_carta))
                                 }
                             }
                             GamePhase.FINISHED -> {
                                 Button(onClick = { viewModel.resetGame() }) {
-                                    Text("Inizia Nuova Partita")
+                                    Text(stringResource(R.string.nuova_partita))
                                 }
                             }
                             else -> {}
@@ -267,7 +266,7 @@ fun MainMenu(
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Text(
-            text = "Mercante in Fiera",
+            text = stringResource(R.string.app_name),
             style = MaterialTheme.typography.displayMedium,
             fontWeight = FontWeight.Bold,
             color = MaterialTheme.colorScheme.primary,
@@ -284,7 +283,7 @@ fun MainMenu(
                 modifier = Modifier.fillMaxWidth(),
                 shape = RoundedCornerShape(12.dp)
             ) {
-                Text("Giocatore singolo", modifier = Modifier.padding(8.dp), fontSize = 18.sp)
+                Text(stringResource(R.string.giocatore_singolo), modifier = Modifier.padding(8.dp), fontSize = 18.sp)
             }
             
             Button(
@@ -292,7 +291,7 @@ fun MainMenu(
                 modifier = Modifier.fillMaxWidth(),
                 shape = RoundedCornerShape(12.dp)
             ) {
-                Text("Multigiocatore", modifier = Modifier.padding(8.dp), fontSize = 18.sp)
+                Text(stringResource(R.string.multigiocatore), modifier = Modifier.padding(8.dp), fontSize = 18.sp)
             }
             
             Button(
@@ -300,7 +299,7 @@ fun MainMenu(
                 modifier = Modifier.fillMaxWidth(),
                 shape = RoundedCornerShape(12.dp)
             ) {
-                Text("Impostazioni", modifier = Modifier.padding(8.dp), fontSize = 18.sp)
+                Text(stringResource(R.string.impostazioni), modifier = Modifier.padding(8.dp), fontSize = 18.sp)
             }
         }
     }
@@ -326,10 +325,10 @@ fun SettingsScreen(
             verticalAlignment = Alignment.CenterVertically
         ) {
             IconButton(onClick = onBackClick) {
-                Icon(Icons.Default.ArrowBack, contentDescription = "Indietro", tint = MaterialTheme.colorScheme.onBackground)
+                Icon(Icons.Default.ArrowBack, contentDescription = stringResource(R.string.indietro), tint = MaterialTheme.colorScheme.onBackground)
             }
             Text(
-                text = "Impostazioni",
+                text = stringResource(R.string.impostazioni),
                 style = MaterialTheme.typography.headlineMedium,
                 fontWeight = FontWeight.Bold,
                 color = MaterialTheme.colorScheme.onBackground,
@@ -346,40 +345,45 @@ fun SettingsScreen(
         ) {
             Column(modifier = Modifier.padding(16.dp)) {
                 Text(
-                    text = "Profilo Giocatore",
+                    text = stringResource(R.string.profilo_giocatore),
                     style = MaterialTheme.typography.titleLarge,
                     fontWeight = FontWeight.Bold,
                     color = MaterialTheme.colorScheme.primary
                 )
                 Spacer(modifier = Modifier.height(16.dp))
-                Text(text = "Nome", style = MaterialTheme.typography.labelLarge, color = MaterialTheme.colorScheme.onSurface)
+                Text(text = stringResource(R.string.nome), style = MaterialTheme.typography.labelLarge, color = MaterialTheme.colorScheme.onSurface)
                 TextField(
                     value = currentName,
                     onValueChange = onNameChange,
                     modifier = Modifier.fillMaxWidth(),
                     singleLine = true,
-                    placeholder = { Text("Inserisci il tuo nome") }
+                    placeholder = { Text(stringResource(R.string.inserisci_nome)) }
                 )
                 
                 Spacer(modifier = Modifier.height(32.dp))
                 
                 Text(
-                    text = "Aspetto",
+                    text = stringResource(R.string.aspetto),
                     style = MaterialTheme.typography.titleLarge,
                     fontWeight = FontWeight.Bold,
                     color = MaterialTheme.colorScheme.primary
                 )
                 Spacer(modifier = Modifier.height(16.dp))
-                Text(text = "Tema", style = MaterialTheme.typography.labelLarge, color = MaterialTheme.colorScheme.onSurface)
+                Text(text = stringResource(R.string.tema), style = MaterialTheme.typography.labelLarge, color = MaterialTheme.colorScheme.onSurface)
                 Row(
                     modifier = Modifier.fillMaxWidth(),
                     horizontalArrangement = Arrangement.spacedBy(8.dp)
                 ) {
-                    listOf("System", "Light", "Dark").forEach { mode ->
+                    val themes = listOf(
+                        stringResource(R.string.theme_system) to "System",
+                        stringResource(R.string.theme_light) to "Light",
+                        stringResource(R.string.theme_dark) to "Dark"
+                    )
+                    themes.forEach { (label, mode) ->
                         FilterChip(
                             selected = currentTheme == mode,
                             onClick = { onThemeChange(mode) },
-                            label = { Text(mode) }
+                            label = { Text(label) }
                         )
                     }
                 }
@@ -410,10 +414,10 @@ fun AuctionPanel(
                 modifier = Modifier.size(60.dp, 80.dp)
             )
             Column(modifier = Modifier.weight(1f)) {
-                Text("All'asta!", fontWeight = FontWeight.Bold, color = MaterialTheme.colorScheme.primary)
-                Text("Offerta attuale: $currentBid €", fontSize = 18.sp, fontWeight = FontWeight.ExtraBold, color = MaterialTheme.colorScheme.onSecondaryContainer)
+                Text(stringResource(R.string.all_asta), fontWeight = FontWeight.Bold, color = MaterialTheme.colorScheme.primary)
+                Text(stringResource(R.string.offerta_attuale, currentBid), fontSize = 18.sp, fontWeight = FontWeight.ExtraBold, color = MaterialTheme.colorScheme.onSecondaryContainer)
                 Text(
-                    text = "Miglior offerente: ${highestBidder?.name ?: "Nessuno"}",
+                    text = stringResource(R.string.miglior_offerente, highestBidder?.name ?: stringResource(R.string.nessuno)),
                     style = MaterialTheme.typography.bodySmall,
                     color = MaterialTheme.colorScheme.onSecondaryContainer
                 )
@@ -426,7 +430,7 @@ fun AuctionPanel(
 fun InspectionDialog(player: Player, onDismiss: () -> Unit, onCardClick: (CardModel) -> Unit) {
     AlertDialog(
         onDismissRequest = onDismiss,
-        title = { Text("Carte di ${player.name}") },
+        title = { Text(stringResource(R.string.carte_di, player.name)) },
         text = {
             LazyVerticalGrid(
                 columns = GridCells.Fixed(3),
@@ -444,7 +448,7 @@ fun InspectionDialog(player: Player, onDismiss: () -> Unit, onCardClick: (CardMo
                 }
             }
         },
-        confirmButton = { Button(onClick = onDismiss) { Text("Chiudi") } }
+        confirmButton = { Button(onClick = onDismiss) { Text(stringResource(R.string.chiudi)) } }
     )
 }
 
@@ -463,10 +467,10 @@ fun OfferDialog(
 
     AlertDialog(
         onDismissRequest = onDismiss,
-        title = { Text("Offri ${myCard.name}") },
+        title = { Text(stringResource(R.string.offri_carta, myCard.name)) },
         text = {
             Column(verticalArrangement = Arrangement.spacedBy(16.dp)) {
-                Text("A chi vuoi offrire questa carta?")
+                Text(stringResource(R.string.a_chi_offrire))
                 Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
                     aiPlayers.forEach { player ->
                         FilterChip(
@@ -481,17 +485,17 @@ fun OfferDialog(
 
                 selectedTarget?.let { target ->
                     if (!isSwapMode) {
-                        Text("Chiedi soldi (Saldo ${target.name}: ${target.money} €):")
+                        Text(stringResource(R.string.chiedi_soldi, target.name, target.money))
                         TextField(
                             value = requestAmount,
                             onValueChange = { requestAmount = it.filter { c -> c.isDigit() } },
                             modifier = Modifier.fillMaxWidth()
                         )
                         TextButton(onClick = { isSwapMode = true }) {
-                            Text("Chiedi una carta in cambio")
+                            Text(stringResource(R.string.chiedi_carta_scambio))
                         }
                     } else {
-                        Text("Scegli una carta di ${target.name} da chiedere:")
+                        Text(stringResource(R.string.scegli_carta_chiedere, target.name))
                         LazyRow(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
                             items(target.cards) { card ->
                                 GameCard(
@@ -503,7 +507,7 @@ fun OfferDialog(
                             }
                         }
                         TextButton(onClick = { isSwapMode = false }) {
-                            Text("Chiedi soldi invece")
+                            Text(stringResource(R.string.chiedi_soldi_invece))
                         }
                     }
                 }
@@ -512,11 +516,11 @@ fun OfferDialog(
         confirmButton = {
             if (!isSwapMode) {
                 Button(onClick = { selectedTarget?.let { onSellClick(it, requestAmount.toIntOrNull() ?: 0) } }) {
-                    Text("Offri per ${requestAmount} €")
+                    Text(stringResource(R.string.offri_per, requestAmount.toIntOrNull() ?: 0))
                 }
             }
         },
-        dismissButton = { TextButton(onClick = onDismiss) { Text("Annulla") } }
+        dismissButton = { TextButton(onClick = onDismiss) { Text(stringResource(R.string.annulla)) } }
     )
 }
 
@@ -535,13 +539,13 @@ fun TradeDialog(
 
     AlertDialog(
         onDismissRequest = onDismiss,
-        title = { Text("Scambia con ${targetPlayer.name}") },
+        title = { Text(stringResource(R.string.scambia_con, targetPlayer.name)) },
         text = {
             Column(verticalArrangement = Arrangement.spacedBy(16.dp)) {
-                Text("Vuoi la carta: ${targetCard.name}?")
+                Text(stringResource(R.string.vuoi_la_carta, targetCard.name))
                 
                 if (!showCardTrade) {
-                    Text("Offri soldi (Saldo: $myBalance €):")
+                    Text(stringResource(R.string.offri_soldi, myBalance))
                     TextField(
                         value = offerAmount,
                         onValueChange = { offerAmount = it.filter { char -> char.isDigit() } },
@@ -550,10 +554,10 @@ fun TradeDialog(
                     TextButton(
                         onClick = { showCardTrade = true }
                     ) {
-                        Text("Vuoi offrire una carta invece?")
+                        Text(stringResource(R.string.vuoi_offrire_carta_invece))
                     }
                 } else {
-                    Text("Scegli una tua carta da offrire:")
+                    Text(stringResource(R.string.scegli_tua_carta_offrire))
                     LazyRow(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
                         items(myCards) { card ->
                             GameCard(
@@ -565,7 +569,7 @@ fun TradeDialog(
                         }
                     }
                     TextButton(onClick = { showCardTrade = false }) {
-                        Text("Torna all'offerta in denaro")
+                        Text(stringResource(R.string.torna_offerta_denaro))
                     }
                 }
             }
@@ -573,11 +577,11 @@ fun TradeDialog(
         confirmButton = {
             if (!showCardTrade) {
                 Button(onClick = { onMoneyOffer(offerAmount.toIntOrNull() ?: 0) }) {
-                    Text("Offri ${offerAmount} €")
+                    Text(stringResource(R.string.offri_amount, offerAmount.toIntOrNull() ?: 0))
                 }
             }
         },
-        dismissButton = { TextButton(onClick = onDismiss) { Text("Annulla") } }
+        dismissButton = { TextButton(onClick = onDismiss) { Text(stringResource(R.string.annulla)) } }
     )
 }
 
@@ -624,7 +628,7 @@ fun OpponentInfo(player: Player, modifier: Modifier = Modifier) {
                 Spacer(modifier = Modifier.width(4.dp))
                 Text("${player.money}€", fontSize = 12.sp, color = Color(0xFF2E7D32), fontWeight = FontWeight.Bold)
             }
-            Text("Carte", style = MaterialTheme.typography.labelSmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
+            Text(stringResource(R.string.carte), style = MaterialTheme.typography.labelSmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
         }
     }
 }

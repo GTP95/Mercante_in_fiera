@@ -3,6 +3,7 @@ package com.example.mercanteinfiera.viewmodel
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.mercanteinfiera.R
 import com.example.mercanteinfiera.data.DeckManager
 import com.example.mercanteinfiera.data.SettingsManager
 import com.example.mercanteinfiera.models.*
@@ -33,7 +34,7 @@ class GameViewModel(application: Application) : AndroidViewModel(application) {
     private val _eliminatedCards = MutableStateFlow<Set<Int>>(emptySet())
     val eliminatedCards: StateFlow<Set<Int>> = _eliminatedCards.asStateFlow()
     
-    private val _currentMessage = MutableStateFlow("Benvenuti al Mercante in Fiera!")
+    private val _currentMessage = MutableStateFlow(application.getString(R.string.msg_benvenuti))
     val currentMessage: StateFlow<String> = _currentMessage.asStateFlow()
 
     private val _inspectingPlayer = MutableStateFlow<Player?>(null)
@@ -68,6 +69,10 @@ class GameViewModel(application: Application) : AndroidViewModel(application) {
     private var merchantCardsRemaining = mutableListOf<CardModel>()
     private var cardsToAuction = mutableListOf<CardModel>()
 
+    private fun getString(resId: Int, vararg args: Any): String {
+        return getApplication<Application>().getString(resId, *args)
+    }
+
     fun startSinglePlayer() {
         initializeGame(isFirstTime = true)
     }
@@ -91,8 +96,8 @@ class GameViewModel(application: Application) : AndroidViewModel(application) {
             
             if (isFirstTime) {
                 val human = Player(1, _playerName.value, isHuman = true, cards = humanCards, money = 100)
-                val ai1 = Player(2, "IA 1", isHuman = false, cards = ai1Cards, money = 100)
-                val ai2 = Player(3, "IA 2", isHuman = false, cards = ai2Cards, money = 100)
+                val ai1 = Player(2, getString(R.string.ai_name_1), isHuman = false, cards = ai1Cards, money = 100)
+                val ai2 = Player(3, getString(R.string.ai_name_2), isHuman = false, cards = ai2Cards, money = 100)
                 _players.value = listOf(human, ai1, ai2)
             } else {
                 _players.update { currentPlayers ->
@@ -106,7 +111,7 @@ class GameViewModel(application: Application) : AndroidViewModel(application) {
             }
             
             _merchantPot.value = 0
-            _currentMessage.value = "Carte iniziali distribuite! Inizia l'asta per le rimanenti."
+            _currentMessage.value = getString(R.string.msg_carte_distribuite)
             _gameState.value = GamePhase.AUCTION
             startNextAuction()
         }
@@ -115,7 +120,7 @@ class GameViewModel(application: Application) : AndroidViewModel(application) {
     private fun startNextAuction() {
         if (cardsToAuction.isEmpty()) {
             _gameState.value = GamePhase.DISTRIBUTION
-            _currentMessage.value = "Asta terminata! Il Mercante ha raccolto ${_merchantPot.value} €. Ora stabiliamo i premi."
+            _currentMessage.value = getString(R.string.msg_asta_terminata, _merchantPot.value)
             _auctionCard.value = null
             return
         }
@@ -124,7 +129,7 @@ class GameViewModel(application: Application) : AndroidViewModel(application) {
         _auctionCard.value = card
         _currentBid.value = 0
         _highestBidder.value = null
-        _currentMessage.value = "All'asta la carta: ${card.name}. Chi offre di più?"
+        _currentMessage.value = getString(R.string.msg_all_asta_carta, card.name)
         
         viewModelScope.launch {
             delay(2000)
@@ -150,7 +155,7 @@ class GameViewModel(application: Application) : AndroidViewModel(application) {
                 if (newBid <= bidder.money) {
                     _currentBid.value = newBid
                     _highestBidder.value = bidder
-                    _currentMessage.value = "${bidder.name} offre $newBid €!"
+                    _currentMessage.value = getString(R.string.msg_offerta_ia, bidder.name, newBid)
                 } else {
                     active = false
                 }
@@ -160,7 +165,7 @@ class GameViewModel(application: Application) : AndroidViewModel(application) {
         }
         
         delay(1000)
-        _currentMessage.value = "Andata! A ${_highestBidder.value?.name ?: "nessuno"} perLoad card images ${_currentBid.value} €"
+        _currentMessage.value = getString(R.string.msg_andata, _highestBidder.value?.name ?: getString(R.string.nessuno), _currentBid.value)
         delay(1000)
         concludeAuction()
     }
@@ -173,9 +178,9 @@ class GameViewModel(application: Application) : AndroidViewModel(application) {
         if (newBid <= human.money) {
             _currentBid.value = newBid
             _highestBidder.value = human
-            _currentMessage.value = "Hai offerto $newBid €!"
+            _currentMessage.value = getString(R.string.msg_hai_offerto, newBid)
         } else {
-            _currentMessage.value = "Non hai abbastanza soldi!"
+            _currentMessage.value = getString(R.string.msg_non_abbastanza_soldi)
         }
     }
 
@@ -226,7 +231,7 @@ class GameViewModel(application: Application) : AndroidViewModel(application) {
             }
             
             _prizes.value = selectedPrizes
-            _currentMessage.value = "Premi stabiliti in base all'asta. Iniziamo l'eliminazione!"
+            _currentMessage.value = getString(R.string.msg_premi_stabiliti)
             delay(2000)
             _gameState.value = GamePhase.ELIMINATION
         }
@@ -239,7 +244,7 @@ class GameViewModel(application: Application) : AndroidViewModel(application) {
             if (merchantCardsRemaining.isNotEmpty()) {
                 val card = merchantCardsRemaining.removeAt(Random.nextInt(merchantCardsRemaining.size))
                 _eliminatedCards.update { it + card.id }
-                _currentMessage.value = "È uscita la carta: ${card.name}. Chi ce l'ha è eliminato!"
+                _currentMessage.value = getString(R.string.msg_uscita_carta, card.name)
                 
                 _players.update { currentPlayers ->
                     currentPlayers.map { player ->
@@ -256,7 +261,7 @@ class GameViewModel(application: Application) : AndroidViewModel(application) {
 
     private fun finishGame() {
         _gameState.value = GamePhase.FINISHED
-        _currentMessage.value = "Gioco terminato! Ecco le vincite finali."
+        _currentMessage.value = getString(R.string.msg_gioco_terminato)
         
         _players.update { currentPlayers ->
             currentPlayers.map { player ->
@@ -331,7 +336,7 @@ class GameViewModel(application: Application) : AndroidViewModel(application) {
             val human = _players.value.find { it.isHuman } ?: return@launch
             
             if (human.money < moneyOffer) {
-                _currentMessage.value = "Non hai abbastanza soldi!"
+                _currentMessage.value = getString(R.string.msg_non_abbastanza_soldi)
                 return@launch
             }
 
@@ -353,9 +358,9 @@ class GameViewModel(application: Application) : AndroidViewModel(application) {
                         }
                     }
                 }
-                _currentMessage.value = "${targetPlayer.name} ha accettato lo scambio per $moneyOffer €!"
+                _currentMessage.value = getString(R.string.msg_scambio_accettato, targetPlayer.name, moneyOffer)
             } else {
-                _currentMessage.value = "${targetPlayer.name} ha rifiutato l'offerta."
+                _currentMessage.value = getString(R.string.msg_scambio_rifiutato, targetPlayer.name)
             }
             closeTradeDialog()
             stopInspecting()
@@ -381,9 +386,9 @@ class GameViewModel(application: Application) : AndroidViewModel(application) {
                         }
                     }
                 }
-                _currentMessage.value = "${targetPlayer.name} ha scambiato ${targetCard.name} con ${offeredCard.name}!"
+                _currentMessage.value = getString(R.string.msg_scambio_carte_accettato, targetPlayer.name, targetCard.name, offeredCard.name)
             } else {
-                _currentMessage.value = "${targetPlayer.name} ha rifiutato lo scambio di carte."
+                _currentMessage.value = getString(R.string.msg_scambio_carte_rifiutato, targetPlayer.name)
             }
             closeTradeDialog()
             stopInspecting()
@@ -393,7 +398,7 @@ class GameViewModel(application: Application) : AndroidViewModel(application) {
     fun sellCardForMoney(targetPlayer: Player, myCard: CardModel, moneyRequested: Int) {
         viewModelScope.launch {
             if (targetPlayer.money < moneyRequested) {
-                _currentMessage.value = "${targetPlayer.name} non ha abbastanza soldi!"
+                _currentMessage.value = getString(R.string.msg_non_abbastanza_soldi) // Or more specific message if added
                 closeOfferDialog()
                 return@launch
             }
@@ -416,9 +421,9 @@ class GameViewModel(application: Application) : AndroidViewModel(application) {
                         }
                     }
                 }
-                _currentMessage.value = "${targetPlayer.name} ha comprato ${myCard.name} per $moneyRequested €!"
+                _currentMessage.value = getString(R.string.msg_acquisto_accettato, targetPlayer.name, myCard.name, moneyRequested)
             } else {
-                _currentMessage.value = "${targetPlayer.name} non è interessato all'acquisto."
+                _currentMessage.value = getString(R.string.msg_acquisto_rifiutato, targetPlayer.name)
             }
             closeOfferDialog()
         }
@@ -442,9 +447,9 @@ class GameViewModel(application: Application) : AndroidViewModel(application) {
                         }
                     }
                 }
-                _currentMessage.value = "${targetPlayer.name} ha accettato lo scambio: ${myCard.name} per ${targetCard.name}!"
+                _currentMessage.value = getString(R.string.msg_scambio_proposto_accettato, targetPlayer.name, myCard.name, targetCard.name)
             } else {
-                _currentMessage.value = "${targetPlayer.name} ha rifiutato lo scambio di carte."
+                _currentMessage.value = getString(R.string.msg_scambio_carte_rifiutato, targetPlayer.name)
             }
             closeOfferDialog()
         }

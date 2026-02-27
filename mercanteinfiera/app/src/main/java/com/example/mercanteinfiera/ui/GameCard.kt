@@ -16,12 +16,14 @@ import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
+import com.example.mercanteinfiera.R
 import com.example.mercanteinfiera.models.CardModel
 
 @Composable
@@ -91,7 +93,7 @@ fun GameCard(
                     contentAlignment = Alignment.Center
                 ) {
                     Text(
-                        text = "M",
+                        text = stringResource(R.string.card_back_initial),
                         fontSize = 32.sp,
                         fontWeight = FontWeight.Bold,
                         color = Color.White.copy(alpha = 0.5f)
