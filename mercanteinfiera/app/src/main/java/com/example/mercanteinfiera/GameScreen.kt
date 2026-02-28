@@ -25,10 +25,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.example.mercanteinfiera.models.CardModel
-import com.example.mercanteinfiera.models.GamePhase
-import com.example.mercanteinfiera.models.Player
-import com.example.mercanteinfiera.models.Prize
+import com.example.mercanteinfiera.models.*
 import com.example.mercanteinfiera.ui.GameCard
 import com.example.mercanteinfiera.viewmodel.GameViewModel
 
@@ -42,6 +39,7 @@ fun GameScreen(viewModel: GameViewModel = viewModel()) {
     val inspectingPlayer by viewModel.inspectingPlayer.collectAsState()
     val tradeDialogTarget by viewModel.tradeDialogTarget.collectAsState()
     val offeringCard by viewModel.offeringCard.collectAsState()
+    val aiProposal by viewModel.aiProposal.collectAsState()
     val playerName by viewModel.playerName.collectAsState()
     val themeMode by viewModel.themeMode.collectAsState()
     val language by viewModel.language.collectAsState()
@@ -251,6 +249,14 @@ fun GameScreen(viewModel: GameViewModel = viewModel()) {
             onDismiss = { viewModel.closeOfferDialog() },
             onSellClick = { target, amount -> viewModel.sellCardForMoney(target, card, amount) },
             onSwapClick = { target, targetCard -> viewModel.swapCardForCard(target, card, targetCard) }
+        )
+    }
+
+    aiProposal?.let { proposal ->
+        AIProposalDialog(
+            proposal = proposal,
+            onAccept = { viewModel.acceptAIProposal() },
+            onReject = { viewModel.rejectAIProposal() }
         )
     }
 }
@@ -624,6 +630,56 @@ fun TradeDialog(
         },
         dismissButton = { TextButton(onClick = onDismiss) { Text(stringResource(R.string.annulla)) } }
     )
+}
+
+@Composable
+fun AIProposalDialog(
+    proposal: AIProposal,
+    onAccept: () -> Unit,
+    onReject: () -> Unit
+) {
+    AlertDialog(
+        onDismissRequest = onReject,
+        title = { Text(stringResource(R.string.titolo_proposta_ia, proposal.getAI().name)) },
+        text = {
+            Column(verticalArrangement = Arrangement.spacedBy(12.dp), horizontalAlignment = Alignment.CenterHorizontally) {
+                val message = when (proposal) {
+                    is AIProposal.Buy -> stringResource(R.string.msg_ia_vuole_comprare, proposal.ai.name, proposal.card.name, proposal.price)
+                    is AIProposal.Sell -> stringResource(R.string.msg_ia_vuole_vendere, proposal.ai.name, proposal.card.name, proposal.price)
+                    is AIProposal.Exchange -> stringResource(R.string.msg_ia_vuole_scambiare, proposal.ai.name, proposal.aiCard.name, proposal.playerCard.name)
+                }
+                Text(message, textAlign = TextAlign.Center)
+                
+                Row(horizontalArrangement = Arrangement.spacedBy(16.dp)) {
+                    when (proposal) {
+                        is AIProposal.Buy -> {
+                            GameCard(card = proposal.card, isFaceUp = true, modifier = Modifier.size(60.dp, 80.dp))
+                        }
+                        is AIProposal.Sell -> {
+                            GameCard(card = proposal.card, isFaceUp = true, modifier = Modifier.size(60.dp, 80.dp))
+                        }
+                        is AIProposal.Exchange -> {
+                            GameCard(card = proposal.aiCard, isFaceUp = true, modifier = Modifier.size(60.dp, 80.dp))
+                            Icon(Icons.Default.Refresh, contentDescription = null, modifier = Modifier.align(Alignment.CenterVertically))
+                            GameCard(card = proposal.playerCard, isFaceUp = true, modifier = Modifier.size(60.dp, 80.dp))
+                        }
+                    }
+                }
+            }
+        },
+        confirmButton = {
+            Button(onClick = onAccept) { Text(stringResource(R.string.accetta)) }
+        },
+        dismissButton = {
+            TextButton(onClick = onReject) { Text(stringResource(R.string.rifiuta)) }
+        }
+    )
+}
+
+private fun AIProposal.getAI() = when(this) {
+    is AIProposal.Buy -> ai
+    is AIProposal.Sell -> ai
+    is AIProposal.Exchange -> ai
 }
 
 @Composable

@@ -73,4 +73,12 @@
     <string name="msg_acquisto_accettato">%1$s ha comprato %2$s per %3$d €!</string>
     <string name="msg_acquisto_rifiutato">%1$s non è interessato all\'acquisto.</string>
     <string name="msg_scambio_proposto_accettato">%1$s ha accettato lo scambio: %2$s per %3$s!</string>
+
+    <!-- AI Proposal Strings -->
+    <string name="titolo_proposta_ia">Proposta da %1$s</string>
+    <string name="msg_ia_vuole_comprare">%1$s vuole comprare la tua carta %2$s per %3$d €.</string>
+    <string name="msg_ia_vuole_vendere">%1$s vuole venderti la sua carta %2$s per %3$d €.</string>
+    <string name="msg_ia_vuole_scambiare">%1$s vuole scambiare la sua carta %2$s con la tua %3$s.</string>
+    <string name="accetta">Accetta</string>
+    <string name="rifiuta">Rifiuta</string>
 </resources>

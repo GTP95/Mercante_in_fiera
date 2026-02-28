@@ -46,6 +46,11 @@ class GameViewModel(application: Application) : AndroidViewModel(application) {
     private val _offeringCard = MutableStateFlow<CardModel?>(null)
     val offeringCard: StateFlow<CardModel?> = _offeringCard.asStateFlow()
 
+    private val _aiProposal = MutableStateFlow<AIProposal?>(null)
+    val aiProposal: StateFlow<AIProposal?> = _aiProposal.asStateFlow()
+
+    private val lastProposalTimes = mutableMapOf<Int, Long>()
+
     // Auction State
     private val _auctionCard = MutableStateFlow<CardModel?>(null)
     val auctionCard: StateFlow<CardModel?> = _auctionCard.asStateFlow()
@@ -72,8 +77,116 @@ class GameViewModel(application: Application) : AndroidViewModel(application) {
     private var merchantCardsRemaining = mutableListOf<CardModel>()
     private var cardsToAuction = mutableListOf<CardModel>()
 
+    init {
+        startAIProposalLoop()
+    }
+
     private fun getString(resId: Int, vararg args: Any): String {
         return getApplication<Application>().getString(resId, *args)
+    }
+
+    private fun startAIProposalLoop() {
+        viewModelScope.launch {
+            while (true) {
+                delay(2000)
+                if (_gameState.value == GamePhase.ELIMINATION && _aiProposal.value == null && _tradeDialogTarget.value == null && _offeringCard.value == null) {
+                    tryProposeAIExchange()
+                }
+            }
+        }
+    }
+
+    private fun tryProposeAIExchange() {
+        val currentTime = System.currentTimeMillis()
+        val aiPlayers = _players.value.filter { !it.isHuman }
+        val player = _players.value.find { it.isHuman } ?: return
+        
+        for (ai in aiPlayers) {
+            val lastTime = lastProposalTimes[ai.id] ?: 0L
+            if (currentTime - lastTime > 10000) {
+                if (Random.nextInt(100) < 15) { // 15% chance to propose every 2s if cooled down
+                    generateAIProposal(ai, player)
+                    lastProposalTimes[ai.id] = currentTime
+                    return
+                }
+            }
+        }
+    }
+
+    private fun generateAIProposal(ai: Player, player: Player) {
+        val type = Random.nextInt(3)
+        when (type) {
+            0 -> { // Buy from player
+                if (player.cards.isNotEmpty() && ai.money >= 10) {
+                    val card = player.cards.random()
+                    val price = Random.nextInt(5, (ai.money / 2).coerceAtLeast(10))
+                    _aiProposal.value = AIProposal.Buy(ai, card, price)
+                }
+            }
+            1 -> { // Sell to player
+                if (ai.cards.isNotEmpty() && player.money >= 10) {
+                    val card = ai.cards.random()
+                    val price = Random.nextInt(5, (player.money / 2).coerceAtLeast(10))
+                    _aiProposal.value = AIProposal.Sell(ai, card, price)
+                }
+            }
+            2 -> { // Exchange
+                if (ai.cards.isNotEmpty() && player.cards.isNotEmpty()) {
+                    val aiCard = ai.cards.random()
+                    val playerCard = player.cards.random()
+                    _aiProposal.value = AIProposal.Exchange(ai, aiCard, playerCard)
+                }
+            }
+        }
+    }
+
+    fun acceptAIProposal() {
+        val proposal = _aiProposal.value ?: return
+        _players.update { currentPlayers ->
+            val human = currentPlayers.find { it.isHuman } ?: return@update currentPlayers
+            val ai = currentPlayers.find { it.id == proposal.getAI().id } ?: return@update currentPlayers
+            
+            when (proposal) {
+                is AIProposal.Buy -> {
+                    currentPlayers.map { p ->
+                        when (p.id) {
+                            human.id -> p.copy(money = p.money + proposal.price, cards = p.cards - proposal.card)
+                            ai.id -> p.copy(money = p.money - proposal.price, cards = p.cards + proposal.card)
+                            else -> p
+                        }
+                    }
+                }
+                is AIProposal.Sell -> {
+                    currentPlayers.map { p ->
+                        when (p.id) {
+                            human.id -> p.copy(money = p.money - proposal.price, cards = p.cards + proposal.card)
+                            ai.id -> p.copy(money = p.money + proposal.price, cards = p.cards - proposal.card)
+                            else -> p
+                        }
+                    }
+                }
+                is AIProposal.Exchange -> {
+                    currentPlayers.map { p ->
+                        when (p.id) {
+                            human.id -> p.copy(cards = (p.cards - proposal.playerCard) + proposal.aiCard)
+                            ai.id -> p.copy(cards = (p.cards - proposal.aiCard) + proposal.playerCard)
+                            else -> p
+                        }
+                    }
+                }
+            }
+        }
+        _aiProposal.value = null
+    }
+
+    fun rejectAIProposal() {
+        _aiProposal.value = null
+    }
+
+    private fun AIProposal.getAI() = when(this) {
+        is AIProposal.Buy -> ai
+        is AIProposal.Sell -> ai
+        is AIProposal.Exchange -> ai
     }
 
     fun startSinglePlayer() {
@@ -288,6 +401,7 @@ class GameViewModel(application: Application) : AndroidViewModel(application) {
         _tradeDialogTarget.value = null
         _offeringCard.value = null
         _auctionCard.value = null
+        _aiProposal.value = null
         _merchantPot.value = 0
         initializeGame(isFirstTime = false)
     }
