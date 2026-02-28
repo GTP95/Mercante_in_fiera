@@ -1,0 +1,71 @@
+<resources>
+    <string name="app_name">MercanteInFiera</string>
+    <string name="saldo">Balance: %1$d €</string>
+    <string name="torna_al_menu">Back to Menu</string>
+    <string name="premi_in_palio">Prizes (Pot: %1$d €):</string>
+    <string name="le_tue_carte">Your cards:</string>
+    <string name="stabilisci_premi">Set Prizes</string>
+    <string name="fai_un_offerta">Make an offer (+5€)</string>
+    <string name="pesca_carta">Draw Card from the Dealer</string>
+    <string name="nuova_partita">Start New Game</string>
+    <string name="giocatore_singolo">Single Player</string>
+    <string name="multigiocatore">Multiplayer</string>
+    <string name="impostazioni">Settings</string>
+    <string name="indietro">Back</string>
+    <string name="profilo_giocatore">Player Profile</string>
+    <string name="nome">Name</string>
+    <string name="inserisci_nome">Enter your name</string>
+    <string name="aspetto">Appearance</string>
+    <string name="tema">Theme</string>
+    <string name="all_asta">On auction!</string>
+    <string name="offerta_attuale">Current bid: %1$d €</string>
+    <string name="miglior_offerente">Highest bidder: %1$s</string>
+    <string name="nessuno">None</string>
+    <string name="carte_di">Cards of %1$s</string>
+    <string name="chiudi">Close</string>
+    <string name="offri_carta">Offer %1$s</string>
+    <string name="a_chi_offrire">To whom do you want to offer this card?</string>
+    <string name="chiedi_soldi">Ask for money (%1$s balance: %2$d €):</string>
+    <string name="chiedi_carta_scambio">Ask for a card in exchange</string>
+    <string name="scegli_carta_chiedere">Choose a card of %1$s to ask for:</string>
+    <string name="chiedi_soldi_invece">Ask for money instead</string>
+    <string name="offri_per">Offer for %1$d €</string>
+    <string name="annulla">Cancel</string>
+    <string name="scambia_con">Trade with %1$s</string>
+    <string name="vuoi_la_carta">Do you want the card: %1$s?</string>
+    <string name="offri_soldi">Offer money (Balance: %1$d €):</string>
+    <string name="vuoi_offrire_carta_invece">Do you want to offer a card instead?</string>
+    <string name="scegli_tua_carta_offrire">Choose one of your cards to offer:</string>
+    <string name="torna_offerta_denaro">Back to cash offer</string>
+    <string name="offri_amount">Offer %1$d €</string>
+    <string name="carte">Cards</string>
+    <string name="default_player_name">You (Player)</string>
+    <string name="ai_name_1">AI 1</string>
+    <string name="ai_name_2">AI 2</string>
+    <string name="card_back_initial">M</string>
+
+    <!-- Theme names -->
+    <string name="theme_system">System</string>
+    <string name="theme_light">Light</string>
+    <string name="theme_dark">Dark</string>
+
+    <!-- Game Messages -->
+    <string name="msg_benvenuti">Welcome to Mercante in Fiera!</string>
+    <string name="msg_carte_distribuite">Initial cards dealt! Auction starts for the remaining ones.</string>
+    <string name="msg_asta_terminata">Auction finished! The Merchant collected %1$d €. Now let\'s set the prizes.</string>
+    <string name="msg_all_asta_carta">Auctioning the card: %1$s. Who bids more?</string>
+    <string name="msg_offerta_ia">%1$s bids %2$d €!</string>
+    <string name="msg_andata">Sold! To %1$s for %2$d €</string>
+    <string name="msg_hai_offerto">You bid %1$d €!</string>
+    <string name="msg_non_abbastanza_soldi">Not enough money!</string>
+    <string name="msg_premi_stabiliti">Prizes set based on the auction. Let\'s start the elimination!</string>
+    <string name="msg_uscita_carta">The card drawn is: %1$s. This card is eliminated from the game!</string>
+    <string name="msg_gioco_terminato">Game over! Here are the final winnings.</string>
+    <string name="msg_scambio_accettato">%1$s accepted the trade for %2$d €!</string>
+    <string name="msg_scambio_rifiutato">%1$s rejected the offer.</string>
+    <string name="msg_scambio_carte_accettato">%1$s traded %2$s for %3$s!</string>
+    <string name="msg_scambio_carte_rifiutato">%1$s rejected the card trade.</string>
+    <string name="msg_acquisto_accettato">%1$s bought %2$s for %3$d €!</string>
+    <string name="msg_acquisto_rifiutato">%1$s is not interested in buying.</string>
+    <string name="msg_scambio_proposto_accettato">%1$s accepted the trade: %2$s for %3$s!</string>
+</resources>
