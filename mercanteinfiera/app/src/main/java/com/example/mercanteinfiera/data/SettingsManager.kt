@@ -10,10 +10,14 @@ class SettingsManager(private val context: Context) {
     companion object {
         private const val KEY_PLAYER_NAME = "player_name"
         private const val KEY_THEME = "theme_mode"
+        private const val KEY_LANGUAGE = "language"
         
         const val THEME_LIGHT = "Light"
         const val THEME_DARK = "Dark"
         const val THEME_SYSTEM = "System"
+
+        const val LANG_IT = "it"
+        const val LANG_EN = "en"
     }
 
     fun getPlayerName(): String {
@@ -31,5 +35,13 @@ class SettingsManager(private val context: Context) {
 
     fun saveThemeMode(mode: String) {
         prefs.edit().putString(KEY_THEME, mode).apply()
+    }
+
+    fun getLanguage(): String {
+        return prefs.getString(KEY_LANGUAGE, LANG_IT) ?: LANG_IT
+    }
+
+    fun saveLanguage(lang: String) {
+        prefs.edit().putString(KEY_LANGUAGE, lang).apply()
     }
 }

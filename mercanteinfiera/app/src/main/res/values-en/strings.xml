@@ -49,6 +49,11 @@
     <string name="theme_light">Light</string>
     <string name="theme_dark">Dark</string>
 
+    <!-- Language names -->
+    <string name="lingua">Language</string>
+    <string name="lingua_it">Italian</string>
+    <string name="lingua_en">English</string>
+
     <!-- Game Messages -->
     <string name="msg_benvenuti">Welcome to Mercante in Fiera!</string>
     <string name="msg_carte_distribuite">Initial cards dealt! Auction starts for the remaining ones.</string>

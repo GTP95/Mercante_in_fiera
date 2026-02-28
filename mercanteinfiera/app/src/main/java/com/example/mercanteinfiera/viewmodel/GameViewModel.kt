@@ -66,6 +66,9 @@ class GameViewModel(application: Application) : AndroidViewModel(application) {
     private val _themeMode = MutableStateFlow(settingsManager.getThemeMode())
     val themeMode: StateFlow<String> = _themeMode.asStateFlow()
 
+    private val _language = MutableStateFlow(settingsManager.getLanguage())
+    val language: StateFlow<String> = _language.asStateFlow()
+
     private var merchantCardsRemaining = mutableListOf<CardModel>()
     private var cardsToAuction = mutableListOf<CardModel>()
 
@@ -305,6 +308,11 @@ class GameViewModel(application: Application) : AndroidViewModel(application) {
     fun updateThemeMode(newMode: String) {
         _themeMode.value = newMode
         settingsManager.saveThemeMode(newMode)
+    }
+
+    fun updateLanguage(newLang: String) {
+        _language.value = newLang
+        settingsManager.saveLanguage(newLang)
     }
 
     fun inspectPlayer(player: Player) {

@@ -44,6 +44,7 @@ fun GameScreen(viewModel: GameViewModel = viewModel()) {
     val offeringCard by viewModel.offeringCard.collectAsState()
     val playerName by viewModel.playerName.collectAsState()
     val themeMode by viewModel.themeMode.collectAsState()
+    val language by viewModel.language.collectAsState()
     
     // Auction states
     val auctionCard by viewModel.auctionCard.collectAsState()
@@ -65,8 +66,10 @@ fun GameScreen(viewModel: GameViewModel = viewModel()) {
             SettingsScreen(
                 currentName = playerName,
                 currentTheme = themeMode,
+                currentLanguage = language,
                 onNameChange = { viewModel.updatePlayerName(it) },
                 onThemeChange = { viewModel.updateThemeMode(it) },
+                onLanguageChange = { viewModel.updateLanguage(it) },
                 onBackClick = { viewModel.goToMenu() }
             )
         }
@@ -310,8 +313,10 @@ fun MainMenu(
 fun SettingsScreen(
     currentName: String,
     currentTheme: String,
+    currentLanguage: String,
     onNameChange: (String) -> Unit,
     onThemeChange: (String) -> Unit,
+    onLanguageChange: (String) -> Unit,
     onBackClick: () -> Unit
 ) {
     Column(
@@ -360,7 +365,7 @@ fun SettingsScreen(
                     placeholder = { Text(stringResource(R.string.inserisci_nome)) }
                 )
                 
-                Spacer(modifier = Modifier.height(32.dp))
+                Spacer(modifier = Modifier.height(24.dp))
                 
                 Text(
                     text = stringResource(R.string.aspetto),
@@ -385,6 +390,42 @@ fun SettingsScreen(
                             onClick = { onThemeChange(mode) },
                             label = { Text(label) }
                         )
+                    }
+                }
+
+                Spacer(modifier = Modifier.height(24.dp))
+
+                Text(text = stringResource(R.string.lingua), style = MaterialTheme.typography.labelLarge, color = MaterialTheme.colorScheme.onSurface)
+                
+                var expanded by remember { mutableStateOf(false) }
+                val languages = listOf(
+                    "it" to stringResource(R.string.lingua_it),
+                    "en" to stringResource(R.string.lingua_en)
+                )
+                val currentLangLabel = languages.find { it.first == currentLanguage }?.second ?: "Italiano"
+
+                Box(modifier = Modifier.fillMaxWidth().padding(top = 8.dp)) {
+                    OutlinedButton(
+                        onClick = { expanded = true },
+                        modifier = Modifier.fillMaxWidth(),
+                        shape = RoundedCornerShape(8.dp)
+                    ) {
+                        Text(currentLangLabel)
+                    }
+                    DropdownMenu(
+                        expanded = expanded,
+                        onDismissRequest = { expanded = false },
+                        modifier = Modifier.fillMaxWidth(0.9f)
+                    ) {
+                        languages.forEach { (code, label) ->
+                            DropdownMenuItem(
+                                text = { Text(label) },
+                                onClick = {
+                                    onLanguageChange(code)
+                                    expanded = false
+                                }
+                            )
+                        }
                     }
                 }
             }

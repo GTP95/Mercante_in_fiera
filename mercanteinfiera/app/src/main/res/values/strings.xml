@@ -45,9 +45,14 @@
     <string name="card_back_initial">M</string>
 
     <!-- Theme names -->
-    <string name="theme_system">System</string>
-    <string name="theme_light">Light</string>
-    <string name="theme_dark">Dark</string>
+    <string name="theme_system">Sistema</string>
+    <string name="theme_light">Chiaro</string>
+    <string name="theme_dark">Scuro</string>
+
+    <!-- Language names -->
+    <string name="lingua">Lingua</string>
+    <string name="lingua_it">Italiano</string>
+    <string name="lingua_en">Inglese</string>
 
     <!-- Game Messages -->
     <string name="msg_benvenuti">Benvenuti al Mercante in Fiera!</string>
