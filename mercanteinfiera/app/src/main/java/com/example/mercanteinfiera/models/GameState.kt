@@ -3,6 +3,8 @@ package com.example.mercanteinfiera.models
 enum class GamePhase {
     MENU,
     SETTINGS,
+    MULTIPLAYER_MENU,
+    LOBBY,
     DISTRIBUTION,
     AUCTION,
     PRIZES,
@@ -11,11 +13,11 @@ enum class GamePhase {
 }
 
 data class Player(
-    val id: Int,
+    val id: String, // Changed to String for Firebase UIDs
     val name: String,
     val isHuman: Boolean = false,
     val cards: List<CardModel> = emptyList(),
-    val money: Int = 100 // Unico campo per il denaro del giocatore
+    val money: Int = 100
 )
 
 data class Prize(

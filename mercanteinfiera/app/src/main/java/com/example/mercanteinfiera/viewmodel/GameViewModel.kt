@@ -49,7 +49,7 @@ class GameViewModel(application: Application) : AndroidViewModel(application) {
     private val _aiProposal = MutableStateFlow<AIProposal?>(null)
     val aiProposal: StateFlow<AIProposal?> = _aiProposal.asStateFlow()
 
-    private val lastProposalTimes = mutableMapOf<Int, Long>()
+    private val lastProposalTimes = mutableMapOf<String, Long>()
 
     // Auction State
     private val _auctionCard = MutableStateFlow<CardModel?>(null)
@@ -211,9 +211,9 @@ class GameViewModel(application: Application) : AndroidViewModel(application) {
             cardsToAuction = playerDeck.take(10).toMutableList()
             
             if (isFirstTime) {
-                val human = Player(1, _playerName.value, isHuman = true, cards = humanCards, money = 100)
-                val ai1 = Player(2, getString(R.string.ai_name_1), isHuman = false, cards = ai1Cards, money = 100)
-                val ai2 = Player(3, getString(R.string.ai_name_2), isHuman = false, cards = ai2Cards, money = 100)
+                val human = Player("1", _playerName.value, isHuman = true, cards = humanCards, money = 100)
+                val ai1 = Player("2", getString(R.string.ai_name_1), isHuman = false, cards = ai1Cards, money = 100)
+                val ai2 = Player("3", getString(R.string.ai_name_2), isHuman = false, cards = ai2Cards, money = 100)
                 _players.value = listOf(human, ai1, ai2)
             } else {
                 _players.update { currentPlayers ->
@@ -414,6 +414,14 @@ class GameViewModel(application: Application) : AndroidViewModel(application) {
         _gameState.value = GamePhase.SETTINGS
     }
 
+    fun goToMultiplayerMenu() {
+        _gameState.value = GamePhase.MULTIPLAYER_MENU
+    }
+
+    fun goToLobby() {
+        _gameState.value = GamePhase.LOBBY
+    }
+
     fun updatePlayerName(newName: String) {
         _playerName.value = newName
         settingsManager.savePlayerName(newName)
@@ -531,7 +539,7 @@ class GameViewModel(application: Application) : AndroidViewModel(application) {
                 _players.update { currentPlayers ->
                     currentPlayers.map { p ->
                         when (p.id) {
-                            1 -> p.copy(
+                            "1" -> p.copy(
                                 money = p.money + moneyRequested,
                                 cards = p.cards - myCard
                             )
@@ -559,7 +567,7 @@ class GameViewModel(application: Application) : AndroidViewModel(application) {
                 _players.update { currentPlayers ->
                     currentPlayers.map { p ->
                         when (p.id) {
-                            1 -> p.copy(
+                            "1" -> p.copy(
                                 cards = (p.cards - myCard) + targetCard
                             )
                             targetPlayer.id -> p.copy(

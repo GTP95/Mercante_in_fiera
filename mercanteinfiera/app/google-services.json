@@ -1,0 +1,30 @@
+{
+  "project_info": {
+    "project_number": "540575421053",
+    "project_id": "mercante-in-fiera-15aed",
+    "storage_bucket": "mercante-in-fiera-15aed.firebasestorage.app",
+    "firebase_url": "https://mercante-in-fiera-15aed-default-rtdb.firebaseio.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:540575421053:android:93ecc46a4bbcfa58a19714",
+        "android_client_info": {
+          "package_name": "com.example.mercanteinfiera"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCT611sCLVf2q8AzTNuNS90dLJmqRwdydg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

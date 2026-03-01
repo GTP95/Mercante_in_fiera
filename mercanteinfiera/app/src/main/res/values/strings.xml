@@ -81,4 +81,16 @@
     <string name="msg_ia_vuole_scambiare">%1$s vuole scambiare la sua carta %2$s con la tua %3$s.</string>
     <string name="accetta">Accetta</string>
     <string name="rifiuta">Rifiuta</string>
+
+    <!-- Multiplayer Strings -->
+    <string name="crea_tavolo">Crea nuovo tavolo</string>
+    <string name="unisciti_tavolo">Unisciti a un tavolo</string>
+    <string name="codice_tavolo">Codice tavolo</string>
+    <string name="inserisci_codice">Inserisci il codice</string>
+    <string name="attesa_giocatori">In attesa di altri giocatori...</string>
+    <string name="giocatori_connessi">Giocatori connessi: %1$d</string>
+    <string name="inizia_gioco">Inizia Gioco</string>
+    <string name="pronto">Pronto</string>
+    <string name="non_pronto">Non Pronto</string>
+    <string name="errore_codice">Codice non valido o tavolo inesistente</string>
 </resources>

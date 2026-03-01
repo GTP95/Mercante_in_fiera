@@ -4,6 +4,7 @@ import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
@@ -28,9 +29,13 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.mercanteinfiera.models.*
 import com.example.mercanteinfiera.ui.GameCard
 import com.example.mercanteinfiera.viewmodel.GameViewModel
+import com.example.mercanteinfiera.viewmodel.MultiplayerViewModel
 
 @Composable
-fun GameScreen(viewModel: GameViewModel = viewModel()) {
+fun GameScreen(
+    viewModel: GameViewModel = viewModel(),
+    multiplayerViewModel: MultiplayerViewModel = viewModel()
+) {
     val gameState by viewModel.gameState.collectAsState()
     val players by viewModel.players.collectAsState()
     val prizes by viewModel.prizes.collectAsState()
@@ -44,6 +49,10 @@ fun GameScreen(viewModel: GameViewModel = viewModel()) {
     val themeMode by viewModel.themeMode.collectAsState()
     val language by viewModel.language.collectAsState()
     
+    // Multiplayer state
+    val currentRoom by multiplayerViewModel.currentRoom.collectAsState()
+    val mpError by multiplayerViewModel.error.collectAsState()
+
     // Auction states
     val auctionCard by viewModel.auctionCard.collectAsState()
     val currentBid by viewModel.currentBid.collectAsState()
@@ -53,10 +62,20 @@ fun GameScreen(viewModel: GameViewModel = viewModel()) {
     val humanPlayer = players.find { it.isHuman }
     val aiPlayers = players.filter { !it.isHuman }
 
+    // Handle Multiplayer navigation
+    LaunchedEffect(currentRoom) {
+        if (currentRoom != null && gameState == GamePhase.MULTIPLAYER_MENU) {
+            viewModel.goToLobby()
+        } else if (currentRoom == null && gameState == GamePhase.LOBBY) {
+            viewModel.goToMenu()
+        }
+    }
+
     when (gameState) {
         GamePhase.MENU -> {
             MainMenu(
                 onSinglePlayerClick = { viewModel.startSinglePlayer() },
+                onMultiplayerClick = { viewModel.goToMultiplayerMenu() },
                 onSettingsClick = { viewModel.goToSettings() }
             )
         }
@@ -70,6 +89,30 @@ fun GameScreen(viewModel: GameViewModel = viewModel()) {
                 onLanguageChange = { viewModel.updateLanguage(it) },
                 onBackClick = { viewModel.goToMenu() }
             )
+        }
+        GamePhase.MULTIPLAYER_MENU -> {
+            MultiplayerMenu(
+                playerName = playerName,
+                onBackClick = { viewModel.goToMenu() },
+                onCreateRoom = { multiplayerViewModel.createRoom(if (playerName.isBlank()) "Player" else playerName) },
+                onJoinRoom = { code -> multiplayerViewModel.joinRoom(code, if (playerName.isBlank()) "Player" else playerName) },
+                errorMessage = mpError
+            )
+        }
+        GamePhase.LOBBY -> {
+            currentRoom?.let { room ->
+                LobbyScreen(
+                    room = room,
+                    onBackClick = { 
+                        // TODO: Implement leave room in MultiplayerViewModel
+                        viewModel.goToMenu() 
+                    },
+                    onStartGame = { /* TODO: Start game logic */ },
+                    onReadyClick = { /* TODO: Ready logic */ }
+                )
+            } ?: Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+                CircularProgressIndicator()
+            }
         }
         else -> {
             Column(
@@ -264,6 +307,7 @@ fun GameScreen(viewModel: GameViewModel = viewModel()) {
 @Composable
 fun MainMenu(
     onSinglePlayerClick: () -> Unit,
+    onMultiplayerClick: () -> Unit,
     onSettingsClick: () -> Unit
 ) {
     Column(
@@ -296,7 +340,7 @@ fun MainMenu(
             }
             
             Button(
-                onClick = { /* Non fa nulla */ },
+                onClick = onMultiplayerClick,
                 modifier = Modifier.fillMaxWidth(),
                 shape = RoundedCornerShape(12.dp)
             ) {
@@ -310,6 +354,162 @@ fun MainMenu(
             ) {
                 Text(stringResource(R.string.impostazioni), modifier = Modifier.padding(8.dp), fontSize = 18.sp)
             }
+        }
+    }
+}
+
+@Composable
+fun MultiplayerMenu(
+    playerName: String,
+    onBackClick: () -> Unit,
+    onCreateRoom: () -> Unit,
+    onJoinRoom: (String) -> Unit,
+    errorMessage: String?
+) {
+    var code by remember { mutableStateOf("") }
+    var isLoading by remember { mutableStateOf(false) }
+
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .background(MaterialTheme.colorScheme.background)
+            .padding(16.dp)
+    ) {
+        Row(verticalAlignment = Alignment.CenterVertically) {
+            IconButton(onClick = onBackClick) {
+                Icon(Icons.Default.ArrowBack, contentDescription = stringResource(R.string.indietro))
+            }
+            Text(stringResource(R.string.multigiocatore), style = MaterialTheme.typography.headlineMedium, fontWeight = FontWeight.Bold)
+        }
+
+        Spacer(modifier = Modifier.height(32.dp))
+
+        Column(
+            modifier = Modifier.fillMaxWidth(),
+            verticalArrangement = Arrangement.spacedBy(24.dp),
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            if (isLoading) {
+                CircularProgressIndicator()
+            } else {
+                Button(
+                    onClick = { 
+                        isLoading = true
+                        onCreateRoom() 
+                    },
+                    modifier = Modifier.fillMaxWidth(),
+                    shape = RoundedCornerShape(12.dp)
+                ) {
+                    Text(stringResource(R.string.crea_tavolo), modifier = Modifier.padding(8.dp))
+                }
+
+                Divider()
+
+                Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
+                    Text(stringResource(R.string.unisciti_tavolo), style = MaterialTheme.typography.titleMedium)
+                    OutlinedTextField(
+                        value = code,
+                        onValueChange = { if (it.length <= 6) code = it.uppercase() },
+                        label = { Text(stringResource(R.string.codice_tavolo)) },
+                        modifier = Modifier.fillMaxWidth(),
+                        singleLine = true,
+                        placeholder = { Text(stringResource(R.string.inserisci_codice)) }
+                    )
+                    Button(
+                        onClick = { 
+                            if (code.length == 6) {
+                                isLoading = true
+                                onJoinRoom(code) 
+                            }
+                        },
+                        modifier = Modifier.fillMaxWidth(),
+                        enabled = code.length == 6,
+                        shape = RoundedCornerShape(12.dp)
+                    ) {
+                        Text(stringResource(R.string.unisciti_tavolo))
+                    }
+                }
+            }
+
+            errorMessage?.let {
+                isLoading = false
+                Text(it, color = MaterialTheme.colorScheme.error, style = MaterialTheme.typography.bodyMedium)
+            }
+        }
+    }
+}
+
+@Composable
+fun LobbyScreen(
+    room: GameRoom,
+    onBackClick: () -> Unit,
+    onStartGame: () -> Unit,
+    onReadyClick: () -> Unit
+) {
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .background(MaterialTheme.colorScheme.background)
+            .padding(16.dp)
+    ) {
+        Row(verticalAlignment = Alignment.CenterVertically) {
+            IconButton(onClick = onBackClick) {
+                Icon(Icons.Default.ArrowBack, contentDescription = stringResource(R.string.indietro))
+            }
+            Text(stringResource(R.string.codice_tavolo) + ": ${room.code}", style = MaterialTheme.typography.headlineSmall, fontWeight = FontWeight.Bold)
+        }
+
+        Spacer(modifier = Modifier.height(24.dp))
+
+        Text(stringResource(R.string.giocatori_connessi, room.players.size), style = MaterialTheme.typography.titleMedium)
+
+        LazyColumn(
+            modifier = Modifier.weight(1f),
+            contentPadding = PaddingValues(vertical = 16.dp),
+            verticalArrangement = Arrangement.spacedBy(8.dp)
+        ) {
+            items(room.players.values.toList()) { player ->
+                Card(
+                    modifier = Modifier.fillMaxWidth(),
+                    colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceVariant)
+                ) {
+                    Row(
+                        modifier = Modifier.padding(16.dp),
+                        horizontalArrangement = Arrangement.SpaceBetween,
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        Text(player.name, fontWeight = FontWeight.Bold)
+                        if (player.isReady) {
+                            Text(stringResource(R.string.pronto), color = Color(0xFF2E7D32), fontWeight = FontWeight.Bold)
+                        } else {
+                            Text(stringResource(R.string.non_pronto), color = MaterialTheme.colorScheme.error)
+                        }
+                    }
+                }
+            }
+        }
+
+        // Host can start game when everyone is ready
+        val everyoneReady = room.players.values.all { it.isReady }
+        
+        Button(
+            onClick = onReadyClick,
+            modifier = Modifier.fillMaxWidth(),
+            shape = RoundedCornerShape(12.dp)
+        ) {
+            Text(stringResource(R.string.pronto))
+        }
+        
+        Spacer(modifier = Modifier.height(8.dp))
+        
+        // This button should only be enabled for host if everyoneReady
+        Button(
+            onClick = onStartGame,
+            modifier = Modifier.fillMaxWidth(),
+            enabled = everyoneReady && room.players.size >= 2, // At least 2 players
+            shape = RoundedCornerShape(12.dp)
+        ) {
+            Text(stringResource(R.string.inizia_gioco))
         }
     }
 }

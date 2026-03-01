@@ -81,4 +81,16 @@
     <string name="msg_ia_vuole_scambiare">%1$s wants to exchange their card %2$s for your %3$s.</string>
     <string name="accetta">Accept</string>
     <string name="rifiuta">Reject</string>
+
+    <!-- Multiplayer Strings -->
+    <string name="crea_tavolo">Create new table</string>
+    <string name="unisciti_tavolo">Join a table</string>
+    <string name="codice_tavolo">Table code</string>
+    <string name="inserisci_codice">Enter the code</string>
+    <string name="attesa_giocatori">Waiting for other players&#8230;</string>
+    <string name="giocatori_connessi">Connected players: %1$d</string>
+    <string name="inizia_gioco">Start Game</string>
+    <string name="pronto">Ready</string>
+    <string name="non_pronto">Not Ready</string>
+    <string name="errore_codice">Invalid code or non-existent table</string>
 </resources>

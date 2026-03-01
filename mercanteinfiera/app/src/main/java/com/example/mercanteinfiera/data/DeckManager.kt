@@ -1,8 +1,8 @@
 package com.example.mercanteinfiera.data
 
+import androidx.compose.ui.graphics.toArgb
 import com.example.mercanteinfiera.models.CardModel
 import com.example.mercanteinfiera.utils.ColorGenerator
-import kotlin.random.Random
 
 object DeckManager {
     
@@ -23,7 +23,7 @@ object DeckManager {
             CardModel(
                 id = index + 1,
                 name = name,
-                placeholderColor = colors[index]
+                placeholderColorArgb = colors[index].toArgb()
             )
         }
     }
