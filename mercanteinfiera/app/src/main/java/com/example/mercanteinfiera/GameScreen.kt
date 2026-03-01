@@ -108,7 +108,7 @@ fun GameScreen(
                         viewModel.goToMenu() 
                     },
                     onStartGame = { /* TODO: Start game logic */ },
-                    onReadyClick = { /* TODO: Ready logic */ }
+                    onReadyClick = { multiplayerViewModel.toggleReady() }
                 )
             } ?: Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
                 CircularProgressIndicator()
