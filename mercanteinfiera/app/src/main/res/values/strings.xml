@@ -93,4 +93,6 @@
     <string name="pronto">Pronto</string>
     <string name="non_pronto">Non Pronto</string>
     <string name="errore_codice">Codice non valido o tavolo inesistente</string>
+    <string name="share_table_code_message">Usa questo codice per unirti al mio tavolo su Mercante in Fiera: %1$s</string>
+    <string name="condividi_codice">Condividi codice</string>
 </resources>

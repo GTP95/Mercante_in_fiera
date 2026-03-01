@@ -93,4 +93,6 @@
     <string name="pronto">Ready</string>
     <string name="non_pronto">Not Ready</string>
     <string name="errore_codice">Invalid code or non-existent table</string>
+    <string name="share_table_code_message">Use this code to join my table on Mercante in Fiera: %1$s</string>
+    <string name="condividi_codice">Share code</string>
 </resources>

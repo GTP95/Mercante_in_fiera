@@ -1,5 +1,7 @@
 package com.example.mercanteinfiera
 
+import android.content.Context
+import android.content.Intent
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -15,11 +17,13 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Refresh
+import androidx.compose.material.icons.filled.Share
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -446,17 +450,30 @@ fun LobbyScreen(
     onStartGame: () -> Unit,
     onReadyClick: () -> Unit
 ) {
+    val context = LocalContext.current
+    val shareMessage = stringResource(R.string.share_table_code_message, room.code)
+
     Column(
         modifier = Modifier
             .fillMaxSize()
             .background(MaterialTheme.colorScheme.background)
             .padding(16.dp)
     ) {
-        Row(verticalAlignment = Alignment.CenterVertically) {
-            IconButton(onClick = onBackClick) {
-                Icon(Icons.Default.ArrowBack, contentDescription = stringResource(R.string.indietro))
+        Row(
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.SpaceBetween,
+            modifier = Modifier.fillMaxWidth()
+        ) {
+            Row(verticalAlignment = Alignment.CenterVertically) {
+                IconButton(onClick = onBackClick) {
+                    Icon(Icons.Default.ArrowBack, contentDescription = stringResource(R.string.indietro))
+                }
+                Text(stringResource(R.string.codice_tavolo) + ": ${room.code}", style = MaterialTheme.typography.headlineSmall, fontWeight = FontWeight.Bold)
             }
-            Text(stringResource(R.string.codice_tavolo) + ": ${room.code}", style = MaterialTheme.typography.headlineSmall, fontWeight = FontWeight.Bold)
+            
+            IconButton(onClick = { shareTableCode(context, shareMessage) }) {
+                Icon(Icons.Default.Share, contentDescription = stringResource(R.string.condividi_codice))
+            }
         }
 
         Spacer(modifier = Modifier.height(24.dp))
@@ -512,6 +529,16 @@ fun LobbyScreen(
             Text(stringResource(R.string.inizia_gioco))
         }
     }
+}
+
+private fun shareTableCode(context: Context, message: String) {
+    val sendIntent: Intent = Intent().apply {
+        action = Intent.ACTION_SEND
+        putExtra(Intent.EXTRA_TEXT, message)
+        type = "text/plain"
+    }
+    val shareIntent = Intent.createChooser(sendIntent, null)
+    context.startActivity(shareIntent)
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
