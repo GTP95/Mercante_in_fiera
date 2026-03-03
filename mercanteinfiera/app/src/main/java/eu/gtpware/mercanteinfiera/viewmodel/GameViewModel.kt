@@ -1,12 +1,12 @@
-package com.example.mercanteinfiera.viewmodel
+package eu.gtpware.mercanteinfiera.viewmodel
 
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.mercanteinfiera.R
-import com.example.mercanteinfiera.data.DeckManager
-import com.example.mercanteinfiera.data.SettingsManager
-import com.example.mercanteinfiera.models.*
+import eu.gtpware.mercanteinfiera.R
+import eu.gtpware.mercanteinfiera.data.DeckManager
+import eu.gtpware.mercanteinfiera.data.SettingsManager
+import eu.gtpware.mercanteinfiera.models.*
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow

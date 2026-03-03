@@ -1,4 +1,4 @@
-package com.example.mercanteinfiera.ui
+package eu.gtpware.mercanteinfiera.ui
 
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.BorderStroke
@@ -22,8 +22,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
-import com.example.mercanteinfiera.R
-import com.example.mercanteinfiera.models.CardModel
+import eu.gtpware.mercanteinfiera.R
+import eu.gtpware.mercanteinfiera.models.CardModel
 
 @Composable
 fun GameCard(

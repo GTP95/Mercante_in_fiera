@@ -1,4 +1,4 @@
-package com.example.mercanteinfiera.ui.theme
+package eu.gtpware.mercanteinfiera.ui.theme
 
 import androidx.compose.material3.Typography
 import androidx.compose.ui.text.TextStyle

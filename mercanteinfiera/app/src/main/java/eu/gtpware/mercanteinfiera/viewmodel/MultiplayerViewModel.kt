@@ -1,11 +1,11 @@
-package com.example.mercanteinfiera.viewmodel
+package eu.gtpware.mercanteinfiera.viewmodel
 
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.mercanteinfiera.models.GameRoom
-import com.example.mercanteinfiera.models.RoomPlayer
-import com.example.mercanteinfiera.models.RoomStatus
+import eu.gtpware.mercanteinfiera.models.GameRoom
+import eu.gtpware.mercanteinfiera.models.RoomPlayer
+import eu.gtpware.mercanteinfiera.models.RoomStatus
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
@@ -19,6 +19,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.tasks.await
 import kotlinx.coroutines.withTimeout
 import kotlin.random.Random
+import kotlin.text.get
 
 class MultiplayerViewModel : ViewModel() {
 

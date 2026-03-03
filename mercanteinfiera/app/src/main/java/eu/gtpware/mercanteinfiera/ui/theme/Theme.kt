@@ -1,4 +1,4 @@
-package com.example.mercanteinfiera.ui.theme
+package eu.gtpware.mercanteinfiera.ui.theme
 
 import android.app.Activity
 import android.content.Context

@@ -1,0 +1,14 @@
+[
+  {
+    "relation": [
+      "delegate_permission/common.handle_all_urls"
+    ],
+    "target": {
+      "namespace": "android_app",
+      "package_name": "com.example.mercanteinfiera",
+      "sha256_cert_fingerprints": [
+        "56:E4:3D:F4:1A:DB:D0:83:F1:07:F4:BB:22:91:BA:CA:1E:75:D0:B9:9E:23:9A:51:03:66:57:E4:46:B4:A2:A5"
+      ]
+    }
+  }
+]

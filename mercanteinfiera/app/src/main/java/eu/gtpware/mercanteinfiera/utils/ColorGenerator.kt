@@ -1,4 +1,4 @@
-package com.example.mercanteinfiera.utils
+package eu.gtpware.mercanteinfiera.utils
 
 import androidx.compose.ui.graphics.Color
 import kotlin.random.Random

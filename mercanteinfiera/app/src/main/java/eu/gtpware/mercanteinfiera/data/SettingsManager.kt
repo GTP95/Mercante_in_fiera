@@ -1,8 +1,8 @@
-package com.example.mercanteinfiera.data
+package eu.gtpware.mercanteinfiera.data
 
 import android.content.Context
 import android.content.SharedPreferences
-import com.example.mercanteinfiera.R
+import eu.gtpware.mercanteinfiera.R
 
 class SettingsManager(private val context: Context) {
     private val prefs: SharedPreferences = context.getSharedPreferences("mercante_prefs", Context.MODE_PRIVATE)

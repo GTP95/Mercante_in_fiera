@@ -1,7 +1,6 @@
-package com.example.mercanteinfiera.models
+package eu.gtpware.mercanteinfiera.models
 
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.toArgb
 
 data class CardModel(
     val id: Int = 0,

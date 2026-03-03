@@ -1,8 +1,8 @@
-package com.example.mercanteinfiera.data
+package eu.gtpware.mercanteinfiera.data
 
 import androidx.compose.ui.graphics.toArgb
-import com.example.mercanteinfiera.models.CardModel
-import com.example.mercanteinfiera.utils.ColorGenerator
+import eu.gtpware.mercanteinfiera.models.CardModel
+import eu.gtpware.mercanteinfiera.utils.ColorGenerator
 
 object DeckManager {
     

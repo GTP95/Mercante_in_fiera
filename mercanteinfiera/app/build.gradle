@@ -5,11 +5,11 @@ plugins {
 }
 
 android {
-    namespace 'com.example.mercanteinfiera'
+    namespace 'eu.gtpware.mercanteinfiera'
     compileSdk 34
 
     defaultConfig {
-        applicationId "com.example.mercanteinfiera"
+        applicationId "eu.gtpware.mercanteinfiera"
         minSdk 24
         targetSdk 34
         versionCode 1

@@ -1,4 +1,4 @@
-package com.example.mercanteinfiera
+package eu.gtpware.mercanteinfiera
 
 import android.os.Bundle
 import androidx.activity.compose.setContent
@@ -14,8 +14,8 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.core.os.LocaleListCompat
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.example.mercanteinfiera.ui.theme.MercanteInFieraTheme
-import com.example.mercanteinfiera.viewmodel.GameViewModel
+import eu.gtpware.mercanteinfiera.ui.theme.MercanteInFieraTheme
+import eu.gtpware.mercanteinfiera.viewmodel.GameViewModel
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {

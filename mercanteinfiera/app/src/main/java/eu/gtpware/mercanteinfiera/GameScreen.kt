@@ -1,4 +1,4 @@
-package com.example.mercanteinfiera
+package eu.gtpware.mercanteinfiera
 
 import android.content.Context
 import android.content.Intent
@@ -8,10 +8,10 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
-import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
@@ -30,10 +30,10 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.example.mercanteinfiera.models.*
-import com.example.mercanteinfiera.ui.GameCard
-import com.example.mercanteinfiera.viewmodel.GameViewModel
-import com.example.mercanteinfiera.viewmodel.MultiplayerViewModel
+import eu.gtpware.mercanteinfiera.models.*
+import eu.gtpware.mercanteinfiera.ui.GameCard
+import eu.gtpware.mercanteinfiera.viewmodel.GameViewModel
+import eu.gtpware.mercanteinfiera.viewmodel.MultiplayerViewModel
 
 @Composable
 fun GameScreen(

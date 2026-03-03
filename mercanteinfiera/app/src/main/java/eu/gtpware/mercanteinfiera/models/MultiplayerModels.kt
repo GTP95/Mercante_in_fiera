@@ -1,4 +1,4 @@
-package com.example.mercanteinfiera.models
+package eu.gtpware.mercanteinfiera.models
 
 import com.google.firebase.database.PropertyName
 
