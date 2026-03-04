@@ -68,7 +68,7 @@ fun GameScreen(
 
     // Handle Multiplayer navigation
     LaunchedEffect(currentRoom) {
-        if (currentRoom != null && gameState == GamePhase.MULTIPLAYER_MENU) {
+        if (currentRoom != null && (gameState == GamePhase.MULTIPLAYER_MENU || gameState == GamePhase.MENU)) {
             viewModel.goToLobby()
         } else if (currentRoom == null && gameState == GamePhase.LOBBY) {
             viewModel.goToMenu()

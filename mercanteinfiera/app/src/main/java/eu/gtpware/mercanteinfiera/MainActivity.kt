@@ -1,7 +1,9 @@
 package eu.gtpware.mercanteinfiera
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.activity.compose.setContent
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.compose.foundation.isSystemInDarkTheme
@@ -13,17 +15,22 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.core.os.LocaleListCompat
-import androidx.lifecycle.viewmodel.compose.viewModel
 import eu.gtpware.mercanteinfiera.ui.theme.MercanteInFieraTheme
 import eu.gtpware.mercanteinfiera.viewmodel.GameViewModel
+import eu.gtpware.mercanteinfiera.viewmodel.MultiplayerViewModel
 
 class MainActivity : AppCompatActivity() {
+    private val gameViewModel: GameViewModel by viewModels()
+    private val multiplayerViewModel: MultiplayerViewModel by viewModels()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        
+        handleIntent(intent)
+
         setContent {
-            val viewModel: GameViewModel = viewModel()
-            val themeMode by viewModel.themeMode.collectAsState()
-            val language by viewModel.language.collectAsState()
+            val themeMode by gameViewModel.themeMode.collectAsState()
+            val language by gameViewModel.language.collectAsState()
             
             LaunchedEffect(language) {
                 val appLocale: LocaleListCompat = LocaleListCompat.forLanguageTags(language)
@@ -41,8 +48,25 @@ class MainActivity : AppCompatActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    GameScreen(viewModel = viewModel)
+                    GameScreen(viewModel = gameViewModel, multiplayerViewModel = multiplayerViewModel)
                 }
+            }
+        }
+    }
+
+    override fun onNewIntent(intent: Intent?) {
+        super.onNewIntent(intent)
+        intent?.let { handleIntent(it) }
+    }
+
+    private fun handleIntent(intent: Intent) {
+        val data = intent.data
+        if (intent.action == Intent.ACTION_VIEW && data != null) {
+            val pathSegments = data.pathSegments
+            if (pathSegments.size >= 2 && pathSegments[0] == "join") {
+                val code = pathSegments[1]
+                val playerName = gameViewModel.playerName.value.ifBlank { "Player" }
+                multiplayerViewModel.joinRoom(code, playerName)
             }
         }
     }
