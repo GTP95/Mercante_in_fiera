@@ -95,4 +95,5 @@
     <string name="errore_codice">Codice non valido o tavolo inesistente</string>
     <string name="share_table_code_message">Usa questo codice per unirti al mio tavolo su Mercante in Fiera: %1$s\n\nOppure clicca qui: https://gtpware.eu/join/%1$s</string>
     <string name="condividi_codice">Condividi codice</string>
+    <string name="attesa_host">In attesa che l\'host inizi il gioco...</string>
 </resources>

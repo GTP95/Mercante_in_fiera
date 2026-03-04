@@ -13,16 +13,16 @@ enum class GamePhase {
 }
 
 data class Player(
-    val id: String, // Changed to String for Firebase UIDs
-    val name: String,
+    val id: String = "",
+    val name: String = "",
     val isHuman: Boolean = false,
     val cards: List<CardModel> = emptyList(),
     val money: Int = 100
 )
 
 data class Prize(
-    val card: CardModel,
-    val value: Int
+    val card: CardModel = CardModel(),
+    val value: Int = 0
 )
 
 sealed class AIProposal {

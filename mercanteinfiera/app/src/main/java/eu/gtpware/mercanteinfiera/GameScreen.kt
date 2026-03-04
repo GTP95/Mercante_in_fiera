@@ -34,6 +34,8 @@ import eu.gtpware.mercanteinfiera.models.*
 import eu.gtpware.mercanteinfiera.ui.GameCard
 import eu.gtpware.mercanteinfiera.viewmodel.GameViewModel
 import eu.gtpware.mercanteinfiera.viewmodel.MultiplayerViewModel
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.ktx.Firebase
 
 @Composable
 fun GameScreen(
@@ -67,244 +69,480 @@ fun GameScreen(
     val aiPlayers = players.filter { !it.isHuman }
 
     // Handle Multiplayer navigation
-    LaunchedEffect(currentRoom) {
-        if (currentRoom != null && (gameState == GamePhase.MULTIPLAYER_MENU || gameState == GamePhase.MENU)) {
-            viewModel.goToLobby()
-        } else if (currentRoom == null && gameState == GamePhase.LOBBY) {
+    LaunchedEffect(currentRoom?.status) {
+        val room = currentRoom
+        if (room != null) {
+            if (room.status != RoomStatus.LOBBY && gameState == GamePhase.LOBBY) {
+                // Transition to game phase handled by isMultiplayer check
+            } else if (room.status == RoomStatus.LOBBY && (gameState == GamePhase.MULTIPLAYER_MENU || gameState == GamePhase.MENU)) {
+                viewModel.goToLobby()
+            }
+        } else if (gameState == GamePhase.LOBBY) {
             viewModel.goToMenu()
         }
     }
 
-    when (gameState) {
-        GamePhase.MENU -> {
-            MainMenu(
-                onSinglePlayerClick = { viewModel.startSinglePlayer() },
-                onMultiplayerClick = { viewModel.goToMultiplayerMenu() },
-                onSettingsClick = { viewModel.goToSettings() }
-            )
-        }
-        GamePhase.SETTINGS -> {
-            SettingsScreen(
-                currentName = playerName,
-                currentTheme = themeMode,
-                currentLanguage = language,
-                onNameChange = { viewModel.updatePlayerName(it) },
-                onThemeChange = { viewModel.updateThemeMode(it) },
-                onLanguageChange = { viewModel.updateLanguage(it) },
-                onBackClick = { viewModel.goToMenu() }
-            )
-        }
-        GamePhase.MULTIPLAYER_MENU -> {
-            MultiplayerMenu(
-                playerName = playerName,
-                onBackClick = { viewModel.goToMenu() },
-                onCreateRoom = { multiplayerViewModel.createRoom(if (playerName.isBlank()) "Player" else playerName) },
-                onJoinRoom = { code -> multiplayerViewModel.joinRoom(code, if (playerName.isBlank()) "Player" else playerName) },
-                errorMessage = mpError
-            )
-        }
-        GamePhase.LOBBY -> {
-            currentRoom?.let { room ->
-                LobbyScreen(
-                    room = room,
-                    onBackClick = { 
-                        // TODO: Implement leave room in MultiplayerViewModel
-                        viewModel.goToMenu() 
-                    },
-                    onStartGame = { /* TODO: Start game logic */ },
-                    onReadyClick = { multiplayerViewModel.toggleReady() }
+    val isMultiplayer = currentRoom != null && currentRoom?.status != RoomStatus.LOBBY
+
+    if (isMultiplayer) {
+        MultiplayerGameLayout(
+            room = currentRoom!!,
+            onBackClick = { viewModel.goToMenu() },
+            multiplayerViewModel = multiplayerViewModel
+        )
+    } else {
+        when (gameState) {
+            GamePhase.MENU -> {
+                MainMenu(
+                    onSinglePlayerClick = { viewModel.startSinglePlayer() },
+                    onMultiplayerClick = { viewModel.goToMultiplayerMenu() },
+                    onSettingsClick = { viewModel.goToSettings() }
                 )
-            } ?: Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-                CircularProgressIndicator()
+            }
+            GamePhase.SETTINGS -> {
+                SettingsScreen(
+                    currentName = playerName,
+                    currentTheme = themeMode,
+                    currentLanguage = language,
+                    onNameChange = { viewModel.updatePlayerName(it) },
+                    onThemeChange = { viewModel.updateThemeMode(it) },
+                    onLanguageChange = { viewModel.updateLanguage(it) },
+                    onBackClick = { viewModel.goToMenu() }
+                )
+            }
+            GamePhase.MULTIPLAYER_MENU -> {
+                MultiplayerMenu(
+                    playerName = playerName,
+                    onBackClick = { viewModel.goToMenu() },
+                    onCreateRoom = { multiplayerViewModel.createRoom(if (playerName.isBlank()) "Player" else playerName) },
+                    onJoinRoom = { code -> multiplayerViewModel.joinRoom(code, if (playerName.isBlank()) "Player" else playerName) },
+                    errorMessage = mpError
+                )
+            }
+            GamePhase.LOBBY -> {
+                currentRoom?.let { room ->
+                    LobbyScreen(
+                        room = room,
+                        onBackClick = { 
+                            viewModel.goToMenu() 
+                        },
+                        onStartGame = { multiplayerViewModel.startGame() },
+                        onReadyClick = { multiplayerViewModel.toggleReady() }
+                    )
+                } ?: Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+                    CircularProgressIndicator()
+                }
+            }
+            else -> {
+                // Single player game layout
+                SinglePlayerGameLayout(
+                    humanPlayer = humanPlayer,
+                    aiPlayers = aiPlayers,
+                    gameState = gameState,
+                    currentMessage = currentMessage,
+                    auctionCard = auctionCard,
+                    currentBid = currentBid,
+                    highestBidder = highestBidder,
+                    merchantPot = merchantPot,
+                    prizes = prizes,
+                    eliminatedCards = eliminatedCards,
+                    onBackClick = { viewModel.goToMenu() },
+                    onBidClick = { viewModel.playerBid() },
+                    onStartPrizes = { viewModel.startPrizesPhase() },
+                    onDrawCard = { viewModel.drawEliminationCard() },
+                    onNewGame = { viewModel.resetGame() },
+                    onInspectPlayer = { viewModel.inspectPlayer(it) },
+                    onOfferCard = { viewModel.openOfferDialog(it) }
+                )
             }
         }
-        else -> {
-            Column(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .background(MaterialTheme.colorScheme.background)
-                    .padding(16.dp),
-                verticalArrangement = Arrangement.spacedBy(12.dp)
-            ) {
-                // Header
-                Row(
-                    modifier = Modifier.fillMaxWidth(),
-                    horizontalArrangement = Arrangement.SpaceBetween,
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-                    Column {
-                        Text(
-                            text = stringResource(R.string.app_name),
-                            style = MaterialTheme.typography.headlineSmall,
-                            fontWeight = FontWeight.Bold,
-                            color = MaterialTheme.colorScheme.onBackground
-                        )
-                        if (humanPlayer != null) {
-                            Text(
-                                stringResource(R.string.saldo, humanPlayer.money),
-                                style = MaterialTheme.typography.labelLarge,
-                                color = MaterialTheme.colorScheme.primary
-                            )
-                        }
-                    }
-                    IconButton(onClick = { viewModel.goToMenu() }) {
-                        Icon(Icons.Default.Refresh, contentDescription = stringResource(R.string.torna_al_menu), tint = MaterialTheme.colorScheme.onBackground)
-                    }
-                }
+    }
 
-                // Messaggio del Mercante
-                Surface(
-                    modifier = Modifier.fillMaxWidth(),
-                    shape = RoundedCornerShape(12.dp),
-                    color = MaterialTheme.colorScheme.primaryContainer,
-                    shadowElevation = 2.dp
-                ) {
-                    Text(
-                        text = currentMessage,
-                        style = MaterialTheme.typography.bodyMedium,
-                        textAlign = TextAlign.Center,
-                        modifier = Modifier.padding(12.dp),
-                        color = MaterialTheme.colorScheme.onPrimaryContainer
-                    )
-                }
+    // Dialogs (Local only)
+    if (!isMultiplayer) {
+        inspectingPlayer?.let { player ->
+            InspectionDialog(
+                player = player,
+                onDismiss = { viewModel.stopInspecting() },
+                onCardClick = { card -> viewModel.openTradeDialog(player, card) }
+            )
+        }
 
-                // Sezione Asta
-                if (gameState == GamePhase.AUCTION && auctionCard != null) {
-                    AuctionPanel(
-                        card = auctionCard!!,
-                        currentBid = currentBid,
-                        highestBidder = highestBidder,
-                        onBidClick = { viewModel.playerBid() }
-                    )
-                }
+        tradeDialogTarget?.let { (targetPlayer, targetCard) ->
+            TradeDialog(
+                targetPlayer = targetPlayer,
+                targetCard = targetCard,
+                myCards = humanPlayer?.cards ?: emptyList(),
+                myBalance = humanPlayer?.money ?: 0,
+                onDismiss = { viewModel.closeTradeDialog() },
+                onMoneyOffer = { amount -> viewModel.proposeMoneyTrade(targetPlayer, targetCard, amount) },
+                onCardOffer = { card -> viewModel.proposeCardTrade(targetPlayer, targetCard, card) }
+            )
+        }
 
-                // Sezione Premi
-                if (prizes.isNotEmpty()) {
-                    Text(stringResource(R.string.premi_in_palio, merchantPot), style = MaterialTheme.typography.titleSmall, color = MaterialTheme.colorScheme.onBackground)
-                    LazyRow(
-                        horizontalArrangement = Arrangement.spacedBy(8.dp),
-                        contentPadding = PaddingValues(vertical = 4.dp)
-                    ) {
-                        items(prizes) { prize ->
-                            PrizeItem(prize, isRevealed = gameState == GamePhase.FINISHED || eliminatedCards.contains(prize.card.id))
-                        }
-                    }
-                }
+        offeringCard?.let { card ->
+            OfferDialog(
+                myCard = card,
+                aiPlayers = aiPlayers,
+                onDismiss = { viewModel.closeOfferDialog() },
+                onSellClick = { target, amount -> viewModel.sellCardForMoney(target, card, amount) },
+                onSwapClick = { target, targetCard -> viewModel.swapCardForCard(target, card, targetCard) }
+            )
+        }
 
-                // Sezione Avversari
-                Row(
-                    modifier = Modifier.fillMaxWidth(),
-                    horizontalArrangement = Arrangement.spacedBy(12.dp)
-                ) {
-                    aiPlayers.forEach { ai ->
-                        OpponentInfo(
-                            ai, 
-                            modifier = Modifier
-                                .weight(1f)
-                                .clickable { viewModel.inspectPlayer(ai) }
-                        )
-                    }
-                }
+        aiProposal?.let { proposal ->
+            AIProposalDialog(
+                proposal = proposal,
+                onAccept = { viewModel.acceptAIProposal() },
+                onReject = { viewModel.rejectAIProposal() }
+            )
+        }
+    }
+}
 
-                // Sezione Giocatore
-                Divider(color = MaterialTheme.colorScheme.outlineVariant)
-                Text(stringResource(R.string.le_tue_carte), style = MaterialTheme.typography.titleSmall, color = MaterialTheme.colorScheme.onBackground)
-
+@Composable
+fun SinglePlayerGameLayout(
+    humanPlayer: Player?,
+    aiPlayers: List<Player>,
+    gameState: GamePhase,
+    currentMessage: String,
+    auctionCard: CardModel?,
+    currentBid: Int,
+    highestBidder: Player?,
+    merchantPot: Int,
+    prizes: List<Prize>,
+    eliminatedCards: Set<Int>,
+    onBackClick: () -> Unit,
+    onBidClick: () -> Unit,
+    onStartPrizes: () -> Unit,
+    onDrawCard: () -> Unit,
+    onNewGame: () -> Unit,
+    onInspectPlayer: (Player) -> Unit,
+    onOfferCard: (CardModel) -> Unit
+) {
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .background(MaterialTheme.colorScheme.background)
+            .padding(16.dp),
+        verticalArrangement = Arrangement.spacedBy(12.dp)
+    ) {
+        // Header
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.SpaceBetween,
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Column {
+                Text(
+                    text = stringResource(R.string.app_name),
+                    style = MaterialTheme.typography.headlineSmall,
+                    fontWeight = FontWeight.Bold,
+                    color = MaterialTheme.colorScheme.onBackground
+                )
                 if (humanPlayer != null) {
-                    LazyVerticalGrid(
-                        columns = GridCells.Adaptive(minSize = 70.dp),
-                        verticalArrangement = Arrangement.spacedBy(8.dp),
-                        horizontalArrangement = Arrangement.spacedBy(8.dp),
-                        modifier = Modifier.weight(1f)
-                    ) {
-                        items(humanPlayer.cards) { card ->
-                            GameCard(
-                                card = card,
-                                isFaceUp = true,
-                                modifier = Modifier
-                                    .aspectRatio(3f / 4f)
-                                    .clickable { viewModel.openOfferDialog(card) }
-                            )
-                        }
-                    }
+                    Text(
+                        stringResource(R.string.saldo, humanPlayer.money),
+                        style = MaterialTheme.typography.labelLarge,
+                        color = MaterialTheme.colorScheme.primary
+                    )
                 }
+            }
+            IconButton(onClick = onBackClick) {
+                Icon(Icons.Default.Refresh, contentDescription = stringResource(R.string.torna_al_menu), tint = MaterialTheme.colorScheme.onBackground)
+            }
+        }
 
-                // Azioni
-                Surface(
-                    modifier = Modifier.fillMaxWidth(),
-                    shape = RoundedCornerShape(topStart = 16.dp, topEnd = 16.dp),
-                    tonalElevation = 8.dp
-                ) {
-                    Box(
-                        modifier = Modifier.padding(16.dp),
-                        contentAlignment = Alignment.Center
-                    ) {
-                        when (gameState) {
-                            GamePhase.DISTRIBUTION -> {
-                                Button(onClick = { viewModel.startPrizesPhase() }, modifier = Modifier.fillMaxWidth()) {
-                                    Text(stringResource(R.string.stabilisci_premi))
-                                }
-                            }
-                            GamePhase.AUCTION -> {
-                                Button(onClick = { viewModel.playerBid() }, modifier = Modifier.fillMaxWidth()) {
-                                    Text(stringResource(R.string.fai_un_offerta))
-                                }
-                            }
-                            GamePhase.ELIMINATION -> {
-                                Button(onClick = { viewModel.drawEliminationCard() }, modifier = Modifier.fillMaxWidth()) {
-                                    Text(stringResource(R.string.pesca_carta))
-                                }
-                            }
-                            GamePhase.FINISHED -> {
-                                Button(onClick = { viewModel.resetGame() }) {
-                                    Text(stringResource(R.string.nuova_partita))
-                                }
-                            }
-                            else -> {}
+        // Messaggio del Mercante
+        Surface(
+            modifier = Modifier.fillMaxWidth(),
+            shape = RoundedCornerShape(12.dp),
+            color = MaterialTheme.colorScheme.primaryContainer,
+            shadowElevation = 2.dp
+        ) {
+            Text(
+                text = currentMessage,
+                style = MaterialTheme.typography.bodyMedium,
+                textAlign = TextAlign.Center,
+                modifier = Modifier.padding(12.dp),
+                color = MaterialTheme.colorScheme.onPrimaryContainer
+            )
+        }
+
+        // Sezione Asta
+        if (gameState == GamePhase.AUCTION && auctionCard != null) {
+            AuctionPanel(
+                card = auctionCard,
+                currentBid = currentBid,
+                highestBidderName = highestBidder?.name ?: stringResource(R.string.nessuno),
+                onBidClick = onBidClick
+            )
+        }
+
+        // Sezione Premi
+        if (prizes.isNotEmpty()) {
+            Text(stringResource(R.string.premi_in_palio, merchantPot), style = MaterialTheme.typography.titleSmall, color = MaterialTheme.colorScheme.onBackground)
+            LazyRow(
+                horizontalArrangement = Arrangement.spacedBy(8.dp),
+                contentPadding = PaddingValues(vertical = 4.dp)
+            ) {
+                items(prizes) { prize ->
+                    PrizeItem(prize, isRevealed = gameState == GamePhase.FINISHED || eliminatedCards.contains(prize.card.id))
+                }
+            }
+        }
+
+        // Sezione Avversari
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.spacedBy(12.dp)
+        ) {
+            aiPlayers.forEach { ai ->
+                OpponentInfo(
+                    name = ai.name,
+                    cardCount = ai.cards.size,
+                    money = ai.money,
+                    modifier = Modifier
+                        .weight(1f)
+                        .clickable { onInspectPlayer(ai) }
+                )
+            }
+        }
+
+        // Sezione Giocatore
+        Divider(color = MaterialTheme.colorScheme.outlineVariant)
+        Text(stringResource(R.string.le_tue_carte), style = MaterialTheme.typography.titleSmall, color = MaterialTheme.colorScheme.onBackground)
+
+        if (humanPlayer != null) {
+            LazyVerticalGrid(
+                columns = GridCells.Adaptive(minSize = 70.dp),
+                verticalArrangement = Arrangement.spacedBy(8.dp),
+                horizontalArrangement = Arrangement.spacedBy(8.dp),
+                modifier = Modifier.weight(1f)
+            ) {
+                items(humanPlayer.cards) { card ->
+                    GameCard(
+                        card = card,
+                        isFaceUp = true,
+                        modifier = Modifier
+                            .aspectRatio(3f / 4f)
+                            .clickable { onOfferCard(card) }
+                    )
+                }
+            }
+        }
+
+        // Azioni
+        Surface(
+            modifier = Modifier.fillMaxWidth(),
+            shape = RoundedCornerShape(topStart = 16.dp, topEnd = 16.dp),
+            tonalElevation = 8.dp
+        ) {
+            Box(
+                modifier = Modifier.padding(16.dp),
+                contentAlignment = Alignment.Center
+            ) {
+                when (gameState) {
+                    GamePhase.DISTRIBUTION -> {
+                        Button(onClick = onStartPrizes, modifier = Modifier.fillMaxWidth()) {
+                            Text(stringResource(R.string.stabilisci_premi))
                         }
                     }
+                    GamePhase.AUCTION -> {
+                        Button(onClick = onBidClick, modifier = Modifier.fillMaxWidth()) {
+                            Text(stringResource(R.string.fai_un_offerta))
+                        }
+                    }
+                    GamePhase.ELIMINATION -> {
+                        Button(onClick = onDrawCard, modifier = Modifier.fillMaxWidth()) {
+                            Text(stringResource(R.string.pesca_carta))
+                        }
+                    }
+                    GamePhase.FINISHED -> {
+                        Button(onClick = onNewGame) {
+                            Text(stringResource(R.string.nuova_partita))
+                        }
+                    }
+                    else -> {}
                 }
             }
         }
     }
+}
 
-    // Dialoghi
-    inspectingPlayer?.let { player ->
-        InspectionDialog(
-            player = player,
-            onDismiss = { viewModel.stopInspecting() },
-            onCardClick = { card -> viewModel.openTradeDialog(player, card) }
-        )
-    }
+@Composable
+fun MultiplayerGameLayout(
+    room: GameRoom,
+    onBackClick: () -> Unit,
+    multiplayerViewModel: MultiplayerViewModel
+) {
+    val myId = Firebase.auth.currentUser?.uid
+    val me = room.players[myId]
+    val opponents = room.players.filter { it.key != myId }.values.toList()
+    val isHost = room.hostId == myId
 
-    tradeDialogTarget?.let { (targetPlayer, targetCard) ->
-        TradeDialog(
-            targetPlayer = targetPlayer,
-            targetCard = targetCard,
-            myCards = humanPlayer?.cards ?: emptyList(),
-            myBalance = humanPlayer?.money ?: 0,
-            onDismiss = { viewModel.closeTradeDialog() },
-            onMoneyOffer = { amount -> viewModel.proposeMoneyTrade(targetPlayer, targetCard, amount) },
-            onCardOffer = { card -> viewModel.proposeCardTrade(targetPlayer, targetCard, card) }
-        )
-    }
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .background(MaterialTheme.colorScheme.background)
+            .padding(16.dp),
+        verticalArrangement = Arrangement.spacedBy(12.dp)
+    ) {
+        // Header
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.SpaceBetween,
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Column {
+                Text(
+                    text = "${stringResource(R.string.app_name)} (MP)",
+                    style = MaterialTheme.typography.headlineSmall,
+                    fontWeight = FontWeight.Bold,
+                    color = MaterialTheme.colorScheme.onBackground
+                )
+                if (me != null) {
+                    Text(
+                        stringResource(R.string.saldo, me.money),
+                        style = MaterialTheme.typography.labelLarge,
+                        color = MaterialTheme.colorScheme.primary
+                    )
+                }
+            }
+            IconButton(onClick = onBackClick) {
+                Icon(Icons.Default.Refresh, contentDescription = stringResource(R.string.torna_al_menu), tint = MaterialTheme.colorScheme.onBackground)
+            }
+        }
 
-    offeringCard?.let { card ->
-        OfferDialog(
-            myCard = card,
-            aiPlayers = aiPlayers,
-            onDismiss = { viewModel.closeOfferDialog() },
-            onSellClick = { target, amount -> viewModel.sellCardForMoney(target, card, amount) },
-            onSwapClick = { target, targetCard -> viewModel.swapCardForCard(target, card, targetCard) }
-        )
-    }
+        // Messaggio del Mercante
+        Surface(
+            modifier = Modifier.fillMaxWidth(),
+            shape = RoundedCornerShape(12.dp),
+            color = MaterialTheme.colorScheme.primaryContainer,
+            shadowElevation = 2.dp
+        ) {
+            Text(
+                text = room.currentMessage,
+                style = MaterialTheme.typography.bodyMedium,
+                textAlign = TextAlign.Center,
+                modifier = Modifier.padding(12.dp),
+                color = MaterialTheme.colorScheme.onPrimaryContainer
+            )
+        }
 
-    aiProposal?.let { proposal ->
-        AIProposalDialog(
-            proposal = proposal,
-            onAccept = { viewModel.acceptAIProposal() },
-            onReject = { viewModel.rejectAIProposal() }
-        )
+        // Sezione Asta
+        if (room.status == RoomStatus.AUCTION && room.auctionCard != null) {
+            val highestBidderName = room.players[room.highestBidderId]?.name ?: stringResource(R.string.nessuno)
+            AuctionPanel(
+                card = room.auctionCard!!,
+                currentBid = room.currentBid,
+                highestBidderName = highestBidderName,
+                onBidClick = { multiplayerViewModel.playerBid() }
+            )
+        }
+
+        // Sezione Premi
+        if (room.prizes.isNotEmpty()) {
+            Text(stringResource(R.string.premi_in_palio, room.merchantPot), style = MaterialTheme.typography.titleSmall, color = MaterialTheme.colorScheme.onBackground)
+            LazyRow(
+                horizontalArrangement = Arrangement.spacedBy(8.dp),
+                contentPadding = PaddingValues(vertical = 4.dp)
+            ) {
+                items(room.prizes) { prize ->
+                    PrizeItem(prize, isRevealed = room.status == RoomStatus.FINISHED || room.eliminatedCardIds.contains(prize.card.id))
+                }
+            }
+        }
+
+        // Sezione Avversari
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.spacedBy(12.dp)
+        ) {
+            opponents.forEach { opp ->
+                OpponentInfo(
+                    name = opp.name,
+                    cardCount = opp.cards.size,
+                    money = opp.money,
+                    modifier = Modifier.weight(1f)
+                )
+            }
+        }
+
+        // Sezione Giocatore
+        Divider(color = MaterialTheme.colorScheme.outlineVariant)
+        Text(stringResource(R.string.le_tue_carte), style = MaterialTheme.typography.titleSmall, color = MaterialTheme.colorScheme.onBackground)
+
+        if (me != null) {
+            LazyVerticalGrid(
+                columns = GridCells.Adaptive(minSize = 70.dp),
+                verticalArrangement = Arrangement.spacedBy(8.dp),
+                horizontalArrangement = Arrangement.spacedBy(8.dp),
+                modifier = Modifier.weight(1f)
+            ) {
+                items(me.cards) { card ->
+                    GameCard(
+                        card = card,
+                        isFaceUp = true,
+                        modifier = Modifier.aspectRatio(3f / 4f)
+                    )
+                }
+            }
+        }
+
+        // Azioni (Solo Host può comandare le fasi del mercante)
+        if (isHost) {
+            Surface(
+                modifier = Modifier.fillMaxWidth(),
+                shape = RoundedCornerShape(topStart = 16.dp, topEnd = 16.dp),
+                tonalElevation = 8.dp
+            ) {
+                Box(
+                    modifier = Modifier.padding(16.dp),
+                    contentAlignment = Alignment.Center
+                ) {
+                    when (room.status) {
+                        RoomStatus.DISTRIBUTION -> {
+                            Button(onClick = { multiplayerViewModel.startPrizesPhase() }, modifier = Modifier.fillMaxWidth()) {
+                                Text(stringResource(R.string.stabilisci_premi))
+                            }
+                        }
+                        RoomStatus.AUCTION -> {
+                            Button(onClick = { multiplayerViewModel.playerBid() }, modifier = Modifier.fillMaxWidth()) {
+                                Text(stringResource(R.string.fai_un_offerta))
+                            }
+                        }
+                        RoomStatus.ELIMINATION -> {
+                            Button(onClick = { multiplayerViewModel.drawEliminationCard() }, modifier = Modifier.fillMaxWidth()) {
+                                Text(stringResource(R.string.pesca_carta))
+                            }
+                        }
+                        RoomStatus.FINISHED -> {
+                            Button(onClick = { multiplayerViewModel.resetGame() }) {
+                                Text(stringResource(R.string.nuova_partita))
+                            }
+                        }
+                        else -> {}
+                    }
+                }
+            }
+        } else if (room.status == RoomStatus.AUCTION) {
+            // Non-host can only bid during auction
+             Surface(
+                modifier = Modifier.fillMaxWidth(),
+                shape = RoundedCornerShape(topStart = 16.dp, topEnd = 16.dp),
+                tonalElevation = 8.dp
+            ) {
+                Box(
+                    modifier = Modifier.padding(16.dp),
+                    contentAlignment = Alignment.Center
+                ) {
+                    Button(onClick = { multiplayerViewModel.playerBid() }, modifier = Modifier.fillMaxWidth()) {
+                        Text(stringResource(R.string.fai_un_offerta))
+                    }
+                }
+            }
+        }
     }
 }
 
@@ -393,7 +631,7 @@ fun MultiplayerMenu(
             verticalArrangement = Arrangement.spacedBy(24.dp),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            if (isLoading) {
+            if (isLoading && errorMessage == null) {
                 CircularProgressIndicator()
             } else {
                 Button(
@@ -452,6 +690,8 @@ fun LobbyScreen(
 ) {
     val context = LocalContext.current
     val shareMessage = stringResource(R.string.share_table_code_message, room.code)
+    val myId = Firebase.auth.currentUser?.uid
+    val isHost = room.hostId == myId
 
     Column(
         modifier = Modifier
@@ -519,14 +759,23 @@ fun LobbyScreen(
         
         Spacer(modifier = Modifier.height(8.dp))
         
-        // This button should only be enabled for host if everyoneReady
-        Button(
-            onClick = onStartGame,
-            modifier = Modifier.fillMaxWidth(),
-            enabled = everyoneReady && room.players.size >= 2, // At least 2 players
-            shape = RoundedCornerShape(12.dp)
-        ) {
-            Text(stringResource(R.string.inizia_gioco))
+        if (isHost) {
+            Button(
+                onClick = onStartGame,
+                modifier = Modifier.fillMaxWidth(),
+                enabled = everyoneReady,
+                shape = RoundedCornerShape(12.dp)
+            ) {
+                Text(stringResource(R.string.inizia_gioco))
+            }
+        } else {
+            Text(
+                stringResource(R.string.attesa_host),
+                modifier = Modifier.fillMaxWidth(),
+                textAlign = TextAlign.Center,
+                style = MaterialTheme.typography.bodyMedium,
+                color = MaterialTheme.colorScheme.onSurfaceVariant
+            )
         }
     }
 }
@@ -670,7 +919,7 @@ fun SettingsScreen(
 fun AuctionPanel(
     card: CardModel,
     currentBid: Int,
-    highestBidder: Player?,
+    highestBidderName: String,
     onBidClick: () -> Unit
 ) {
     Card(
@@ -691,10 +940,13 @@ fun AuctionPanel(
                 Text(stringResource(R.string.all_asta), fontWeight = FontWeight.Bold, color = MaterialTheme.colorScheme.primary)
                 Text(stringResource(R.string.offerta_attuale, currentBid), fontSize = 18.sp, fontWeight = FontWeight.ExtraBold, color = MaterialTheme.colorScheme.onSecondaryContainer)
                 Text(
-                    text = stringResource(R.string.miglior_offerente, highestBidder?.name ?: stringResource(R.string.nessuno)),
+                    text = stringResource(R.string.miglior_offerente, highestBidderName),
                     style = MaterialTheme.typography.bodySmall,
                     color = MaterialTheme.colorScheme.onSecondaryContainer
                 )
+            }
+            Button(onClick = onBidClick) {
+                Text("+5€")
             }
         }
     }
@@ -930,7 +1182,7 @@ fun PrizeItem(prize: Prize, isRevealed: Boolean) {
 }
 
 @Composable
-fun OpponentInfo(player: Player, modifier: Modifier = Modifier) {
+fun OpponentInfo(name: String, cardCount: Int, money: Int, modifier: Modifier = Modifier) {
     Card(
         modifier = modifier,
         colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceVariant),
@@ -940,17 +1192,17 @@ fun OpponentInfo(player: Player, modifier: Modifier = Modifier) {
             modifier = Modifier.padding(8.dp),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Text(player.name, style = MaterialTheme.typography.titleSmall, maxLines = 1, color = MaterialTheme.colorScheme.onSurfaceVariant)
+            Text(name, style = MaterialTheme.typography.titleSmall, maxLines = 1, color = MaterialTheme.colorScheme.onSurfaceVariant)
             Spacer(modifier = Modifier.height(4.dp))
             Row(verticalAlignment = Alignment.CenterVertically) {
                 Box(
                     modifier = Modifier.size(24.dp).background(MaterialTheme.colorScheme.secondaryContainer, CircleShape),
                     contentAlignment = Alignment.Center
                 ) {
-                    Text("${player.cards.size}", fontSize = 11.sp, fontWeight = FontWeight.Bold, color = MaterialTheme.colorScheme.onSecondaryContainer)
+                    Text("$cardCount", fontSize = 11.sp, fontWeight = FontWeight.Bold, color = MaterialTheme.colorScheme.onSecondaryContainer)
                 }
                 Spacer(modifier = Modifier.width(4.dp))
-                Text("${player.money}€", fontSize = 12.sp, color = Color(0xFF2E7D32), fontWeight = FontWeight.Bold)
+                Text("${money}€", fontSize = 12.sp, color = Color(0xFF2E7D32), fontWeight = FontWeight.Bold)
             }
             Text(stringResource(R.string.carte), style = MaterialTheme.typography.labelSmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
         }
