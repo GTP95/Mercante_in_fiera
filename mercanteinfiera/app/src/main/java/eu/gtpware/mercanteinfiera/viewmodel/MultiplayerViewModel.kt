@@ -350,7 +350,7 @@ class MultiplayerViewModel : ViewModel() {
                 database.child("rooms").child(room.code).updateChildren(mapOf(
                     "currentBid" to newBid,
                     "highestBidderId" to user.uid,
-                    "currentMessage" to "Hai offerto $newBid €!"
+                    "currentMessage" to "${player.name} offre $newBid €!"
                 )).await()
             }
         } else {
@@ -372,7 +372,7 @@ class MultiplayerViewModel : ViewModel() {
 
         if (winnerId != null && card != null) {
             val updatedPlayers = currentRoomData.players.toMutableMap()
-            val winner = updatedPlayers[winnerId]!!
+            val winner = updatedPlayers[winnerId] ?: return
             updatedPlayers[winnerId] = winner.copy(
                 money = winner.money - bid,
                 cards = winner.cards + card
