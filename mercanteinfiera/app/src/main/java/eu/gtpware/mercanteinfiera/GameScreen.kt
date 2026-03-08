@@ -113,9 +113,11 @@ fun GameScreen(
             GamePhase.MULTIPLAYER_MENU -> {
                 MultiplayerMenu(
                     playerName = playerName,
+                    defaultName = stringResource(R.string.default_player_name),
                     onBackClick = { viewModel.goToMenu() },
-                    onCreateRoom = { multiplayerViewModel.createRoom(if (playerName.isBlank()) "Player" else playerName) },
-                    onJoinRoom = { code -> multiplayerViewModel.joinRoom(code, if (playerName.isBlank()) "Player" else playerName) },
+                    onCreateRoom = { multiplayerViewModel.createRoom(it) },
+                    onJoinRoom = { code, name -> multiplayerViewModel.joinRoom(code, name) },
+                    onNameUpdate = { viewModel.updatePlayerName(it) },
                     errorMessage = mpError
                 )
             }
@@ -600,16 +602,49 @@ fun MainMenu(
     }
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MultiplayerMenu(
     playerName: String,
+    defaultName: String,
     onBackClick: () -> Unit,
-    onCreateRoom: () -> Unit,
-    onJoinRoom: (String) -> Unit,
+    onCreateRoom: (String) -> Unit,
+    onJoinRoom: (String, String) -> Unit,
+    onNameUpdate: (String) -> Unit,
     errorMessage: String?
 ) {
     var code by remember { mutableStateOf("") }
     var isLoading by remember { mutableStateOf(false) }
+    var showNameDialog by remember { mutableStateOf(false) }
+    var pendingAction by remember { mutableStateOf<((String) -> Unit)?>(null) }
+
+    if (showNameDialog) {
+        var tempName by remember { mutableStateOf("") }
+        AlertDialog(
+            onDismissRequest = { showNameDialog = false; isLoading = false },
+            title = { Text(stringResource(R.string.inserisci_nome)) },
+            text = {
+                OutlinedTextField(
+                    value = tempName,
+                    onValueChange = { tempName = it },
+                    label = { Text(stringResource(R.string.nome)) },
+                    singleLine = true
+                )
+            },
+            confirmButton = {
+                Button(
+                    enabled = tempName.isNotBlank(),
+                    onClick = {
+                        onNameUpdate(tempName)
+                        showNameDialog = false
+                        pendingAction?.invoke(tempName)
+                    }
+                ) {
+                    Text(stringResource(R.string.chiudi))
+                }
+            }
+        )
+    }
 
     Column(
         modifier = Modifier
@@ -637,7 +672,12 @@ fun MultiplayerMenu(
                 Button(
                     onClick = { 
                         isLoading = true
-                        onCreateRoom() 
+                        if (playerName == defaultName || playerName.isBlank()) {
+                            pendingAction = { onCreateRoom(it) }
+                            showNameDialog = true
+                        } else {
+                            onCreateRoom(playerName)
+                        }
                     },
                     modifier = Modifier.fillMaxWidth(),
                     shape = RoundedCornerShape(12.dp)
@@ -661,7 +701,12 @@ fun MultiplayerMenu(
                         onClick = { 
                             if (code.length == 6) {
                                 isLoading = true
-                                onJoinRoom(code) 
+                                if (playerName == defaultName || playerName.isBlank()) {
+                                    pendingAction = { onJoinRoom(code, it) }
+                                    showNameDialog = true
+                                } else {
+                                    onJoinRoom(code, playerName)
+                                }
                             }
                         },
                         modifier = Modifier.fillMaxWidth(),
@@ -853,8 +898,7 @@ fun SettingsScreen(
                     text = stringResource(R.string.aspetto),
                     style = MaterialTheme.typography.titleLarge,
                     fontWeight = FontWeight.Bold,
-                    color = MaterialTheme.colorScheme.primary
-                )
+                    color = MaterialTheme.colorScheme.primary)
                 Spacer(modifier = Modifier.height(16.dp))
                 Text(text = stringResource(R.string.tema), style = MaterialTheme.typography.labelLarge, color = MaterialTheme.colorScheme.onSurface)
                 Row(
