@@ -2,6 +2,7 @@ plugins {
     id 'com.android.application'
     id 'org.jetbrains.kotlin.android'
     id 'com.google.gms.google-services'
+    alias(libs.plugins.compose.compiler)
 }
 
 android {
@@ -41,8 +42,8 @@ android {
     buildFeatures {
         compose true
     }
-    composeOptions {
-        kotlinCompilerExtensionVersion '1.4.3'
+    lint {
+        disable "MutableCollectionMutableState"
     }
     packagingOptions {
         resources {

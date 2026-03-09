@@ -5,12 +5,16 @@ buildscript {
         mavenCentral()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:8.13.2'
-        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:1.8.10"
+        classpath 'com.android.tools.build:gradle:9.0.1'
+        classpath 'org.jetbrains.kotlin:kotlin-gradle-plugin:2.1.0'
         classpath 'com.google.gms:google-services:4.4.0'
     }
 }
 
-task clean(type: Delete) {
+plugins {
+    alias(libs.plugins.compose.compiler) apply false
+}
+
+tasks.register('clean', Delete) {
     delete rootProject.buildDir
 }
