@@ -85,6 +85,9 @@ class GameViewModel(application: Application) : AndroidViewModel(application) {
 
     private val _isNewGameButtonEnabled = MutableStateFlow(true)
     val isNewGameButtonEnabled: StateFlow<Boolean> = _isNewGameButtonEnabled.asStateFlow()
+    
+    private val _isSoundEnabled = MutableStateFlow(settingsManager.isSoundEnabled())
+    val isSoundEnabled: StateFlow<Boolean> = _isSoundEnabled.asStateFlow()
 
     private var merchantCardsRemaining = mutableListOf<CardModel>()
     private var cardsToAuction = mutableListOf<CardModel>()
@@ -491,6 +494,11 @@ class GameViewModel(application: Application) : AndroidViewModel(application) {
     fun updateLanguage(newLang: String) {
         _language.value = newLang
         settingsManager.saveLanguage(newLang)
+    }
+    
+    fun updateSoundEnabled(enabled: Boolean) {
+        _isSoundEnabled.value = enabled
+        settingsManager.saveSoundEnabled(enabled)
     }
 
     fun inspectPlayer(player: Player) {

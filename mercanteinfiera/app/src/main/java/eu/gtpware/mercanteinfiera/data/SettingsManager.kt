@@ -12,6 +12,7 @@ class SettingsManager(private val context: Context) {
         private const val KEY_PLAYER_NAME = "player_name"
         private const val KEY_THEME = "theme_mode"
         private const val KEY_LANGUAGE = "language"
+        private const val KEY_SOUND_ENABLED = "sound_enabled"
         private const val KEY_FIRST_STARTUP = "first_startup"
         private const val KEY_HAS_SEEN_TUTORIAL = "has_seen_tutorial"
         
@@ -102,5 +103,13 @@ class SettingsManager(private val context: Context) {
 
     fun saveLanguage(lang: String) {
         prefs.edit().putString(KEY_LANGUAGE, lang).apply()
+    }
+    
+    fun isSoundEnabled(): Boolean {
+        return prefs.getBoolean(KEY_SOUND_ENABLED, true)
+    }
+
+    fun saveSoundEnabled(enabled: Boolean) {
+        prefs.edit().putBoolean(KEY_SOUND_ENABLED, enabled).apply()
     }
 }

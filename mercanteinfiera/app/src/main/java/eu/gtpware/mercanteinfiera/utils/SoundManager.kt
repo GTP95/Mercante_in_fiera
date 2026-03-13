@@ -9,8 +9,10 @@ object SoundManager {
     private var soundPool: SoundPool? = null
     private var clickSoundId: Int = -1
     private var isLoaded = false
+    private var isEnabled = true
 
-    fun init(context: Context) {
+    fun init(context: Context, enabled: Boolean = true) {
+        isEnabled = enabled
         if (soundPool != null) return
 
         val audioAttributes = AudioAttributes.Builder()
@@ -24,7 +26,6 @@ object SoundManager {
             .build()
 
         soundPool?.let { pool ->
-            // Now that the file is renamed, we can use the R.raw reference directly
             clickSoundId = pool.load(context, R.raw.freesoundeffects_button_click_289742, 1)
             pool.setOnLoadCompleteListener { _, _, status ->
                 if (status == 0) {
@@ -34,8 +35,12 @@ object SoundManager {
         }
     }
 
+    fun setEnabled(enabled: Boolean) {
+        isEnabled = enabled
+    }
+
     fun playClickSound() {
-        if (isLoaded) {
+        if (isEnabled && isLoaded) {
             soundPool?.play(clickSoundId, 1f, 1f, 1, 0, 1f)
         }
     }

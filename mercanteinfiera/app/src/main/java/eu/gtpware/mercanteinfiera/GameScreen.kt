@@ -33,6 +33,7 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import eu.gtpware.mercanteinfiera.models.*
 import eu.gtpware.mercanteinfiera.ui.GameCard
+import eu.gtpware.mercanteinfiera.utils.SoundManager
 import eu.gtpware.mercanteinfiera.utils.rememberClickable
 import eu.gtpware.mercanteinfiera.viewmodel.GameViewModel
 import eu.gtpware.mercanteinfiera.viewmodel.MultiplayerViewModel
@@ -58,6 +59,11 @@ fun GameScreen(
     val language by viewModel.language.collectAsState()
     val showTutorial by viewModel.showTutorial.collectAsState()
     val isNewGameButtonEnabled by viewModel.isNewGameButtonEnabled.collectAsState()
+    val isSoundEnabled by viewModel.isSoundEnabled.collectAsState()
+    
+    LaunchedEffect(isSoundEnabled) {
+        SoundManager.setEnabled(isSoundEnabled)
+    }
     
     // Multiplayer state
     val currentRoom by multiplayerViewModel.currentRoom.collectAsState()
@@ -109,9 +115,11 @@ fun GameScreen(
                     currentName = playerName,
                     currentTheme = themeMode,
                     currentLanguage = language,
+                    isSoundEnabled = isSoundEnabled,
                     onNameChange = { viewModel.updatePlayerName(it) },
                     onThemeChange = { viewModel.updateThemeMode(it) },
                     onLanguageChange = { viewModel.updateLanguage(it) },
+                    onSoundEnabledChange = { viewModel.updateSoundEnabled(it) },
                     onBackClick = { viewModel.goToMenu() }
                 )
             }
@@ -935,9 +943,11 @@ fun SettingsScreen(
     currentName: String,
     currentTheme: String,
     currentLanguage: String,
+    isSoundEnabled: Boolean,
     onNameChange: (String) -> Unit,
     onThemeChange: (String) -> Unit,
     onLanguageChange: (String) -> Unit,
+    onSoundEnabledChange: (Boolean) -> Unit,
     onBackClick: () -> Unit
 ) {
     val onBackClicked = rememberClickable(onBackClick)
@@ -1071,6 +1081,25 @@ fun SettingsScreen(
                         }
                     }
                 }
+                
+                Spacer(modifier = Modifier.height(24.dp))
+                
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.SpaceBetween
+                ) {
+                    Text(text = "Sound Effects", style = MaterialTheme.typography.titleLarge)
+                    // The Switch is a special case: we cannot easily wrap onCheckedChange with rememberClickable 
+                    // without it affecting the state toggling logic, so we directly trigger the sound playback here.
+                    Switch(
+                        checked = isSoundEnabled, 
+                        onCheckedChange = { 
+                            SoundManager.playClickSound()
+                            onSoundEnabledChange(it) 
+                        }
+                    )
+                }
             }
         }
     }
@@ -1142,6 +1171,7 @@ fun InspectionDialog(player: Player, onDismiss: () -> Unit, onCardClick: (CardMo
                 items(player.cards) { card ->
                     GameCard(
                         card = card,
+                        isFaceUp = true,
                         modifier = Modifier
                             .aspectRatio(3f / 4f),
                         onClick = { onCardClick(card) }
