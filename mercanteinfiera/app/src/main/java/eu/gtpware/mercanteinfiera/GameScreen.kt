@@ -152,6 +152,7 @@ fun GameScreen(
                     auctionTimer = auctionTimer,
                     prizes = prizes,
                     eliminatedCards = eliminatedCards,
+                    aiProposal = aiProposal,
                     onBackClick = { viewModel.goToMenu() },
                     onBidClick = { viewModel.playerBid() },
                     onStartPrizes = { viewModel.startPrizesPhase() },
@@ -248,6 +249,7 @@ fun SinglePlayerGameLayout(
     auctionTimer: Int,
     prizes: List<Prize>,
     eliminatedCards: Set<Int>,
+    aiProposal: AIProposal?,
     onBackClick: () -> Unit,
     onBidClick: () -> Unit,
     onStartPrizes: () -> Unit,
@@ -401,7 +403,11 @@ fun SinglePlayerGameLayout(
                         }
                     }
                     GamePhase.ELIMINATION -> {
-                        Button(onClick = onDrawCard, modifier = Modifier.fillMaxWidth()) {
+                        Button(
+                            onClick = onDrawCard,
+                            modifier = Modifier.fillMaxWidth(),
+                            enabled = aiProposal == null
+                        ) {
                             Text(stringResource(R.string.pesca_carta))
                         }
                     }
@@ -570,7 +576,11 @@ fun MultiplayerGameLayout(
                             }
                         }
                         RoomStatus.ELIMINATION -> {
-                            Button(onClick = { multiplayerViewModel.drawEliminationCard() }, modifier = Modifier.fillMaxWidth()) {
+                            Button(
+                                onClick = { multiplayerViewModel.drawEliminationCard() },
+                                modifier = Modifier.fillMaxWidth(),
+                                enabled = room.tradeRequest == null || room.tradeRequest?.receiverId != myId
+                            ) {
                                 Text(stringResource(R.string.pesca_carta))
                             }
                         }
