@@ -1,5 +1,8 @@
 # Mercante in Fiera
 
+![Screenshot](/mercanteinfiera/screenshots/Screenshot.jpg)
+
+
 An Android video game for the classic "Mercante in Fiera" board game.
 
 ## Description
