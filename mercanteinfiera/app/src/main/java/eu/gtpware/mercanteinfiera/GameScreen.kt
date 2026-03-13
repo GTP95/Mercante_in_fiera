@@ -926,9 +926,31 @@ fun SettingsScreen(
                 var expanded by remember { mutableStateOf(false) }
                 val languages = listOf(
                     "it" to stringResource(R.string.lingua_it),
-                    "en" to stringResource(R.string.lingua_en)
+                    "en" to stringResource(R.string.lingua_en),
+                    "de" to stringResource(R.string.lingua_de),
+                    "fr" to stringResource(R.string.lingua_fr),
+                    "es" to stringResource(R.string.lingua_es),
+                    "pt" to stringResource(R.string.lingua_pt),
+                    "nl" to stringResource(R.string.lingua_nl),
+                    "pl" to stringResource(R.string.lingua_pl),
+                    "sv" to stringResource(R.string.lingua_sv),
+                    "da" to stringResource(R.string.lingua_da),
+                    "fi" to stringResource(R.string.lingua_fi),
+                    "el" to stringResource(R.string.lingua_el),
+                    "cs" to stringResource(R.string.lingua_cs),
+                    "hu" to stringResource(R.string.lingua_hu),
+                    "ro" to stringResource(R.string.lingua_ro),
+                    "bg" to stringResource(R.string.lingua_bg),
+                    "sk" to stringResource(R.string.lingua_sk),
+                    "hr" to stringResource(R.string.lingua_hr),
+                    "lt" to stringResource(R.string.lingua_lt),
+                    "sl" to stringResource(R.string.lingua_sl),
+                    "lv" to stringResource(R.string.lingua_lv),
+                    "et" to stringResource(R.string.lingua_et),
+                    "ga" to stringResource(R.string.lingua_ga),
+                    "mt" to stringResource(R.string.lingua_mt)
                 )
-                val currentLangLabel = languages.find { it.first == currentLanguage }?.second ?: "Italiano"
+                val currentLangLabel = languages.find { it.first == currentLanguage }?.second ?: stringResource(R.string.lingua_en)
 
                 Box(modifier = Modifier.fillMaxWidth().padding(top = 8.dp)) {
                     OutlinedButton(
