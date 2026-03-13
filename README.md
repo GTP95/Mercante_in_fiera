@@ -1,65 +1,70 @@
 # Mercante in Fiera
 
-Un videogioco Android per il classico gioco da tavolo "Mercante in Fiera".
+An Android video game for the classic "Mercante in Fiera" board game.
 
-## Descrizione
-Implementazione del gioco "Mercante in Fiera" (asta, eliminazione, premi) utilizzando Kotlin e Jetpack Compose.
+## Description
+Implementation of the "Mercante in Fiera" game (auction, elimination, prizes) using Kotlin and Jetpack Compose.
 
-## Tecnologie utilizzate
+## Technologies Used
 - Kotlin
 - Jetpack Compose
 - Architecture Components (ViewModel, StateFlow)
 - Coroutines
+- Firebase (Realtime Database, Authentication)
+- Coil (Image loading)
 
-## Struttura del progetto
-- `models/` - Contiene i modelli dati come CardModel
-- `data/` - Contiene la logica di gestione dei dati e dei mazzi
-- `ui/` - Contiene i composables dell'interfaccia utente
-- `viewmodel/` - Contiene i ViewModel per la gestione dello stato
+## Project Structure
+- `models/` - Contains data models like `CardModel`
+- `data/` - Contains data and deck management logic
+- `ui/` - Contains user interface composables
+- `viewmodel/` - Contains ViewModels for state management
+- `utils/` - Utility classes and helper functions
 
-## Funzionalità
-- Due mazzi da 40 carte ciascuno (Mercante e Giocatore)
-- Sistema di placeholder per le carte fino all'aggiunta degli asset grafici
-- Animazioni di flip per mostrare/nascondere le carte
-- Architettura MVVM
+## Features
+- Two decks of 40 cards each (Merchant and Player)
+- Graphic assets for cards and back-of-card
+- Flip animations to show/hide cards
+- MVVM Architecture
+- Multiplayer support via Firebase
 
-## Dipendenze
+## Dependencies
 - Jetpack Compose
-- ViewModel
-- StateFlow
+- ViewModel & StateFlow
 - Coroutines
+- Firebase
+- Coil
 
-## Come compilare il progetto
+## How to build the project
 
-### Prerequisiti
-- Android SDK con API level 34
-- Android build-tools versione 34.0.0 o superiore
-- Java Development Kit (JDK) 11 o superiore
-- Gradle 8.0 o superiore
+### Prerequisites
+- Android SDK with API level 34
+- Android build-tools version 34.0.0 or higher
+- Java Development Kit (JDK) 17 or higher (Required by AGP 8.1.0)
+- Gradle 9.0 or higher
 
-### Installazione delle dipendenze
-Assicurarsi di avere installato tutti i componenti necessari tramite Android SDK Manager:
+### Installing dependencies
+Ensure all necessary components are installed via Android SDK Manager:
 ```bash
 sdkmanager "platforms;android-34" "build-tools;34.0.0"
 ```
 
-### Compilazione ed Esecuzione per Test
-Per installare ed eseguire la versione di debug sul dispositivo collegato:
+### Building and Running for Testing
+To install and run the debug version on a connected device:
 
 ```bash
 cd mercanteinfiera
 ./gradlew installDebug
 ```
 
-### Compilazione per la distribuzione
-Per creare un APK firmato per la distribuzione:
+### Building for distribution
+To create an APK for distribution:
 
 ```bash
 ./gradlew assembleRelease
 ```
 
-L'APK finale sarà disponibile in `app/build/outputs/apk/release/`.
+The final APK will be available in `app/build/outputs/apk/release/`.
 
-### Ambiente di sviluppo consigliato
-- Android Studio Flamingo o versione successiva
-- Oppure qualsiasi editor di testo con supporto per Kotlin e Gradle
+### Recommended Development Environment
+- Android Studio Flamingo or later
+- Or any text editor with Kotlin and Gradle support
