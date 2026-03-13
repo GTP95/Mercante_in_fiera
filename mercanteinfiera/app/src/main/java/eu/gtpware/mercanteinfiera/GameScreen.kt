@@ -16,6 +16,7 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.Refresh
 import androidx.compose.material.icons.filled.Share
 import androidx.compose.material3.*
@@ -251,7 +252,7 @@ fun SinglePlayerGameLayout(
                 }
             }
             IconButton(onClick = onBackClick) {
-                Icon(Icons.Default.Refresh, contentDescription = stringResource(R.string.torna_al_menu), tint = MaterialTheme.colorScheme.onBackground)
+                Icon(Icons.Default.Close, contentDescription = stringResource(R.string.torna_al_menu), tint = MaterialTheme.colorScheme.onBackground)
             }
         }
 
@@ -412,7 +413,7 @@ fun MultiplayerGameLayout(
                 }
             }
             IconButton(onClick = onBackClick) {
-                Icon(Icons.Default.Refresh, contentDescription = stringResource(R.string.torna_al_menu), tint = MaterialTheme.colorScheme.onBackground)
+                Icon(Icons.Default.Close, contentDescription = stringResource(R.string.torna_al_menu), tint = MaterialTheme.colorScheme.onBackground)
             }
         }
 
