@@ -40,3 +40,5 @@ captures/
 # Project specific temporary/export files
 resume.txt
 qwen-code-export-*
+
+mercanteinfiera/app/google-services.json
