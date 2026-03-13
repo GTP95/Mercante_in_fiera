@@ -1,0 +1,129 @@
+<resources>
+    <string name="app_name">MercanteInFiera</string>
+    <string name="saldo">Egyenleg: %1$d €</string>
+    <string name="torna_al_menu">Vissza a menühöz</string>
+    <string name="premi_in_palio">Nyeremények (Alap: %1$d €):</string>
+    <string name="le_tue_carte">Kártyáid:</string>
+    <string name="stabilisci_premi">Nyeremények meghatározása</string>
+    <string name="fai_un_offerta">Ajánlat tétel (+5€)</string>
+    <string name="pesca_carta">Kártya húzása a kereskedőtől</string>
+    <string name="nuova_partita">Új játék indítása</string>
+    <string name="giocatore_singolo">Egyjátékos</string>
+    <string name="multigiocatore">Többjátékos</string>
+    <string name="impostazioni">Beállítások</string>
+    <string name="indietro">Vissza</string>
+    <string name="profilo_giocatore">Játékos profil</string>
+    <string name="nome">Név</string>
+    <string name="inserisci_nome">Add meg a neved</string>
+    <string name="aspetto">Megjelenés</string>
+    <string name="tema">Téma</string>
+    <string name="all_asta">Árverésen!</string>
+    <string name="offerta_attuale">Jelenlegi licit: %1$d €</string>
+    <string name="miglior_offerente">Legmagasabb licitáló: %1$s</string>
+    <string name="nessuno">Senki</string>
+    <string name="carte_di">%1$s kártyái</string>
+    <string name="chiudi">Bezárás</string>
+    <string name="offri_carta">%1$s felajánlása</string>
+    <string name="a_chi_offrire">Kinek szeretnéd felajánlani ezt a kártyát?</string>
+    <string name="chiedi_soldi">Pénzt kérsz (%1$s egyenlege: %2$d €):</string>
+    <string name="chiedi_carta_scambio">Kérj egy kártyát cserébe</string>
+    <string name="scegli_carta_chiedere">Válassz egy kártyát %1$s-tól:</string>
+    <string name="chiedi_soldi_invece">Inkább pénzt kérj</string>
+    <string name="offri_per">Ajánlat %1$d €-ért</string>
+    <string name="annulla">Mégse</string>
+    <string name="scambia_con">Csere %1$s-val</string>
+    <string name="vuoi_la_carta">Szeretnéd a kártyát: %1$s?</string>
+    <string name="offri_soldi">Pénz felajánlása (Egyenleg: %1$d €):</string>
+    <string name="vuoi_offrire_carta_invece">Inkább kártyát szeretnél felajánlani?</string>
+    <string name="scegli_tua_carta_offrire">Válassz egyet a kártyáid közül:</string>
+    <string name="torna_offerta_denaro">Vissza a pénzbeli ajánlathoz</string>
+    <string name="offri_amount">%1$d € felajánlása</string>
+    <string name="carte">Kártyák</string>
+    <string name="default_player_name">Te (Játékos)</string>
+    <string name="ai_name_1">AI 1</string>
+    <string name="ai_name_2">AI 2</string>
+    <string name="card_back_initial">M</string>
+
+    <!-- Theme names -->
+    <string name="theme_system">Rendszer</string>
+    <string name="theme_light">Világos</string>
+    <string name="theme_dark">Sötét</string>
+
+    <!-- Language names (Always in their own language) -->
+    <string name="lingua">Nyelv</string>
+    <string name="lingua_it">Italiano</string>
+    <string name="lingua_en">English</string>
+    <string name="lingua_de">Deutsch</string>
+    <string name="lingua_fr">Français</string>
+    <string name="lingua_es">Español</string>
+    <string name="lingua_pt">Português</string>
+    <string name="lingua_nl">Nederlands</string>
+    <string name="lingua_pl">Polski</string>
+    <string name="lingua_sv">Svenska</string>
+    <string name="lingua_da">Dansk</string>
+    <string name="lingua_fi">Suomi</string>
+    <string name="lingua_el">Ελληνικά</string>
+    <string name="lingua_cs">Čeština</string>
+    <string name="lingua_hu">Magyar</string>
+    <string name="lingua_ro">Română</string>
+    <string name="lingua_bg">Български</string>
+    <string name="lingua_sk">Slovenčina</string>
+    <string name="lingua_hr">Hrvatski</string>
+    <string name="lingua_lt">Lietuvių</string>
+    <string name="lingua_sl">Slovenščina</string>
+    <string name="lingua_lv">Latviešu</string>
+    <string name="lingua_et">Eesti</string>
+    <string name="lingua_ga">Gaeilge</string>
+    <string name="lingua_mt">Malti</string>
+
+    <!-- Game Messages -->
+    <string name="msg_benvenuti">Üdvözöljük a Mercante in Fiera játékban!</string>
+    <string name="msg_carte_distribuite">Kezdő kártyák kiosztva! Kezdődik az árverés a maradékért.</string>
+    <string name="msg_asta_terminata">Az árverés véget ért! A kereskedő %1$d €-t gyűjtött össze. Most határozzuk meg a nyereményeket.</string>
+    <string name="msg_all_asta_carta">Árverésre bocsátott kártya: %1$s. Ki ajánl többet?</string>
+    <string name="msg_offerta_ia">%1$s %2$d €-t ajánl!</string>
+    <string name="msg_andata">Eladva! %1$s részére %2$d €-ért</string>
+    <string name="msg_hai_offerto">%1$d €-t ajánlottál!</string>
+    <string name="msg_non_abbastanza_soldi">Nincs elég pénzed!</string>
+    <string name="msg_premi_stabiliti">A nyeremények az árverés alapján lettek meghatározva. Kezdjük a kiesést!</string>
+    <string name="msg_uscita_carta">A kihúzott kártya: %1$s. Ez a kártya kiesik a játékból!</string>
+    <string name="msg_gioco_terminato">A játéknak vége! Itt vannak a végső nyeremények.</string>
+    <string name="msg_scambio_accettato">%1$s elfogadta a cserét %2$d €-ért!</string>
+    <string name="msg_scambio_rifiutato">%1$s elutasította az ajánlatot.</string>
+    <string name="msg_scambio_carte_accettato">%1$s elcserélte a %2$s kártyát a %3$s kártyára!</string>
+    <string name="msg_scambio_carte_rifiutato">%1$s elutasította a kártyacserét.</string>
+    <string name="msg_acquisto_accettato">%1$s megvette a %2$s kártyát %3$d €-ért!</string>
+    <string name="msg_acquisto_rifiutato">%1$s nem érdekelt a vásárlásban.</string>
+    <string name="msg_scambio_proposto_accettato">%1$s elfogadta a cserét: %2$s-t %3$s-ért!</string>
+    <string name="msg_sei_gia_miglior_offerente">Már te vagy a legmagasabb licitáló!</string>
+
+    <!-- AI Proposal Strings -->
+    <string name="titolo_proposta_ia">%1$s javaslata</string>
+    <string name="msg_ia_vuole_comprare">%1$s meg szeretné venni a %2$s kártyádat %3$d €-ért.</string>
+    <string name="msg_ia_vuole_vendere">%1$s el szeretné adni neked a %2$s kártyáját %3$d €-ért.</string>
+    <string name="msg_ia_vuole_scambiare">%1$s el szeretné cserélni a %2$s kártyáját a te %3$s kártyádra.</string>
+    <string name="accetta">Elfogadás</string>
+    <string name="rifiuta">Elutasítás</string>
+
+    <!-- Multiplayer Strings -->
+    <string name="crea_tavolo">Új asztal létrehozása</string>
+    <string name="unisciti_tavolo">Csatlakozás asztalhoz</string>
+    <string name="codice_tavolo">Asztal kódja</string>
+    <string name="inserisci_codice">Add meg a kódot</string>
+    <string name="attesa_giocatori">Várakozás a többi játékosra&#8230;</string>
+    <string name="giocatori_connessi">Csatlakozott játékosok: %1$d</string>
+    <string name="inizia_gioco">Játék indítása</string>
+    <string name="pronto">Kész</string>
+    <string name="non_pronto">Nincs kész</string>
+    <string name="errore_codice">Érvénytelen kód vagy nem létező asztal</string>
+    <string name="share_table_code_message">Használd ezt a kódot az asztalomhoz való csatlakozáshoz a Mercante in Fiera-ban: %1$s
+
+Vagy kattints ide: https://gtpware.eu/join/%1$s</string>
+    <string name="condividi_codice">Kód megosztása</string>
+    <string name="attesa_host">Várakozás a házigazdára a játék indításához&#8230;</string>
+
+    <!-- Tutorial Strings -->
+    <string name="tutorial_title">Hogyan kell játszani</string>
+    <string name="tutorial_message">Üdvözöljük a Mercante in Fiera játékban!\n\n1. Osztás: Te és az AI játékosok kártyákat kaptok.\n2. Árverés: A maradék kártyákat elárverezik. Licitálj, hogy bővítsd a paklidat!\n3. Kereskedés: Érintsd meg a kártyáidat vagy az ellenfeleid elemeit cserejavaslatokhoz (pénz vagy kártya).\n4. Kiesés: A kereskedő kártyákat húz. Ha kihúzzák, azok a kártyák értéktelenné válnak!\n5. Nyeremények: A végén megmaradó kártyák nyerik meg az alapban lévő pénzt!</string>
+    <string name="ho_capito">Megértettem!</string>
+</resources>

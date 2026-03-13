@@ -1,0 +1,129 @@
+<resources>
+    <string name="app_name">MercanteInFiera</string>
+    <string name="saldo">Saldo: %1$d €</string>
+    <string name="torna_al_menu">Terug naar menu</string>
+    <string name="premi_in_palio">Prijzen (Pot: %1$d €):</string>
+    <string name="le_tue_carte">Jouw kaarten:</string>
+    <string name="stabilisci_premi">Prijzen instellen</string>
+    <string name="fai_un_offerta">Doe een bod (+5€)</string>
+    <string name="pesca_carta">Trek kaart van de handelaar</string>
+    <string name="nuova_partita">Start nieuw spel</string>
+    <string name="giocatore_singolo">Singleplayer</string>
+    <string name="multigiocatore">Multiplayer</string>
+    <string name="impostazioni">Instellingen</string>
+    <string name="indietro">Terug</string>
+    <string name="profilo_giocatore">Spelersprofiel</string>
+    <string name="nome">Naam</string>
+    <string name="inserisci_nome">Voer je naam in</string>
+    <string name="aspetto">Uiterlijk</string>
+    <string name="tema">Thema</string>
+    <string name="all_asta">Op de veiling!</string>
+    <string name="offerta_attuale">Huidig bod: %1$d €</string>
+    <string name="miglior_offerente">Hoogste bieder: %1$s</string>
+    <string name="nessuno">Geen</string>
+    <string name="carte_di">Kaarten van %1$s</string>
+    <string name="chiudi">Sluiten</string>
+    <string name="offri_carta">%1$s aanbieden</string>
+    <string name="a_chi_offrire">Aan wie wil je deze kaart aanbieden?</string>
+    <string name="chiedi_soldi">Geld vragen (%1$s saldo: %2$d €):</string>
+    <string name="chiedi_carta_scambio">Vraag een kaart in ruil</string>
+    <string name="scegli_carta_chiedere">Kies een kaart van %1$s om naar te vragen:</string>
+    <string name="chiedi_soldi_invece">Vraag in plaats daarvan om geld</string>
+    <string name="offri_per">Aanbieden voor %1$d €</string>
+    <string name="annulla">Annuleren</string>
+    <string name="scambia_con">Ruilen met %1$s</string>
+    <string name="vuoi_la_carta">Wil je de kaart: %1$s?</string>
+    <string name="offri_soldi">Geld aanbieden (Saldo: %1$d €):</string>
+    <string name="vuoi_offrire_carta_invece">Wil je in plaats daarvan een kaart aanbieden?</string>
+    <string name="scegli_tua_carta_offrire">Kies een van je kaarten om aan te bieden:</string>
+    <string name="torna_offerta_denaro">Terug naar geldaanbod</string>
+    <string name="offri_amount">%1$d € aanbieden</string>
+    <string name="carte">Kaarten</string>
+    <string name="default_player_name">Jij (Speler)</string>
+    <string name="ai_name_1">AI 1</string>
+    <string name="ai_name_2">AI 2</string>
+    <string name="card_back_initial">M</string>
+
+    <!-- Theme names -->
+    <string name="theme_system">Systeem</string>
+    <string name="theme_light">Licht</string>
+    <string name="theme_dark">Donker</string>
+
+    <!-- Language names (Always in their own language) -->
+    <string name="lingua">Taal</string>
+    <string name="lingua_it">Italiano</string>
+    <string name="lingua_en">English</string>
+    <string name="lingua_de">Deutsch</string>
+    <string name="lingua_fr">Français</string>
+    <string name="lingua_es">Español</string>
+    <string name="lingua_pt">Português</string>
+    <string name="lingua_nl">Nederlands</string>
+    <string name="lingua_pl">Polski</string>
+    <string name="lingua_sv">Svenska</string>
+    <string name="lingua_da">Dansk</string>
+    <string name="lingua_fi">Suomi</string>
+    <string name="lingua_el">Ελληνικά</string>
+    <string name="lingua_cs">Čeština</string>
+    <string name="lingua_hu">Magyar</string>
+    <string name="lingua_ro">Română</string>
+    <string name="lingua_bg">Български</string>
+    <string name="lingua_sk">Slovenčina</string>
+    <string name="lingua_hr">Hrvatski</string>
+    <string name="lingua_lt">Lietuvių</string>
+    <string name="lingua_sl">Slovenščina</string>
+    <string name="lingua_lv">Latviešu</string>
+    <string name="lingua_et">Eesti</string>
+    <string name="lingua_ga">Gaeilge</string>
+    <string name="lingua_mt">Malti</string>
+
+    <!-- Game Messages -->
+    <string name="msg_benvenuti">Welkom bij Mercante in Fiera!</string>
+    <string name="msg_carte_distribuite">Eerste kaarten gedeeld! De veiling begint voor de overige kaarten.</string>
+    <string name="msg_asta_terminata">Veiling afgelopen! De handelaar heeft %1$d € verzameld. Laten we nu de prijzen bepalen.</string>
+    <string name="msg_all_asta_carta">Veilen van de kaart: %1$s. Wie biedt meer?</string>
+    <string name="msg_offerta_ia">%1$s biedt %2$d €!</string>
+    <string name="msg_andata">Verkocht! Aan %1$s voor %2$d €</string>
+    <string name="msg_hai_offerto">Je hebt %1$d € geboden!</string>
+    <string name="msg_non_abbastanza_soldi">Niet genoeg geld!</string>
+    <string name="msg_premi_stabiliti">Prijzen vastgesteld op basis van de veiling. Laten we de eliminatie starten!</string>
+    <string name="msg_uscita_carta">De getrokken kaart is: %1$s. Deze kaart is uit het spel!</string>
+    <string name="msg_gioco_terminato">Spel voorbij! Hier zijn de uiteindelijke winsten.</string>
+    <string name="msg_scambio_accettato">%1$s heeft de ruil voor %2$d € geaccepteerd!</string>
+    <string name="msg_scambio_rifiutato">%1$s heeft het bod afgewezen.</string>
+    <string name="msg_scambio_carte_accettato">%1$s heeft %2$s geruild voor %3$s!</string>
+    <string name="msg_scambio_carte_rifiutato">%1$s heeft de kaartenruil afgewezen.</string>
+    <string name="msg_acquisto_accettato">%1$s heeft %2$s gekocht voor %3$d €!</string>
+    <string name="msg_acquisto_rifiutato">%1$s is niet geïnteresseerd in kopen.</string>
+    <string name="msg_scambio_proposto_accettato">%1$s heeft de ruil geaccepteerd: %2$s voor %3$s!</string>
+    <string name="msg_sei_gia_miglior_offerente">Je bent al de hoogste bieder!</string>
+
+    <!-- AI Proposal Strings -->
+    <string name="titolo_proposta_ia">Voorstel van %1$s</string>
+    <string name="msg_ia_vuole_comprare">%1$s wil je kaart %2$s kopen voor %3$d €.</string>
+    <string name="msg_ia_vuole_vendere">%1$s wil je hun kaart %2$s verkopen voor %3$d €.</string>
+    <string name="msg_ia_vuole_scambiare">%1$s wil hun kaart %2$s ruilen voor jouw %3$s.</string>
+    <string name="accetta">Accepteren</string>
+    <string name="rifiuta">Weigeren</string>
+
+    <!-- Multiplayer Strings -->
+    <string name="crea_tavolo">Nieuwe tafel maken</string>
+    <string name="unisciti_tavolo">Deelnemen aan tafel</string>
+    <string name="codice_tavolo">Tafelcode</string>
+    <string name="inserisci_codice">Voer de code in</string>
+    <string name="attesa_giocatori">Wachten op andere spelers&#8230;</string>
+    <string name="giocatori_connessi">Verbonden spelers: %1$d</string>
+    <string name="inizia_gioco">Start spel</string>
+    <string name="pronto">Gereed</string>
+    <string name="non_pronto">Niet gereed</string>
+    <string name="errore_codice">Ongeldige code of tafel bestaat niet</string>
+    <string name="share_table_code_message">Gebruik deze code om deel te nemen aan mijn tafel op Mercante in Fiera: %1$s
+
+Of klik hier: https://gtpware.eu/join/%1$s</string>
+    <string name="condividi_codice">Code delen</string>
+    <string name="attesa_host">Wachten tot de host het spel start&#8230;</string>
+
+    <!-- Tutorial Strings -->
+    <string name="tutorial_title">Hoe te spelen</string>
+    <string name="tutorial_message">Welkom bij Mercante in Fiera!\n\n1. Verdeling: Jij en de AI-spelers ontvangen kaarten.\n2. Veiling: De resterende kaarten worden geveild. Bied om je stapel uit te breiden!\n3. Ruilen: Tik op je kaarten of de elementen van tegenstanders om ruilen voor te stellen (geld of kaarten).\n4. Eliminatie: De handelaar trekt kaarten. Indien getrokken, zijn die kaarten waardeloos!\n5. Prijzen: De overgebleven kaarten aan het einde winnen het potgeld!</string>
+    <string name="ho_capito">Begrepen!</string>
+</resources>

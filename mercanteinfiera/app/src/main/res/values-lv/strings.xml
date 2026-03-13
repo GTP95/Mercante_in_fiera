@@ -1,0 +1,129 @@
+<resources>
+    <string name="app_name">MercanteInFiera</string>
+    <string name="saldo">Bilance: %1$d €</string>
+    <string name="torna_al_menu">Atpakaļ uz izvēlni</string>
+    <string name="premi_in_palio">Balvas (Fonds: %1$d €):</string>
+    <string name="le_tue_carte">Jūsu kārtis:</string>
+    <string name="stabilisci_premi">Noteikt balvas</string>
+    <string name="fai_un_offerta">Izteikt piedāvājumu (+5€)</string>
+    <string name="pesca_carta">Izvilkt kārti no tirgotāja</string>
+    <string name="nuova_partita">Sākt jaunu spēli</string>
+    <string name="giocatore_singolo">Viens spēlētājs</string>
+    <string name="multigiocatore">Vairāki spēlētāji</string>
+    <string name="impostazioni">Iestatījumi</string>
+    <string name="indietro">Atpakaļ</string>
+    <string name="profilo_giocatore">Spēlētāja profils</string>
+    <string name="nome">Vārds</string>
+    <string name="inserisci_nome">Ievadiet savu vārdu</string>
+    <string name="aspetto">Izskats</string>
+    <string name="tema">Tēma</string>
+    <string name="all_asta">Izsolē!</string>
+    <string name="offerta_attuale">Pašreizējā likme: %1$d €</string>
+    <string name="miglior_offerente">Augstākais solītājs: %1$s</string>
+    <string name="nessuno">Nav</string>
+    <string name="carte_di">%1$s kārtis</string>
+    <string name="chiudi">Aizvērt</string>
+    <string name="offri_carta">Piedāvāt %1$s</string>
+    <string name="a_chi_offrire">Kam vēlaties piedāvāt šo kārti?</string>
+    <string name="chiedi_soldi">Pieprasīt naudu (%1$s bilance: %2$d €):</string>
+    <string name="chiedi_carta_scambio">Pieprasīt kārti apmaiņā</string>
+    <string name="scegli_carta_chiedere">Izvēlieties %1$s kārti, ko pieprasīt:</string>
+    <string name="chiedi_soldi_invece">Tā vietā pieprasīt naudu</string>
+    <string name="offri_per">Piedāvāt par %1$d €</string>
+    <string name="annulla">Atcelt</string>
+    <string name="scambia_con">Mainīties ar %1$s</string>
+    <string name="vuoi_la_carta">Vai vēlaties kārti: %1$s?</string>
+    <string name="offri_soldi">Piedāvāt naudu (Bilance: %1$d €):</string>
+    <string name="vuoi_offrire_carta_invece">Vai tā vietā vēlaties piedāvāt kārti?</string>
+    <string name="scegli_tua_carta_offrire">Izvēlieties vienu no savām kārtīm, ko piedāvāt:</string>
+    <string name="torna_offerta_denaro">Atpakaļ uz naudas piedāvājumu</string>
+    <string name="offri_amount">Piedāvāt %1$d €</string>
+    <string name="carte">Kārtis</string>
+    <string name="default_player_name">Jūs (Spēlētājs)</string>
+    <string name="ai_name_1">MI 1</string>
+    <string name="ai_name_2">MI 2</string>
+    <string name="card_back_initial">M</string>
+
+    <!-- Theme names -->
+    <string name="theme_system">Sistēmas</string>
+    <string name="theme_light">Gaišais</string>
+    <string name="theme_dark">Tumšais</string>
+
+    <!-- Language names (Always in their own language) -->
+    <string name="lingua">Valoda</string>
+    <string name="lingua_it">Italiano</string>
+    <string name="lingua_en">English</string>
+    <string name="lingua_de">Deutsch</string>
+    <string name="lingua_fr">Français</string>
+    <string name="lingua_es">Español</string>
+    <string name="lingua_pt">Português</string>
+    <string name="lingua_nl">Nederlands</string>
+    <string name="lingua_pl">Polski</string>
+    <string name="lingua_sv">Svenska</string>
+    <string name="lingua_da">Dansk</string>
+    <string name="lingua_fi">Suomi</string>
+    <string name="lingua_el">Ελληνικά</string>
+    <string name="lingua_cs">Čeština</string>
+    <string name="lingua_hu">Magyar</string>
+    <string name="lingua_ro">Română</string>
+    <string name="lingua_bg">Български</string>
+    <string name="lingua_sk">Slovenčina</string>
+    <string name="lingua_hr">Hrvatski</string>
+    <string name="lingua_lt">Lietuvių</string>
+    <string name="lingua_sl">Slovenščina</string>
+    <string name="lingua_lv">Latviešu</string>
+    <string name="lingua_et">Eesti</string>
+    <string name="lingua_ga">Gaeilge</string>
+    <string name="lingua_mt">Malti</string>
+
+    <!-- Game Messages -->
+    <string name="msg_benvenuti">Laipni lūdzam Mercante in Fiera!</string>
+    <string name="msg_carte_distribuite">Sākotnējās kārtis izdalītas! Sākas izsole par atlikušajām.</string>
+    <string name="msg_asta_terminata">Izsole beigusies! Tirgotājs savāca %1$d €. Tagad noteiksim balvas.</string>
+    <string name="msg_all_asta_carta">Izsolē kārts: %1$s. Kurš sola vairāk?</string>
+    <string name="msg_offerta_ia">%1$s sola %2$d €!</string>
+    <string name="msg_andata">Pārdots! %1$s par %2$d €</string>
+    <string name="msg_hai_offerto">Jūs solījāt %1$d €!</string>
+    <string name="msg_non_abbastanza_soldi">Nav pietiekami daudz naudas!</string>
+    <string name="msg_premi_stabiliti">Balvas noteiktas, pamatojoties uz izsoli. Sāksim izslēgšanu!</string>
+    <string name="msg_uscita_carta">Izvilktā kārts ir: %1$s. Šī kārts tiek izslēgta no spēles!</string>
+    <string name="msg_gioco_terminato">Spēle beigusies! Šeit ir galīgie laimesti.</string>
+    <string name="msg_scambio_accettato">%1$s pieņēma apmaiņu pret %2$d €!</string>
+    <string name="msg_scambio_rifiutato">%1$s noraidīja piedāvājumu.</string>
+    <string name="msg_scambio_carte_accettato">%1$s samainīja %2$s pret %3$s!</string>
+    <string name="msg_scambio_carte_rifiutato">%1$s noraidīja kāršu apmaiņu.</string>
+    <string name="msg_acquisto_accettato">%1$s nopirka %2$s par %3$d €!</string>
+    <string name="msg_acquisto_rifiutato">%1$s nav ieinteresēts pirkt.</string>
+    <string name="msg_scambio_proposto_accettato">%1$s pieņēma apmaiņu: %2$s pret %3$s!</string>
+    <string name="msg_sei_gia_miglior_offerente">Jūs jau esat augstākais solītājs!</string>
+
+    <!-- AI Proposal Strings -->
+    <string name="titolo_proposta_ia">%1$s piedāvājums</string>
+    <string name="msg_ia_vuole_comprare">%1$s vēlas nopirkt jūsu kārti %2$s par %3$d €.</string>
+    <string name="msg_ia_vuole_vendere">%1$s vēlas jums pārdot savu kārti %2$s par %3$d €.</string>
+    <string name="msg_ia_vuole_scambiare">%1$s vēlas samainit savu kārti %2$s pret jūsu %3$s.</string>
+    <string name="accetta">Pieņemt</string>
+    <string name="rifiuta">Noraidīt</string>
+
+    <!-- Multiplayer Strings -->
+    <string name="crea_tavolo">Izveidot jaunu galdu</string>
+    <string name="unisciti_tavolo">Pievienoties galdam</string>
+    <string name="codice_tavolo">Galda kods</string>
+    <string name="inserisci_codice">Ievadiet kodu</string>
+    <string name="attesa_giocatori">Gaida citus spēlētājus&#8230;</string>
+    <string name="giocatori_connessi">Pievienotie spēlētāji: %1$d</string>
+    <string name="inizia_gioco">Sākt spēli</string>
+    <string name="pronto">Gatavs</string>
+    <string name="non_pronto">Nav gatavs</string>
+    <string name="errore_codice">Nederīgs kods vai galds nepastāv</string>
+    <string name="share_table_code_message">Izmantojiet šo kodu, lai pievienotos manam galdam spēlē Mercante in Fiera: %1$s
+
+Vai noklikšķiniet šeit: https://gtpware.eu/join/%1$s</string>
+    <string name="condividi_codice">Kopīgot kodu</string>
+    <string name="attesa_host">Gaida, kad saimnieks sāks spēli&#8230;</string>
+
+    <!-- Tutorial Strings -->
+    <string name="tutorial_title">Kā spēlēt</string>
+    <string name="tutorial_message">Laipni lūdzam Mercante in Fiera!\n\n1. Sadale: Jūs un MI spēlētāji saņemat kārtis.\n2. Izsole: Atlikušās kārtis tiek izsolītas. Soliet, lai paplašinātu savu kāršu komplektu!\n3. Tirdzniecība: Pieskarieties savām kārtīm vai pretinieku elementiem, lai ierosinātu apmaiņu (nauda vai kārtis).\n4. Izslēgšana: Tirgotājs velk kārtis. Ja tās tiek izvilktas, tās kļūst bezvērtīgas!\n5. Balvas: Atlikušās kārtis beigās laimē fonda naudu!</string>
+    <string name="ho_capito">Sapratu!</string>
+</resources>

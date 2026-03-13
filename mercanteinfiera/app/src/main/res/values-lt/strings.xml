@@ -1,0 +1,129 @@
+<resources>
+    <string name="app_name">MercanteInFiera</string>
+    <string name="saldo">Balansas: %1$d €</string>
+    <string name="torna_al_menu">Atgal į meniu</string>
+    <string name="premi_in_palio">Prizai (Fondu: %1$d €):</string>
+    <string name="le_tue_carte">Jūsų kortos:</string>
+    <string name="stabilisci_premi">Nustatyti prizus</string>
+    <string name="fai_un_offerta">Pateikti pasiūlymą (+5€)</string>
+    <string name="pesca_carta">Traukti kortą iš prekiautojo</string>
+    <string name="nuova_partita">Pradėti naują žaidimą</string>
+    <string name="giocatore_singolo">Vienas žaidėjas</string>
+    <string name="multigiocatore">Daug žaidėjų</string>
+    <string name="impostazioni">Nustatymai</string>
+    <string name="indietro">Atgal</string>
+    <string name="profilo_giocatore">Žaidėjo profilis</string>
+    <string name="nome">Vardas</string>
+    <string name="inserisci_nome">Įveskite savo vardą</string>
+    <string name="aspetto">Išvaizda</string>
+    <string name="tema">Tema</string>
+    <string name="all_asta">Aukcione!</string>
+    <string name="offerta_attuale">Dabartinis statymas: %1$d €</string>
+    <string name="miglior_offerente">Daugiausiai pasiūlęs: %1$s</string>
+    <string name="nessuno">Nėra</string>
+    <string name="carte_di">%1$s kortos</string>
+    <string name="chiudi">Uždaryti</string>
+    <string name="offri_carta">Siūlyti %1$s</string>
+    <string name="a_chi_offrire">Kam norite pasiūlyti šią kortą?</string>
+    <string name="chiedi_soldi">Prašyti pinigų (%1$s balansas: %2$d €):</string>
+    <string name="chiedi_carta_scambio">Prašyti kortos mainais</string>
+    <string name="scegli_carta_chiedere">Pasirinkite %1$s kortą, kurios norite prašyti:</string>
+    <string name="chiedi_soldi_invece">Vietoj to prašyti pinigų</string>
+    <string name="offri_per">Siūlyti už %1$d €</string>
+    <string name="annulla">Atšaukti</string>
+    <string name="scambia_con">Mainytis su %1$s</string>
+    <string name="vuoi_la_carta">Ar norite kortos: %1$s?</string>
+    <string name="offri_soldi">Siūlyti pinigus (Balansas: %1$d €):</string>
+    <string name="vuoi_offrire_carta_invece">Ar norite vietoj to pasiūlyti kortą?</string>
+    <string name="scegli_tua_carta_offrire">Pasirinkite vieną iš savo kortų pasiūlyti:</string>
+    <string name="torna_offerta_denaro">Atgal į pinigų pasiūlymą</string>
+    <string name="offri_amount">Siūlyti %1$d €</string>
+    <string name="carte">Kortos</string>
+    <string name="default_player_name">Jūs (Žaidėjas)</string>
+    <string name="ai_name_1">DI 1</string>
+    <string name="ai_name_2">DI 2</string>
+    <string name="card_back_initial">M</string>
+
+    <!-- Theme names -->
+    <string name="theme_system">Sistemos</string>
+    <string name="theme_light">Šviesi</string>
+    <string name="theme_dark">Tamsi</string>
+
+    <!-- Language names (Always in their own language) -->
+    <string name="lingua">Kalba</string>
+    <string name="lingua_it">Italiano</string>
+    <string name="lingua_en">English</string>
+    <string name="lingua_de">Deutsch</string>
+    <string name="lingua_fr">Français</string>
+    <string name="lingua_es">Español</string>
+    <string name="lingua_pt">Português</string>
+    <string name="lingua_nl">Nederlands</string>
+    <string name="lingua_pl">Polski</string>
+    <string name="lingua_sv">Svenska</string>
+    <string name="lingua_da">Dansk</string>
+    <string name="lingua_fi">Suomi</string>
+    <string name="lingua_el">Ελληνικά</string>
+    <string name="lingua_cs">Čeština</string>
+    <string name="lingua_hu">Magyar</string>
+    <string name="lingua_ro">Română</string>
+    <string name="lingua_bg">Български</string>
+    <string name="lingua_sk">Slovenčina</string>
+    <string name="lingua_hr">Hrvatski</string>
+    <string name="lingua_lt">Lietuvių</string>
+    <string name="lingua_sl">Slovenščina</string>
+    <string name="lingua_lv">Latviešu</string>
+    <string name="lingua_et">Eesti</string>
+    <string name="lingua_ga">Gaeilge</string>
+    <string name="lingua_mt">Malti</string>
+
+    <!-- Game Messages -->
+    <string name="msg_benvenuti">Sveiki atvykę į „Mercante in Fiera“!</string>
+    <string name="msg_carte_distribuite">Pradinės kortos išdalintos! Prasideda likusių aukcionas.</string>
+    <string name="msg_asta_terminata">Aukcionas baigtas! Prekiautojas surinko %1$d €. Dabar nustatysime prizus.</string>
+    <string name="msg_all_asta_carta">Parduodama aukcione korta: %1$s. Kas siūlo daugiau?</string>
+    <string name="msg_offerta_ia">%1$s siūlo %2$d €!</string>
+    <string name="msg_andata">Parduota! Žaidėjui %1$s už %2$d €</string>
+    <string name="msg_hai_offerto">Jūs pasiūlėte %1$d €!</string>
+    <string name="msg_non_abbastanza_soldi">Nepakanka pinigų!</string>
+    <string name="msg_premi_stabiliti">Prizai nustatyti remiantis aukcionu. Pradėkime eliminavimą!</string>
+    <string name="msg_uscita_carta">Ištraukta korta yra: %1$s. Ši korta pašalinama iš žaidimo!</string>
+    <string name="msg_gioco_terminato">Žaidimas baigtas! Štai galutiniai laimėjimai.</string>
+    <string name="msg_scambio_accettato">%1$s priėmė mainus už %2$d €!</string>
+    <string name="msg_scambio_rifiutato">%1$s atmetė pasiūlymą.</string>
+    <string name="msg_scambio_carte_accettato">%1$s iškeitė %2$s į %3$s!</string>
+    <string name="msg_scambio_carte_rifiutato">%1$s atmetė kortų mainus.</string>
+    <string name="msg_acquisto_accettato">%1$s nupirko %2$s už %3$d €!</string>
+    <string name="msg_acquisto_rifiutato">%1$s nesidomi pirkimu.</string>
+    <string name="msg_scambio_proposto_accettato">%1$s priėmė mainus: %2$s į %3$s!</string>
+    <string name="msg_sei_gia_miglior_offerente">Jūs jau pasiūlėte didžiausią sumą!</string>
+
+    <!-- AI Proposal Strings -->
+    <string name="titolo_proposta_ia">%1$s pasiūlymas</string>
+    <string name="msg_ia_vuole_comprare">%1$s nori nupirkti jūsų kortą %2$s už %3$d €.</string>
+    <string name="msg_ia_vuole_vendere">%1$s nori jums parduoti savo kortą %2$s už %3$d €.</string>
+    <string name="msg_ia_vuole_scambiare">%1$s nori iškeisti savo kortą %2$s į jūsų %3$s.</string>
+    <string name="accetta">Priimti</string>
+    <string name="rifiuta">Atmesti</string>
+
+    <!-- Multiplayer Strings -->
+    <string name="crea_tavolo">Sukurti naują stalą</string>
+    <string name="unisciti_tavolo">Prisijungti prie stalo</string>
+    <string name="codice_tavolo">Stalo kodas</string>
+    <string name="inserisci_codice">Įveskite kodą</string>
+    <string name="attesa_giocatori">Laukiama kitų žaidėjų&#8230;</string>
+    <string name="giocatori_connessi">Prisijungę žaidėjai: %1$d</string>
+    <string name="inizia_gioco">Pradėti žaidimą</string>
+    <string name="pronto">Pasiruošęs</string>
+    <string name="non_pronto">Nepasiruošęs</string>
+    <string name="errore_codice">Neteisingas kodas arba stalas neegzistuoja</string>
+    <string name="share_table_code_message">Naudokite šį kodą, kad prisijungtumėte prie mano stalo žaidime „Mercante in Fiera“: %1$s
+
+Arba spustelėkite čia: https://gtpware.eu/join/%1$s</string>
+    <string name="condividi_codice">Dalintis kodu</string>
+    <string name="attesa_host">Laukiama, kol šeimininkas pradės žaidimą&#8230;</string>
+
+    <!-- Tutorial Strings -->
+    <string name="tutorial_title">Kaip žaisti</string>
+    <string name="tutorial_message">Sveiki atvykę į „Mercante in Fiera“!\n\n1. Paskirstymas: Jūs ir DI žaidėjai gaunate kortas.\n2. Aukcionas: Likusios kortos parduodamos aukcione. Statykite, kad padidintumėte savo kaladę!\n3. Mainai: Bakstelėkite savo kortas arba priešininkų elementus, kad pasiūlytumėte mainus (pinigus ar kortas).\n4. Eliminavimas: Prekiautojas traukia kortas. Jei korta ištraukiama, ji tampa bevertė!\n5. Prizai: Likusios kortos pabaigoje laimi fondo pinigus!</string>
+    <string name="ho_capito">Supratau!</string>
+</resources>

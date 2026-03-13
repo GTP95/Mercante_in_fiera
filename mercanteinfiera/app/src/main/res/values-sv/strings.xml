@@ -1,0 +1,129 @@
+<resources>
+    <string name="app_name">MercanteInFiera</string>
+    <string name="saldo">Saldo: %1$d €</string>
+    <string name="torna_al_menu">Tillbaka till menyn</string>
+    <string name="premi_in_palio">Priser (Pott: %1$d €):</string>
+    <string name="le_tue_carte">Dina kort:</string>
+    <string name="stabilisci_premi">Bestäm priser</string>
+    <string name="fai_un_offerta">Ge ett bud (+5€)</string>
+    <string name="pesca_carta">Dra kort från köpmannen</string>
+    <string name="nuova_partita">Starta nytt spel</string>
+    <string name="giocatore_singolo">Enspelarläge</string>
+    <string name="multigiocatore">Flerspelarläge</string>
+    <string name="impostazioni">Inställningar</string>
+    <string name="indietro">Bakåt</string>
+    <string name="profilo_giocatore">Spelarprofil</string>
+    <string name="nome">Namn</string>
+    <string name="inserisci_nome">Ange ditt namn</string>
+    <string name="aspetto">Utseende</string>
+    <string name="tema">Tema</string>
+    <string name="all_asta">På auktion!</string>
+    <string name="offerta_attuale">Nuvarande bud: %1$d €</string>
+    <string name="miglior_offerente">Högsta budgivare: %1$s</string>
+    <string name="nessuno">Ingen</string>
+    <string name="carte_di">%1$s:s kort</string>
+    <string name="chiudi">Stäng</string>
+    <string name="offri_carta">Erbjud %1$s</string>
+    <string name="a_chi_offrire">Vem vill du erbjuda detta kort?</string>
+    <string name="chiedi_soldi">Begär pengar (%1$s saldo: %2$d €):</string>
+    <string name="chiedi_carta_scambio">Fråga efter ett kort i utbyte</string>
+    <string name="scegli_carta_chiedere">Välj ett kort från %1$s att fråga efter:</string>
+    <string name="chiedi_soldi_invece">Begär pengar istället</string>
+    <string name="offri_per">Erbjud för %1$d €</string>
+    <string name="annulla">Avbryt</string>
+    <string name="scambia_con">Byt med %1$s</string>
+    <string name="vuoi_la_carta">Vill du ha kortet: %1$s?</string>
+    <string name="offri_soldi">Erbjud pengar (Saldo: %1$d €):</string>
+    <string name="vuoi_offrire_carta_invece">Vill du erbjuda ett kort istället?</string>
+    <string name="scegli_tua_carta_offrire">Välj ett av dina kort att erbjuda:</string>
+    <string name="torna_offerta_denaro">Tillbaka till pengerbjudande</string>
+    <string name="offri_amount">Erbjud %1$d €</string>
+    <string name="carte">Kort</string>
+    <string name="default_player_name">Du (Spelare)</string>
+    <string name="ai_name_1">AI 1</string>
+    <string name="ai_name_2">AI 2</string>
+    <string name="card_back_initial">M</string>
+
+    <!-- Theme names -->
+    <string name="theme_system">System</string>
+    <string name="theme_light">Ljust</string>
+    <string name="theme_dark">Mörkt</string>
+
+    <!-- Language names (Always in their own language) -->
+    <string name="lingua">Språk</string>
+    <string name="lingua_it">Italiano</string>
+    <string name="lingua_en">English</string>
+    <string name="lingua_de">Deutsch</string>
+    <string name="lingua_fr">Français</string>
+    <string name="lingua_es">Español</string>
+    <string name="lingua_pt">Português</string>
+    <string name="lingua_nl">Nederlands</string>
+    <string name="lingua_pl">Polski</string>
+    <string name="lingua_sv">Svenska</string>
+    <string name="lingua_da">Dansk</string>
+    <string name="lingua_fi">Suomi</string>
+    <string name="lingua_el">Ελληνικά</string>
+    <string name="lingua_cs">Čeština</string>
+    <string name="lingua_hu">Magyar</string>
+    <string name="lingua_ro">Română</string>
+    <string name="lingua_bg">Български</string>
+    <string name="lingua_sk">Slovenčina</string>
+    <string name="lingua_hr">Hrvatski</string>
+    <string name="lingua_lt">Lietuvių</string>
+    <string name="lingua_sl">Slovenščina</string>
+    <string name="lingua_lv">Latviešu</string>
+    <string name="lingua_et">Eesti</string>
+    <string name="lingua_ga">Gaeilge</string>
+    <string name="lingua_mt">Malti</string>
+
+    <!-- Game Messages -->
+    <string name="msg_benvenuti">Välkommen till Mercante in Fiera!</string>
+    <string name="msg_carte_distribuite">Initiala kort utdelade! Auktionen börjar för de återstående.</string>
+    <string name="msg_asta_terminata">Auktionen avslutad! Köpmannen samlade in %1$d €. Nu bestämmer vi priserna.</string>
+    <string name="msg_all_asta_carta">Auktionerar ut kortet: %1$s. Vem bjuder mer?</string>
+    <string name="msg_offerta_ia">%1$s bjuder %2$d €!</string>
+    <string name="msg_andata">Såld! Till %1$s för %2$d €</string>
+    <string name="msg_hai_offerto">Du bjöd %1$d €!</string>
+    <string name="msg_non_abbastanza_soldi">Inte tillräckligt med pengar!</string>
+    <string name="msg_premi_stabiliti">Priser fastställda baserat på auktionen. Låt oss börja elimineringen!</string>
+    <string name="msg_uscita_carta">Det dragna kortet är: %1$s. Detta kort elimineras från spelet!</string>
+    <string name="msg_gioco_terminato">Spelet är slut! Här är de slutliga vinsterna.</string>
+    <string name="msg_scambio_accettato">%1$s accepterade bytet för %2$d €!</string>
+    <string name="msg_scambio_rifiutato">%1$s avvisade erbjudandet.</string>
+    <string name="msg_scambio_carte_accettato">%1$s bytte %2$s mot %3$s!</string>
+    <string name="msg_scambio_carte_rifiutato">%1$s avvisade kortbytet.</string>
+    <string name="msg_acquisto_accettato">%1$s köpte %2$s för %3$d €!</string>
+    <string name="msg_acquisto_rifiutato">%1$s är inte intresserad av att köpa.</string>
+    <string name="msg_scambio_proposto_accettato">%1$s accepterade bytet: %2$s mot %3$s!</string>
+    <string name="msg_sei_gia_miglior_offerente">Du är redan den högsta budgivaren!</string>
+
+    <!-- AI Proposal Strings -->
+    <string name="titolo_proposta_ia">Förslag från %1$s</string>
+    <string name="msg_ia_vuole_comprare">%1$s vill köpa ditt kort %2$s för %3$d €.</string>
+    <string name="msg_ia_vuole_vendere">%1$s vill sälja sitt kort %2$s till dig för %3$d €.</string>
+    <string name="msg_ia_vuole_scambiare">%1$s vill byta sitt kort %2$s mot ditt %3$s.</string>
+    <string name="accetta">Acceptera</string>
+    <string name="rifiuta">Avvisa</string>
+
+    <!-- Multiplayer Strings -->
+    <string name="crea_tavolo">Skapa nytt bord</string>
+    <string name="unisciti_tavolo">Gå med i ett bord</string>
+    <string name="codice_tavolo">Bordskod</string>
+    <string name="inserisci_codice">Ange koden</string>
+    <string name="attesa_giocatori">Väntar på andra spelare&#8230;</string>
+    <string name="giocatori_connessi">Anslutna spelare: %1$d</string>
+    <string name="inizia_gioco">Starta spel</string>
+    <string name="pronto">Redo</string>
+    <string name="non_pronto">Inte redo</string>
+    <string name="errore_codice">Ogiltig kod eller bordet finns inte</string>
+    <string name="share_table_code_message">Använd den här koden för att gå med i mitt bord på Mercante in Fiera: %1$s
+
+Eller klicka här: https://gtpware.eu/join/%1$s</string>
+    <string name="condividi_codice">Dela kod</string>
+    <string name="attesa_host">Väntar på att värden ska starta spelet&#8230;</string>
+
+    <!-- Tutorial Strings -->
+    <string name="tutorial_title">Hur man spelar</string>
+    <string name="tutorial_message">Välkommen till Mercante in Fiera!\n\n1. Utdelning: Du och AI-spelarna får kort.\n2. Auktion: Återstående kort auktioneras ut. Bjud för att utöka din kortlek!\n3. Handel: Tryck på dina kort eller motståndarnas element för att föreslå byten (pengar eller kort).\n4. Eliminering: Köpmannen drar kort. Om de dras är dessa kort värdelösa!\n5. Priser: De återstående korten i slutet vinner pengarna i potten!</string>
+    <string name="ho_capito">Uppfattat!</string>
+</resources>

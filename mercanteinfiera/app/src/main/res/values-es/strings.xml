@@ -1,0 +1,129 @@
+<resources>
+    <string name="app_name">MercanteInFiera</string>
+    <string name="saldo">Saldo: %1$d €</string>
+    <string name="torna_al_menu">Volver al Menú</string>
+    <string name="premi_in_palio">Premios (Bote: %1$d €):</string>
+    <string name="le_tue_carte">Tus cartas:</string>
+    <string name="stabilisci_premi">Establecer Premios</string>
+    <string name="fai_un_offerta">Hacer una oferta (+5€)</string>
+    <string name="pesca_carta">Sacar carta del Mercader</string>
+    <string name="nuova_partita">Nueva partida</string>
+    <string name="giocatore_singolo">Un jugador</string>
+    <string name="multigiocatore">Multijugador</string>
+    <string name="impostazioni">Ajustes</string>
+    <string name="indietro">Atrás</string>
+    <string name="profilo_giocatore">Perfil del jugador</string>
+    <string name="nome">Nombre</string>
+    <string name="inserisci_nome">Introduce tu nombre</string>
+    <string name="aspetto">Apariencia</string>
+    <string name="tema">Tema</string>
+    <string name="all_asta">¡En subasta!</string>
+    <string name="offerta_attuale">Oferta actual: %1$d €</string>
+    <string name="miglior_offerente">Mejor postor: %1$s</string>
+    <string name="nessuno">Ninguno</string>
+    <string name="carte_di">Cartas de %1$s</string>
+    <string name="chiudi">Cerrar</string>
+    <string name="offri_carta">Ofrecer %1$s</string>
+    <string name="a_chi_offrire">¿A quién quieres ofrecer esta carta?</string>
+    <string name="chiedi_soldi">Pedir dinero (Saldo %1$s: %2$d €):</string>
+    <string name="chiedi_carta_scambio">Pedir una carta a cambio</string>
+    <string name="scegli_carta_chiedere">Elige una carta de %1$s para pedir:</string>
+    <string name="chiedi_soldi_invece">Pedir dinero en su lugar</string>
+    <string name="offri_per">Ofrecer por %1$d €</string>
+    <string name="annulla">Cancelar</string>
+    <string name="scambia_con">Intercambiar con %1$s</string>
+    <string name="vuoi_la_carta">¿Quieres la carta: %1$s?</string>
+    <string name="offri_soldi">Ofrecer dinero (Saldo: %1$d €):</string>
+    <string name="vuoi_offrire_carta_invece">¿Quieres ofrecer una carta en su lugar?</string>
+    <string name="scegli_tua_carta_offrire">Elige una de tus cartas para ofrecer:</string>
+    <string name="torna_offerta_denaro">Volver a oferta de dinero</string>
+    <string name="offri_amount">Ofrecer %1$d €</string>
+    <string name="carte">Cartas</string>
+    <string name="default_player_name">Tú (Jugador)</string>
+    <string name="ai_name_1">IA 1</string>
+    <string name="ai_name_2">IA 2</string>
+    <string name="card_back_initial">M</string>
+
+    <!-- Theme names -->
+    <string name="theme_system">Sistema</string>
+    <string name="theme_light">Claro</string>
+    <string name="theme_dark">Oscuro</string>
+
+    <!-- Language names (Always in their own language) -->
+    <string name="lingua">Idioma</string>
+    <string name="lingua_it">Italiano</string>
+    <string name="lingua_en">English</string>
+    <string name="lingua_de">Deutsch</string>
+    <string name="lingua_fr">Français</string>
+    <string name="lingua_es">Español</string>
+    <string name="lingua_pt">Português</string>
+    <string name="lingua_nl">Nederlands</string>
+    <string name="lingua_pl">Polski</string>
+    <string name="lingua_sv">Svenska</string>
+    <string name="lingua_da">Dansk</string>
+    <string name="lingua_fi">Suomi</string>
+    <string name="lingua_el">Ελληνικά</string>
+    <string name="lingua_cs">Čeština</string>
+    <string name="lingua_hu">Magyar</string>
+    <string name="lingua_ro">Română</string>
+    <string name="lingua_bg">Български</string>
+    <string name="lingua_sk">Slovenčina</string>
+    <string name="lingua_hr">Hrvatski</string>
+    <string name="lingua_lt">Lietuvių</string>
+    <string name="lingua_sl">Slovenščina</string>
+    <string name="lingua_lv">Latviešu</string>
+    <string name="lingua_et">Eesti</string>
+    <string name="lingua_ga">Gaeilge</string>
+    <string name="lingua_mt">Malti</string>
+
+    <!-- Game Messages -->
+    <string name="msg_benvenuti">¡Bienvenido a Mercante in Fiera!</string>
+    <string name="msg_carte_distribuite">¡Cartas iniciales repartidas! Comienza la subasta por las restantes.</string>
+    <string name="msg_asta_terminata">¡Subasta terminada! El Mercader ha recaudado %1$d €. Ahora establezcamos los premios.</string>
+    <string name="msg_all_asta_carta">Subastando la carta: %1$s. ¿Quién ofrece más?</string>
+    <string name="msg_offerta_ia">¡%1$s ofrece %2$d €!</string>
+    <string name="msg_andata">¡Vendido! A %1$s por %2$d €</string>
+    <string name="msg_hai_offerto">¡Has ofrecido %1$d €!</string>
+    <string name="msg_non_abbastanza_soldi">¡No hay suficiente dinero!</string>
+    <string name="msg_premi_stabiliti">Premios establecidos según la subasta. ¡Empecemos la eliminación!</string>
+    <string name="msg_uscita_carta">La carta sacada es: %1$s. ¡Esta carta queda eliminada del juego!</string>
+    <string name="msg_gioco_terminato">¡Juego terminado! Aquí están las ganancias finales.</string>
+    <string name="msg_scambio_accettato">¡%1$s ha aceptado el trato por %2$d €!</string>
+    <string name="msg_scambio_rifiutato">%1$s ha rechazado la oferta.</string>
+    <string name="msg_scambio_carte_accettato">¡%1$s ha intercambiado %2$s por %3$s!</string>
+    <string name="msg_scambio_carte_rifiutato">%1$s ha rechazado el intercambio de cartas.</string>
+    <string name="msg_acquisto_accettato">¡%1$s ha comprado %2$s por %3$d €!</string>
+    <string name="msg_acquisto_rifiutato">%1$s no está interesado en comprar.</string>
+    <string name="msg_scambio_proposto_accettato">¡%1$s ha aceptado el intercambio: %2$s por %3$s!</string>
+    <string name="msg_sei_gia_miglior_offerente">¡Ya eres el mejor postor!</string>
+
+    <!-- AI Proposal Strings -->
+    <string name="titolo_proposta_ia">Propuesta de %1$s</string>
+    <string name="msg_ia_vuole_comprare">%1$s quiere comprar tu carta %2$s por %3$d €.</string>
+    <string name="msg_ia_vuole_vendere">%1$s quiere venderte su carta %2$s por %3$d €.</string>
+    <string name="msg_ia_vuole_scambiare">%1$s quiere intercambiar su carta %2$s por tu %3$s.</string>
+    <string name="accetta">Aceptar</string>
+    <string name="rifiuta">Rechazar</string>
+
+    <!-- Multiplayer Strings -->
+    <string name="crea_tavolo">Crear mesa nueva</string>
+    <string name="unisciti_tavolo">Unirse a una mesa</string>
+    <string name="codice_tavolo">Código de mesa</string>
+    <string name="inserisci_codice">Introduce el código</string>
+    <string name="attesa_giocatori">Esperando a otros jugadores&#8230;</string>
+    <string name="giocatori_connessi">Jugadores conectados: %1$d</string>
+    <string name="inizia_gioco">Empezar juego</string>
+    <string name="pronto">Listo</string>
+    <string name="non_pronto">No listo</string>
+    <string name="errore_codice">Código inválido o mesa inexistente</string>
+    <string name="share_table_code_message">Usa este código para unirte a mi mesa en Mercante in Fiera: %1$s
+
+O haz clic aquí: https://gtpware.eu/join/%1$s</string>
+    <string name="condividi_codice">Compartir código</string>
+    <string name="attesa_host">Esperando a que el anfitrión comience el juego&#8230;</string>
+
+    <!-- Tutorial Strings -->
+    <string name="tutorial_title">Cómo jugar</string>
+    <string name="tutorial_message">¡Bienvenido a Mercante in Fiera!\n\n1. Distribución: Tú y los jugadores IA recibís cartas.\n2. Subasta: Las cartas restantes se subastan. ¡Puja para ampliar tu mazo!\n3. Intercambio: Toca tus cartas o elementos de oponentes para proponer tratos (dinero o cartas).\n4. Eliminación: El Mercader saca cartas. ¡Si salen, esas cartas no valen nada!\n5. Premios: ¡Las últimas cartas que queden ganan el dinero del bote!</string>
+    <string name="ho_capito">¡Entendido!</string>
+</resources>

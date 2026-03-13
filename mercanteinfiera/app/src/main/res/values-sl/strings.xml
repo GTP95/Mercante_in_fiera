@@ -1,0 +1,129 @@
+<resources>
+    <string name="app_name">MercanteInFiera</string>
+    <string name="saldo">Stanje: %1$d €</string>
+    <string name="torna_al_menu">Nazaj v meni</string>
+    <string name="premi_in_palio">Nagrade (Sklad: %1$d €):</string>
+    <string name="le_tue_carte">Vaše karte:</string>
+    <string name="stabilisci_premi">Določi nagrade</string>
+    <string name="fai_un_offerta">Oddaj ponudbo (+5€)</string>
+    <string name="pesca_carta">Iz vleči karto od trgovca</string>
+    <string name="nuova_partita">Začni novo igro</string>
+    <string name="giocatore_singolo">En igralec</string>
+    <string name="multigiocatore">Več igralcev</string>
+    <string name="impostazioni">Nastavitve</string>
+    <string name="indietro">Nazaj</string>
+    <string name="profilo_giocatore">Profil igralca</string>
+    <string name="nome">Ime</string>
+    <string name="inserisci_nome">Vnesite svoje ime</string>
+    <string name="aspetto">Videz</string>
+    <string name="tema">Tema</string>
+    <string name="all_asta">Na dražbi!</string>
+    <string name="offerta_attuale">Trenutna ponudba: %1$d €</string>
+    <string name="miglior_offerente">Najboljši ponudnik: %1$s</string>
+    <string name="nessuno">Nihče</string>
+    <string name="carte_di">Karte igralca %1$s</string>
+    <string name="chiudi">Zapri</string>
+    <string name="offri_carta">Ponudi %1$s</string>
+    <string name="a_chi_offrire">Komu želite ponuditi to karto?</string>
+    <string name="chiedi_soldi">Prosi za denar (Stanje %1$s: %2$d €):</string>
+    <string name="chiedi_carta_scambio">Prosi za karto v zameno</string>
+    <string name="scegli_carta_chiedere">Izberite karto igralca %1$s, za katero želite prositi:</string>
+    <string name="chiedi_soldi_invece">Namesto tega prosi za denar</string>
+    <string name="offri_per">Ponudi za %1$d €</string>
+    <string name="annulla">Prekliči</string>
+    <string name="scambia_con">Zamenjaj z %1$s</string>
+    <string name="vuoi_la_carta">Želite karto: %1$s?</string>
+    <string name="offri_soldi">Ponudi denar (Stanje: %1$d €):</string>
+    <string name="vuoi_offrire_carta_invece">Želite namesto tega ponuditi karto?</string>
+    <string name="scegli_tua_carta_offrire">Izberite eno od svojih kart za ponudbo:</string>
+    <string name="torna_offerta_denaro">Nazaj na ponudbo denarja</string>
+    <string name="offri_amount">Ponudi %1$d €</string>
+    <string name="carte">Karte</string>
+    <string name="default_player_name">Vi (Igralec)</string>
+    <string name="ai_name_1">UI 1</string>
+    <string name="ai_name_2">UI 2</string>
+    <string name="card_back_initial">M</string>
+
+    <!-- Theme names -->
+    <string name="theme_system">Sistemska</string>
+    <string name="theme_light">Svetla</string>
+    <string name="theme_dark">Temna</string>
+
+    <!-- Language names (Always in their own language) -->
+    <string name="lingua">Jezik</string>
+    <string name="lingua_it">Italiano</string>
+    <string name="lingua_en">English</string>
+    <string name="lingua_de">Deutsch</string>
+    <string name="lingua_fr">Français</string>
+    <string name="lingua_es">Español</string>
+    <string name="lingua_pt">Português</string>
+    <string name="lingua_nl">Nederlands</string>
+    <string name="lingua_pl">Polski</string>
+    <string name="lingua_sv">Svenska</string>
+    <string name="lingua_da">Dansk</string>
+    <string name="lingua_fi">Suomi</string>
+    <string name="lingua_el">Ελληνικά</string>
+    <string name="lingua_cs">Čeština</string>
+    <string name="lingua_hu">Magyar</string>
+    <string name="lingua_ro">Română</string>
+    <string name="lingua_bg">Български</string>
+    <string name="lingua_sk">Slovenčina</string>
+    <string name="lingua_hr">Hrvatski</string>
+    <string name="lingua_lt">Lietuvių</string>
+    <string name="lingua_sl">Slovenščina</string>
+    <string name="lingua_lv">Latviešu</string>
+    <string name="lingua_et">Eesti</string>
+    <string name="lingua_ga">Gaeilge</string>
+    <string name="lingua_mt">Malti</string>
+
+    <!-- Game Messages -->
+    <string name="msg_benvenuti">Dobrodošli v Mercante in Fiera!</string>
+    <string name="msg_carte_distribuite">Začetne karte razdeljene! Začenja se dražba za preostale.</string>
+    <string name="msg_asta_terminata">Dražba končana! Trgovec je zbral %1$d €. Zdaj določimo nagrade.</string>
+    <string name="msg_all_asta_carta">Dražba karte: %1$s. Kdo ponudi več?</string>
+    <string name="msg_offerta_ia">%1$s ponuja %2$d €!</string>
+    <string name="msg_andata">Prodano! Igralcu %1$s za %2$d €</string>
+    <string name="msg_hai_offerto">Ponudili ste %1$d €!</string>
+    <string name="msg_non_abbastanza_soldi">Ni dovolj denarja!</string>
+    <string name="msg_premi_stabiliti">Nagrade določene na podlagi dražbe. Začnimo z izločanjem!</string>
+    <string name="msg_uscita_carta">Izvlečena karta je: %1$s. Ta karta je izločena iz igre!</string>
+    <string name="msg_gioco_terminato">Igra končana! Tukaj so končni dobitki.</string>
+    <string name="msg_scambio_accettato">%1$s je sprejel zamenjavo za %2$d €!</string>
+    <string name="msg_scambio_rifiutato">%1$s je zavrnil ponudbo.</string>
+    <string name="msg_scambio_carte_accettato">%1$s je zamenjal %2$s za %3$s!</string>
+    <string name="msg_scambio_carte_rifiutato">%1$s je zavrnil zamenjavo kart.</string>
+    <string name="msg_acquisto_accettato">%1$s je kupil %2$s za %3$d €!</string>
+    <string name="msg_acquisto_rifiutato">%1$s se ne zanima za nakup.</string>
+    <string name="msg_scambio_proposto_accettato">%1$s je sprejel zamenjavo: %2$s za %3$s!</string>
+    <string name="msg_sei_gia_miglior_offerente">Že zdaj ste najboljši ponudnik!</string>
+
+    <!-- AI Proposal Strings -->
+    <string name="titolo_proposta_ia">Predlog igralca %1$s</string>
+    <string name="msg_ia_vuole_comprare">%1$s želi kupiti vašo karto %2$s za %3$d €.</string>
+    <string name="msg_ia_vuole_vendere">%1$s vam želi prodati svojo karto %2$s za %3$d €.</string>
+    <string name="msg_ia_vuole_scambiare">%1$s želi zamenjati svojo karto %2$s za vašo %3$s.</string>
+    <string name="accetta">Sprejmi</string>
+    <string name="rifiuta">Zavrni</string>
+
+    <!-- Multiplayer Strings -->
+    <string name="crea_tavolo">Ustvari novo mizo</string>
+    <string name="unisciti_tavolo">Pridruži se mizi</string>
+    <string name="codice_tavolo">Koda mize</string>
+    <string name="inserisci_codice">Vnesite kodo</string>
+    <string name="attesa_giocatori">Čakanje na ostale igralce&#8230;</string>
+    <string name="giocatori_connessi">Povezani igralci: %1$d</string>
+    <string name="inizia_gioco">Začni igro</string>
+    <string name="pronto">Pripravljen</string>
+    <string name="non_pronto">Ni pripravljen</string>
+    <string name="errore_codice">Neveljavna koda ali miza ne obstaja</string>
+    <string name="share_table_code_message">Uporabite to kodo, da se pridružite moji mizi v igri Mercante in Fiera: %1$s
+
+Ali kliknite tukaj: https://gtpware.eu/join/%1$s</string>
+    <string name="condividi_codice">Deli kodo</string>
+    <string name="attesa_host">Čakanje na gostitelja, da začne igro&#8230;</string>
+
+    <!-- Tutorial Strings -->
+    <string name="tutorial_title">Kako igrati</string>
+    <string name="tutorial_message">Dobrodošli v Mercante in Fiera!\n\n1. Razdelitev: Vi in UI igralci prejmete karte.\n2. Dražba: Preostale karte se prodajajo na dražbi. Oddajte ponudbo, da razširite svoj kupček!\n3. Trgovanje: Tapnite na svoje karte ali elemente nasprotnikov, da predlagate zamenjavo (denar ali karte).\n4. Izločanje: Trgovec vleče karte. Če so izvlečene, te karte niso vredne nič!\n5. Nagrade: Preostale karte na koncu osvojijo denar iz sklada!</string>
+    <string name="ho_capito">Razumem!</string>
+</resources>

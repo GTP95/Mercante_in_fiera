@@ -1,0 +1,129 @@
+<resources>
+    <string name="app_name">MercanteInFiera</string>
+    <string name="saldo">Saldo: %1$d €</string>
+    <string name="torna_al_menu">Takaisin valikkoon</string>
+    <string name="premi_in_palio">Palkinnot (Potti: %1$d €):</string>
+    <string name="le_tue_carte">Korttisi:</string>
+    <string name="stabilisci_premi">Määritä palkinnot</string>
+    <string name="fai_un_offerta">Tee tarjous (+5€)</string>
+    <string name="pesca_carta">Nosta kortti kauppiaalta</string>
+    <string name="nuova_partita">Aloita uusi peli</string>
+    <string name="giocatore_singolo">Yksinpeli</string>
+    <string name="multigiocatore">Moninpeli</string>
+    <string name="impostazioni">Asetukset</string>
+    <string name="indietro">Takaisin</string>
+    <string name="profilo_giocatore">Pelaajaprofiili</string>
+    <string name="nome">Nimi</string>
+    <string name="inserisci_nome">Syötä nimesi</string>
+    <string name="aspetto">Ulkoasu</string>
+    <string name="tema">Teema</string>
+    <string name="all_asta">Huutokaupassa!</string>
+    <string name="offerta_attuale">Nykyinen tarjous: %1$d €</string>
+    <string name="miglior_offerente">Korkein tarjoaja: %1$s</string>
+    <string name="nessuno">Ei kukaan</string>
+    <string name="carte_di">Pelaajan %1$s kortit</string>
+    <string name="chiudi">Sulje</string>
+    <string name="offri_carta">Tarjoa %1$s</string>
+    <string name="a_chi_offrire">Kenelle haluat tarjota tätä korttia?</string>
+    <string name="chiedi_soldi">Pyydä rahaa (%1$s saldo: %2$d €):</string>
+    <string name="chiedi_carta_scambio">Pyydä korttia vaihdossa</string>
+    <string name="scegli_carta_chiedere">Valitse kortti pelaajalta %1$s pyydettäväksi:</string>
+    <string name="chiedi_soldi_invece">Pyydä rahaa sen sijaan</string>
+    <string name="offri_per">Tarjoa hintaan %1$d €</string>
+    <string name="annulla">Peruuta</string>
+    <string name="scambia_con">Vaihda pelaajan %1$s kanssa</string>
+    <string name="vuoi_la_carta">Haluatko kortin: %1$s?</string>
+    <string name="offri_soldi">Tarjoa rahaa (Saldo: %1$d €):</string>
+    <string name="vuoi_offrire_carta_invece">Haluatko tarjota korttia sen sijaan?</string>
+    <string name="scegli_tua_carta_offrire">Valitse yksi korteistasi tarjottavaksi:</string>
+    <string name="torna_offerta_denaro">Takaisin rahatarjoukseen</string>
+    <string name="offri_amount">Tarjoa %1$d €</string>
+    <string name="carte">Kortit</string>
+    <string name="default_player_name">Sinä (Pelaaja)</string>
+    <string name="ai_name_1">Äly 1</string>
+    <string name="ai_name_2">Äly 2</string>
+    <string name="card_back_initial">M</string>
+
+    <!-- Theme names -->
+    <string name="theme_system">Järjestelmä</string>
+    <string name="theme_light">Vaalea</string>
+    <string name="theme_dark">Tumma</string>
+
+    <!-- Language names (Always in their own language) -->
+    <string name="lingua">Kieli</string>
+    <string name="lingua_it">Italiano</string>
+    <string name="lingua_en">English</string>
+    <string name="lingua_de">Deutsch</string>
+    <string name="lingua_fr">Français</string>
+    <string name="lingua_es">Español</string>
+    <string name="lingua_pt">Português</string>
+    <string name="lingua_nl">Nederlands</string>
+    <string name="lingua_pl">Polski</string>
+    <string name="lingua_sv">Svenska</string>
+    <string name="lingua_da">Dansk</string>
+    <string name="lingua_fi">Suomi</string>
+    <string name="lingua_el">Ελληνικά</string>
+    <string name="lingua_cs">Čeština</string>
+    <string name="lingua_hu">Magyar</string>
+    <string name="lingua_ro">Română</string>
+    <string name="lingua_bg">Български</string>
+    <string name="lingua_sk">Slovenčina</string>
+    <string name="lingua_hr">Hrvatski</string>
+    <string name="lingua_lt">Lietuvių</string>
+    <string name="lingua_sl">Slovenščina</string>
+    <string name="lingua_lv">Latviešu</string>
+    <string name="lingua_et">Eesti</string>
+    <string name="lingua_ga">Gaeilge</string>
+    <string name="lingua_mt">Malti</string>
+
+    <!-- Game Messages -->
+    <string name="msg_benvenuti">Tervetuloa Mercante in Fiera -peliin!</string>
+    <string name="msg_carte_distribuite">Alkukaartit jaettu! Huutokauppa alkaa lopuista.</string>
+    <string name="msg_asta_terminata">Huutokauppa päättyi! Kauppias keräsi %1$d €. Nyt asetetaan palkinnot.</string>
+    <string name="msg_all_asta_carta">Huutokaupataan kortti: %1$s. Kuka tarjoaa enemmän?</string>
+    <string name="msg_offerta_ia">%1$s tarjoaa %2$d €!</string>
+    <string name="msg_andata">Myyty! Pelaajalle %1$s hintaan %2$d €</string>
+    <string name="msg_hai_offerto">Tarjosit %1$d €!</string>
+    <string name="msg_non_abbastanza_soldi">Ei tarpeeksi rahaa!</string>
+    <string name="msg_premi_stabiliti">Palkinnot asetettu huutokaupan perusteella. Aloitetaan karsinta!</string>
+    <string name="msg_uscita_carta">Nostettu kortti on: %1$s. Tämä kortti poistetaan pelistä!</string>
+    <string name="msg_gioco_terminato">Peli ohi! Tässä ovat lopulliset voitot.</string>
+    <string name="msg_scambio_accettato">%1$s hyväksyi vaihdon hintaan %2$d €!</string>
+    <string name="msg_scambio_rifiutato">%1$s hylkäsi tarjouksen.</string>
+    <string name="msg_scambio_carte_accettato">%1$s vaihtoi kortin %2$s korttiin %3$s!</string>
+    <string name="msg_scambio_carte_rifiutato">%1$s hylkäsi korttivaihdon.</string>
+    <string name="msg_acquisto_accettato">%1$s osti kortin %2$s hintaan %3$d €!</string>
+    <string name="msg_acquisto_rifiutato">%1$s ei ole kiinnostunut ostamisesta.</string>
+    <string name="msg_scambio_proposto_accettato">%1$s hyväksyi vaihdon: %2$s korttiin %3$s!</string>
+    <string name="msg_sei_gia_miglior_offerente">Olet jo korkein tarjoaja!</string>
+
+    <!-- AI Proposal Strings -->
+    <string name="titolo_proposta_ia">Ehdotus pelaajalta %1$s</string>
+    <string name="msg_ia_vuole_comprare">%1$s haluaa ostaa korttisi %2$s hintaan %3$d €.</string>
+    <string name="msg_ia_vuole_vendere">%1$s haluaa myydä sinulle korttinsa %2$s hintaan %3$d €.</string>
+    <string name="msg_ia_vuole_scambiare">%1$s haluaa vaihtaa korttinsa %2$s sinun korttiisi %3$s.</string>
+    <string name="accetta">Hyväksy</string>
+    <string name="rifiuta">Hylkää</string>
+
+    <!-- Multiplayer Strings -->
+    <string name="crea_tavolo">Luo uusi pöytä</string>
+    <string name="unisciti_tavolo">Liity pöytään</string>
+    <string name="codice_tavolo">Pöytä-koodi</string>
+    <string name="inserisci_codice">Syötä koodi</string>
+    <string name="attesa_giocatori">Odotetaan muita pelaajia&#8230;</string>
+    <string name="giocatori_connessi">Yhdistetyt pelaajat: %1$d</string>
+    <string name="inizia_gioco">Aloita peli</string>
+    <string name="pronto">Valmis</string>
+    <string name="non_pronto">Ei valmis</string>
+    <string name="errore_codice">Virheellinen koodi tai pöytää ei ole olemassa</string>
+    <string name="share_table_code_message">Käytä tätä koodia liittyäksesi pöytääni Mercante in Fiera -pelissä: %1$s
+
+Tai klikkaa tästä: https://gtpware.eu/join/%1$s</string>
+    <string name="condividi_codice">Jaa koodi</string>
+    <string name="attesa_host">Odotetaan, että isäntä aloittaa pelin&#8230;</string>
+
+    <!-- Tutorial Strings -->
+    <string name="tutorial_title">Kuinka pelata</string>
+    <string name="tutorial_message">Tervetuloa Mercante in Fiera -peliin!\n\n1. Jakelu: Sinä ja tekoälypelaajat saatte kortteja.\n2. Huutokauppa: Loput kortit huutokaupataan. Tarjoa kasvattaaksesi pakkaasi!\n3. Vaihto: Napauta korttejasi tai vastustajien elementtejä ehdottaaksesi vaihtoja (rahaa tai kortteja).\n4. Karsinta: Kauppias nostaa kortteja. Jos kortti nostetaan, se on arvoton!\n5. Palkinnot: Viimeiset jäljellä olevat kortit voittavat potin rahat!</string>
+    <string name="ho_capito">Selvä!</string>
+</resources>

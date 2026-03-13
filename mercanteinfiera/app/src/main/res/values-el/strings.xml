@@ -1,0 +1,129 @@
+<resources>
+    <string name="app_name">MercanteInFiera</string>
+    <string name="saldo">Υπόλοιπο: %1$d €</string>
+    <string name="torna_al_menu">Επιστροφή στο Μενού</string>
+    <string name="premi_in_palio">Βραβεία (Σύνολο: %1$d €):</string>
+    <string name="le_tue_carte">Οι κάρτες σας:</string>
+    <string name="stabilisci_premi">Ορισμός Βραβείων</string>
+    <string name="fai_un_offerta">Κάντε μια προσφορά (+5€)</string>
+    <string name="pesca_carta">Τραβήξτε Κάρτα από τον Έμπορο</string>
+    <string name="nuova_partita">Έναρξη Νέου Παιχνιδιού</string>
+    <string name="giocatore_singolo">Ένας Παίκτης</string>
+    <string name="multigiocatore">Πολλοί Παίκτες</string>
+    <string name="impostazioni">Ρυθμίσεις</string>
+    <string name="indietro">Πίσω</string>
+    <string name="profilo_giocatore">Προφίλ Παίκτη</string>
+    <string name="nome">Όνομα</string>
+    <string name="inserisci_nome">Εισάγετε το όνομά σας</string>
+    <string name="aspetto">Εμφάνιση</string>
+    <string name="tema">Θέμα</string>
+    <string name="all_asta">Σε δημοπρασία!</string>
+    <string name="offerta_attuale">Τρέχουσα προσφορά: %1$d €</string>
+    <string name="miglior_offerente">Καλύτερος προσφέρων: %1$s</string>
+    <string name="nessuno">Κανένας</string>
+    <string name="carte_di">Κάρτες του %1$s</string>
+    <string name="chiudi">Κλείσιμο</string>
+    <string name="offri_carta">Προσφορά %1$s</string>
+    <string name="a_chi_offrire">Σε ποιόν θέλετε να προσφέρετε αυτή την κάρτα;</string>
+    <string name="chiedi_soldi">Ζητήστε χρήματα (Υπόλοιπο %1$s: %2$d €):</string>
+    <string name="chiedi_carta_scambio">Ζητήστε μια κάρτα ως αντάλλαγμα</string>
+    <string name="scegli_carta_chiedere">Επιλέξτε μια κάρτα του %1$s για να ζητήσετε:</string>
+    <string name="chiedi_soldi_invece">Ζητήστε χρήματα αντί αυτού</string>
+    <string name="offri_per">Προσφορά για %1$d €</string>
+    <string name="annulla">Ακύρωση</string>
+    <string name="scambia_con">Ανταλλαγή με %1$s</string>
+    <string name="vuoi_la_carta">Θέλετε την κάρτα: %1$s;</string>
+    <string name="offri_soldi">Προσφέρετε χρήματα (Υπόλοιπο: %1$d €):</string>
+    <string name="vuoi_offrire_carta_invece">Θέλετε να προσφέρετε μια κάρτα αντί αυτού;</string>
+    <string name="scegli_tua_carta_offrire">Επιλέξτε μια από τις κάρτες σας για να προσφέρετε:</string>
+    <string name="torna_offerta_denaro">Επιστροφή στην προσφορά μετρητών</string>
+    <string name="offri_amount">Προσφορά %1$d €</string>
+    <string name="carte">Κάρτες</string>
+    <string name="default_player_name">Εσείς (Παίκτης)</string>
+    <string name="ai_name_1">ΤΝ 1</string>
+    <string name="ai_name_2">ΤΝ 2</string>
+    <string name="card_back_initial">Μ</string>
+
+    <!-- Theme names -->
+    <string name="theme_system">Σύστημα</string>
+    <string name="theme_light">Φωτεινό</string>
+    <string name="theme_dark">Σκοτεινό</string>
+
+    <!-- Language names (Always in their own language) -->
+    <string name="lingua">Γλώσσα</string>
+    <string name="lingua_it">Italiano</string>
+    <string name="lingua_en">English</string>
+    <string name="lingua_de">Deutsch</string>
+    <string name="lingua_fr">Français</string>
+    <string name="lingua_es">Español</string>
+    <string name="lingua_pt">Português</string>
+    <string name="lingua_nl">Nederlands</string>
+    <string name="lingua_pl">Polski</string>
+    <string name="lingua_sv">Svenska</string>
+    <string name="lingua_da">Dansk</string>
+    <string name="lingua_fi">Suomi</string>
+    <string name="lingua_el">Ελληνικά</string>
+    <string name="lingua_cs">Čeština</string>
+    <string name="lingua_hu">Magyar</string>
+    <string name="lingua_ro">Română</string>
+    <string name="lingua_bg">Български</string>
+    <string name="lingua_sk">Slovenčina</string>
+    <string name="lingua_hr">Hrvatski</string>
+    <string name="lingua_lt">Lietuvių</string>
+    <string name="lingua_sl">Slovenščina</string>
+    <string name="lingua_lv">Latviešu</string>
+    <string name="lingua_et">Eesti</string>
+    <string name="lingua_ga">Gaeilge</string>
+    <string name="lingua_mt">Malti</string>
+
+    <!-- Game Messages -->
+    <string name="msg_benvenuti">Καλώς ήρθατε στο Mercante in Fiera!</string>
+    <string name="msg_carte_distribuite">Οι αρχικές κάρτες μοιράστηκαν! Η δημοπρασία ξεκινά για τις υπόλοιπες.</string>
+    <string name="msg_asta_terminata">Η δημοπρασία τελείωσε! Ο Έμπορος συγκέντρωσε %1$d €. Τώρα ας ορίσουμε τα βραβεία.</string>
+    <string name="msg_all_asta_carta">Δημοπρασία της κάρτας: %1$s. Ποιος προσφέρει περισσότερα;</string>
+    <string name="msg_offerta_ia">Ο %1$s προσφέρει %2$d €!</string>
+    <string name="msg_andata">Πουλήθηκε! Στον %1$s για %2$d €</string>
+    <string name="msg_hai_offerto">Προσφέρατε %1$d €!</string>
+    <string name="msg_non_abbastanza_soldi">Δεν υπάρχουν αρκετά χρήματα!</string>
+    <string name="msg_premi_stabiliti">Τα βραβεία ορίστηκαν με βάση τη δημοπρασία. Ας ξεκινήσουμε την εξάλειψη!</string>
+    <string name="msg_uscita_carta">Η κάρτα που τραβήχτηκε είναι: %1$s. Αυτή η κάρτα εξαλείφεται από το παιχνίδι!</string>
+    <string name="msg_gioco_terminato">Το παιχνίδι τελείωσε! Εδώ είναι τα τελικά κέρδη.</string>
+    <string name="msg_scambio_accettato">Ο %1$s αποδέχτηκε την ανταλλαγή για %2$d €!</string>
+    <string name="msg_scambio_rifiutato">Ο %1$s απέρριψε την προσφορά.</string>
+    <string name="msg_scambio_carte_accettato">Ο %1$s αντάλλαξε την %2$s με την %3$s!</string>
+    <string name="msg_scambio_carte_rifiutato">Ο %1$s απέρριψε την ανταλλαγή καρτών.</string>
+    <string name="msg_acquisto_accettato">Ο %1$s αγόρασε την %2$s για %3$d €!</string>
+    <string name="msg_acquisto_rifiutato">Ο %1$s δεν ενδιαφέρεται για αγορά.</string>
+    <string name="msg_scambio_proposto_accettato">Ο %1$s αποδέχτηκε την ανταλλαγή: %2$s για %3$s!</string>
+    <string name="msg_sei_gia_miglior_offerente">Είστε ήδη ο καλύτερος προσφέρων!</string>
+
+    <!-- AI Proposal Strings -->
+    <string name="titolo_proposta_ia">Πρόταση από %1$s</string>
+    <string name="msg_ia_vuole_comprare">Ο %1$s θέλει να αγοράσει την κάρτα σας %2$s για %3$d €.</string>
+    <string name="msg_ia_vuole_vendere">Ο %1$s θέλει να σας πουλήσει την κάρτα του %2$s για %3$d €.</string>
+    <string name="msg_ia_vuole_scambiare">Ο %1$s θέλει να ανταλλάξει την κάρτα του %2$s με τη δική σας %3$s.</string>
+    <string name="accetta">Αποδοχή</string>
+    <string name="rifiuta">Απόρριψη</string>
+
+    <!-- Multiplayer Strings -->
+    <string name="crea_tavolo">Δημιουργία νέου τραπεζιού</string>
+    <string name="unisciti_tavolo">Συμμετοχή σε τραπέζι</string>
+    <string name="codice_tavolo">Κωδικός τραπεζιού</string>
+    <string name="inserisci_codice">Εισάγετε τον κωδικό</string>
+    <string name="attesa_giocatori">Αναμονή για άλλους παίκτες&#8230;</string>
+    <string name="giocatori_connessi">Συνδεδεμένοι παίκτες: %1$d</string>
+    <string name="inizia_gioco">Έναρξη Παιχνιδιού</string>
+    <string name="pronto">Έτοιμος</string>
+    <string name="non_pronto">Όχι έτοιμος</string>
+    <string name="errore_codice">Μη έγκυρος κωδικός ή το τραπέζι δεν υπάρχει</string>
+    <string name="share_table_code_message">Χρησιμοποιήστε αυτόν τον κωδικό για να συμμετάσχετε στο τραπέζι μου στο Mercante in Fiera: %1$s
+
+Ή κάντε κλικ εδώ: https://gtpware.eu/join/%1$s</string>
+    <string name="condividi_codice">Κοινοποίηση κωδικού</string>
+    <string name="attesa_host">Αναμονή για τον οικοδεσπότη να ξεκινήσει το παιχνίδι&#8230;</string>
+
+    <!-- Tutorial Strings -->
+    <string name="tutorial_title">Πώς να παίξετε</string>
+    <string name="tutorial_message">Καλώς ήρθατε στο Mercante in Fiera!\n\n1. Διανομή: Εσείς και οι παίκτες ΤΝ λαμβάνετε κάρτες.\n2. Δημοπρασία: Οι υπόλοιπες κάρτες δημοπρατούνται. Προσφέρετε για να επεκτείνετε την τράπουλά σας!\n3. Ανταλλαγή: Πατήστε στις κάρτες σας ή στα στοιχεία των αντιπάλων για να προτείνετε ανταλλαγές (χρήματα ή κάρτες).\n4. Εξάλειψη: Ο Έμπορος τραβάει κάρτες. Αν τραβηχτούν, αυτές οι κάρτες είναι άχρηστες!\n5. Βραβεία: Οι κάρτες που απομένουν στο τέλος κερδίζουν τα χρήματα του συνόλου!</string>
+    <string name="ho_capito">Κατάλαβα!</string>
+</resources>

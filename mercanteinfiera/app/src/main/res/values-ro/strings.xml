@@ -1,0 +1,129 @@
+<resources>
+    <string name="app_name">MercanteInFiera</string>
+    <string name="saldo">Sold: %1$d €</string>
+    <string name="torna_al_menu">Înapoi la Meniu</string>
+    <string name="premi_in_palio">Premii (Fond: %1$d €):</string>
+    <string name="le_tue_carte">Cărțile tale:</string>
+    <string name="stabilisci_premi">Stabilește Premiile</string>
+    <string name="fai_un_offerta">Fă o ofertă (+5€)</string>
+    <string name="pesca_carta">Trage o carte de la Negustor</string>
+    <string name="nuova_partita">Joc Nou</string>
+    <string name="giocatore_singolo">Single Player</string>
+    <string name="multigiocatore">Multiplayer</string>
+    <string name="impostazioni">Setări</string>
+    <string name="indietro">Înapoi</string>
+    <string name="profilo_giocatore">Profil Jucător</string>
+    <string name="nome">Nume</string>
+    <string name="inserisci_nome">Introdu numele tău</string>
+    <string name="aspetto">Aspect</string>
+    <string name="tema">Temă</string>
+    <string name="all_asta">La licitație!</string>
+    <string name="offerta_attuale">Oferta curentă: %1$d €</string>
+    <string name="miglior_offerente">Cel mai mare ofertant: %1$s</string>
+    <string name="nessuno">Niciunul</string>
+    <string name="carte_di">Cărțile lui %1$s</string>
+    <string name="chiudi">Închide</string>
+    <string name="offri_carta">Oferă %1$s</string>
+    <string name="a_chi_offrire">Cui vrei să oferi această carte?</string>
+    <string name="chiedi_soldi">Cere bani (Sold %1$s: %2$d €):</string>
+    <string name="chiedi_carta_scambio">Cere o carte la schimb</string>
+    <string name="scegli_carta_chiedere">Alege o carte de-a lui %1$s pe care să o ceri:</string>
+    <string name="chiedi_soldi_invece">Cere bani în schimb</string>
+    <string name="offri_per">Oferă pentru %1$d €</string>
+    <string name="annulla">Anulează</string>
+    <string name="scambia_con">Schimb cu %1$s</string>
+    <string name="vuoi_la_carta">Vrei cartea: %1$s?</string>
+    <string name="offri_soldi">Oferă bani (Sold: %1$d €):</string>
+    <string name="vuoi_offrire_carta_invece">Vrei să oferi o carte în schimb?</string>
+    <string name="scegli_tua_carta_offrire">Alege una dintre cărțile tale de oferit:</string>
+    <string name="torna_offerta_denaro">Înapoi la oferta în bani</string>
+    <string name="offri_amount">Oferă %1$d €</string>
+    <string name="carte">Cărți</string>
+    <string name="default_player_name">Tu (Jucător)</string>
+    <string name="ai_name_1">IA 1</string>
+    <string name="ai_name_2">IA 2</string>
+    <string name="card_back_initial">M</string>
+
+    <!-- Theme names -->
+    <string name="theme_system">Sistem</string>
+    <string name="theme_light">Luminos</string>
+    <string name="theme_dark">Întunecat</string>
+
+    <!-- Language names (Always in their own language) -->
+    <string name="lingua">Limbă</string>
+    <string name="lingua_it">Italiano</string>
+    <string name="lingua_en">English</string>
+    <string name="lingua_de">Deutsch</string>
+    <string name="lingua_fr">Français</string>
+    <string name="lingua_es">Español</string>
+    <string name="lingua_pt">Português</string>
+    <string name="lingua_nl">Nederlands</string>
+    <string name="lingua_pl">Polski</string>
+    <string name="lingua_sv">Svenska</string>
+    <string name="lingua_da">Dansk</string>
+    <string name="lingua_fi">Suomi</string>
+    <string name="lingua_el">Ελληνικά</string>
+    <string name="lingua_cs">Čeština</string>
+    <string name="lingua_hu">Magyar</string>
+    <string name="lingua_ro">Română</string>
+    <string name="lingua_bg">Български</string>
+    <string name="lingua_sk">Slovenčina</string>
+    <string name="lingua_hr">Hrvatski</string>
+    <string name="lingua_lt">Lietuvių</string>
+    <string name="lingua_sl">Slovenščina</string>
+    <string name="lingua_lv">Latviešu</string>
+    <string name="lingua_et">Eesti</string>
+    <string name="lingua_ga">Gaeilge</string>
+    <string name="lingua_mt">Malti</string>
+
+    <!-- Game Messages -->
+    <string name="msg_benvenuti">Bun venit la Mercante in Fiera!</string>
+    <string name="msg_carte_distribuite">Cărțile inițiale au fost distribuite! Începe licitația pentru cele rămase.</string>
+    <string name="msg_asta_terminata">Licitația s-a încheiat! Negustorul a strâns %1$d €. Acum să stabilim premiile.</string>
+    <string name="msg_all_asta_carta">Se licitează cartea: %1$s. Cine oferă mai mult?</string>
+    <string name="msg_offerta_ia">%1$s oferă %2$d €!</string>
+    <string name="msg_andata">Vândut! Lui %1$s pentru %2$d €</string>
+    <string name="msg_hai_offerto">Ai oferit %1$d €!</string>
+    <string name="msg_non_abbastanza_soldi">Nu ai destui bani!</string>
+    <string name="msg_premi_stabiliti">Premii stabilite în funcție de licitație. Să începem eliminarea!</string>
+    <string name="msg_uscita_carta">Cartea trasă este: %1$s. Această carte este eliminată din joc!</string>
+    <string name="msg_gioco_terminato">Jocul s-a terminat! Iată câștigurile finale.</string>
+    <string name="msg_scambio_accettato">%1$s a acceptat schimbul pentru %2$d €!</string>
+    <string name="msg_scambio_rifiutato">%1$s a refuzat oferta.</string>
+    <string name="msg_scambio_carte_accettato">%1$s a schimbat %2$s pentru %3$s!</string>
+    <string name="msg_scambio_carte_rifiutato">%1$s a refuzat schimbul de cărți.</string>
+    <string name="msg_acquisto_accettato">%1$s a cumpărat %2$s pentru %3$d €!</string>
+    <string name="msg_acquisto_rifiutato">%1$s nu este interesat să cumpere.</string>
+    <string name="msg_scambio_proposto_accettato">%1$s a acceptat schimbul: %2$s pentru %3$s!</string>
+    <string name="msg_sei_gia_miglior_offerente">Ești deja cel mai mare ofertant!</string>
+
+    <!-- AI Proposal Strings -->
+    <string name="titolo_proposta_ia">Propunere de la %1$s</string>
+    <string name="msg_ia_vuole_comprare">%1$s vrea să cumpere cartea ta %2$s pentru %3$d €.</string>
+    <string name="msg_ia_vuole_vendere">%1$s vrea să-ți vândă cartea sa %2$s pentru %3$d €.</string>
+    <string name="msg_ia_vuole_scambiare">%1$s vrea să schimbe cartea sa %2$s pentru %3$s a ta.</string>
+    <string name="accetta">Acceptă</string>
+    <string name="rifiuta">Refuză</string>
+
+    <!-- Multiplayer Strings -->
+    <string name="crea_tavolo">Creează o masă nouă</string>
+    <string name="unisciti_tavolo">Alătură-te unei mese</string>
+    <string name="codice_tavolo">Codul mesei</string>
+    <string name="inserisci_codice">Introdu codul</string>
+    <string name="attesa_giocatori">În așteptarea altor jucători&#8230;</string>
+    <string name="giocatori_connessi">Jucători conectați: %1$d</string>
+    <string name="inizia_gioco">Începe Jocul</string>
+    <string name="pronto">Gata</string>
+    <string name="non_pronto">Nu sunt gata</string>
+    <string name="errore_codice">Cod invalid sau masa nu există</string>
+    <string name="share_table_code_message">Folosește acest cod pentru a te alătura mesei mele în Mercante in Fiera: %1$s
+
+Sau dă clic aici: https://gtpware.eu/join/%1$s</string>
+    <string name="condividi_codice">Distribuie codul</string>
+    <string name="attesa_host">În așteptarea gazdei pentru a începe jocul&#8230;</string>
+
+    <!-- Tutorial Strings -->
+    <string name="tutorial_title">Cum se joacă</string>
+    <string name="tutorial_message">Bun venit la Mercante in Fiera!\n\n1. Distribuție: Tu și jucătorii IA primiți cărți.\n2. Licitație: Cărțile rămase sunt licitate. Licitează pentru a-ți mări pachetul!\n3. Schimburi: Atinge cărțile tale sau elementele adversarilor pentru a propune schimburi (bani sau cărți).\n4. Eliminare: Negustorul trage cărți. Dacă sunt trase, acele cărți nu mai valorează nimic!\n5. Premii: Cărțile rămase la final câștigă banii din fondul de premiere!</string>
+    <string name="ho_capito">Am înțeles!</string>
+</resources>
