@@ -288,12 +288,13 @@ class GameViewModel(application: Application) : AndroidViewModel(application) {
             val currentHighest = _currentBid.value
             val aiPlayers = _players.value.filter { !it.isHuman }
             
-            val bidder = aiPlayers.filter { it.money > currentHighest + 2 }.shuffled().firstOrNull {
+            // AI won't bid if they are already the highest bidder
+            val bidder = aiPlayers.filter { it.id != _highestBidder.value?.id && it.money > currentHighest + 5 }.shuffled().firstOrNull {
                 Random.nextInt(100) > 60 
             }
 
             if (bidder != null) {
-                val newBid = currentHighest + Random.nextInt(1, 5)
+                val newBid = currentHighest + 5 // AI now bids exact increment
                 if (newBid <= bidder.money) {
                     _currentBid.value = newBid
                     _highestBidder.value = bidder
@@ -316,6 +317,13 @@ class GameViewModel(application: Application) : AndroidViewModel(application) {
     fun playerBid() {
         if (_gameState.value != GamePhase.AUCTION) return
         val human = _players.value.find { it.isHuman } ?: return
+        
+        // Prevent bidding if already the highest bidder
+        if (_highestBidder.value?.id == human.id) {
+            _currentMessage.value = getString(R.string.msg_sei_gia_miglior_offerente)
+            return
+        }
+
         val newBid = _currentBid.value + 5
         
         if (newBid <= human.money) {
