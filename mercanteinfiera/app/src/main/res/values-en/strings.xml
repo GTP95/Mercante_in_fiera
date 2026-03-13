@@ -116,7 +116,14 @@
     <string name="pronto">Ready</string>
     <string name="non_pronto">Not Ready</string>
     <string name="errore_codice">Invalid code or non-existent table</string>
-    <string name="share_table_code_message">Use this code to join my table on Mercante in Fiera: %1$s\n\nOr click here: https://gtpware.eu/join/%1$s</string>
+    <string name="share_table_code_message">Use this code to join my table on Mercante in Fiera: %1$s
+
+Or click here: https://gtpware.eu/join/%1$s</string>
     <string name="condividi_codice">Share code</string>
     <string name="attesa_host">Waiting for the host to start the game&#8230;</string>
+
+    <!-- Tutorial Strings -->
+    <string name="tutorial_title">How to Play</string>
+    <string name="tutorial_message">Welcome to Mercante in Fiera!\n\n1. Distribution: You and the AI players receive cards.\n2. Auction: Remaining cards are auctioned. Bid to expand your deck!\n3. Trading: Tap on your cards or opponents\' elements to propose trades (money or cards).\n4. Elimination: The Merchant draws cards. If drawn, those cards are worthless!\n5. Prizes: The remaining cards at the end win the pot money!</string>
+    <string name="ho_capito">Got it!</string>
 </resources>

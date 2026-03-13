@@ -55,6 +55,7 @@ fun GameScreen(
     val playerName by viewModel.playerName.collectAsState()
     val themeMode by viewModel.themeMode.collectAsState()
     val language by viewModel.language.collectAsState()
+    val showTutorial by viewModel.showTutorial.collectAsState()
     
     // Multiplayer state
     val currentRoom by multiplayerViewModel.currentRoom.collectAsState()
@@ -165,6 +166,12 @@ fun GameScreen(
 
     // Dialogs (Local only)
     if (!isMultiplayer) {
+        if (showTutorial) {
+            TutorialDialog(
+                onDismiss = { viewModel.markTutorialSeen() }
+            )
+        }
+
         inspectingPlayer?.let { player ->
             InspectionDialog(
                 player = player,
@@ -203,6 +210,29 @@ fun GameScreen(
             )
         }
     }
+}
+
+@Composable
+fun TutorialDialog(onDismiss: () -> Unit) {
+    AlertDialog(
+        onDismissRequest = onDismiss,
+        title = {
+            Text(
+                text = stringResource(R.string.tutorial_title),
+                fontWeight = FontWeight.Bold
+            )
+        },
+        text = {
+            Text(
+                text = stringResource(R.string.tutorial_message)
+            )
+        },
+        confirmButton = {
+            Button(onClick = onDismiss) {
+                Text(stringResource(R.string.ho_capito))
+            }
+        }
+    )
 }
 
 @Composable

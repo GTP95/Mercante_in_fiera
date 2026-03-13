@@ -80,6 +80,9 @@ class GameViewModel(application: Application) : AndroidViewModel(application) {
     private val _language = MutableStateFlow(settingsManager.getLanguage())
     val language: StateFlow<String> = _language.asStateFlow()
 
+    private val _showTutorial = MutableStateFlow(false)
+    val showTutorial: StateFlow<Boolean> = _showTutorial.asStateFlow()
+
     private var merchantCardsRemaining = mutableListOf<CardModel>()
     private var cardsToAuction = mutableListOf<CardModel>()
 
@@ -196,7 +199,15 @@ class GameViewModel(application: Application) : AndroidViewModel(application) {
     }
 
     fun startSinglePlayer() {
+        if (!settingsManager.hasSeenTutorial()) {
+            _showTutorial.value = true
+        }
         initializeGame(isFirstTime = true)
+    }
+
+    fun markTutorialSeen() {
+        settingsManager.setTutorialSeen()
+        _showTutorial.value = false
     }
 
     private fun initializeGame(isFirstTime: Boolean = false) {

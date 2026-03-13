@@ -110,13 +110,20 @@
     <string name="unisciti_tavolo">Unisciti a un tavolo</string>
     <string name="codice_tavolo">Codice tavolo</string>
     <string name="inserisci_codice">Inserisci il codice</string>
-    <string name="attesa_giocatori">In attesa di altri giocatori...</string>
+    <string name="attesa_giocatori">In attesa di altri giocatori&#8230;</string>
     <string name="giocatori_connessi">Giocatori connessi: %1$d</string>
     <string name="inizia_gioco">Inizia Gioco</string>
     <string name="pronto">Pronto</string>
     <string name="non_pronto">Non Pronto</string>
     <string name="errore_codice">Codice non valido o tavolo inesistente</string>
-    <string name="share_table_code_message">Usa questo codice per unirti al mio tavolo su Mercante in Fiera: %1$s\n\nOppure clicca qui: https://gtpware.eu/join/%1$s</string>
+    <string name="share_table_code_message">Usa questo codice per unirti al mio tavolo su Mercante in Fiera: %1$s
+
+Oppure clicca qui: https://gtpware.eu/join/%1$s</string>
     <string name="condividi_codice">Condividi codice</string>
-    <string name="attesa_host">In attesa che l\'host inizi il gioco...</string>
+    <string name="attesa_host">In attesa che l\'host inizi il gioco&#8230;</string>
+
+    <!-- Tutorial Strings -->
+    <string name="tutorial_title">Come Giocare</string>
+    <string name="tutorial_message">Benvenuto al Mercante in Fiera!\n\n1. Distribuzione: Ricevi le carte insieme alle intelligenze artificiali.\n2. Asta: Le carte rimanenti vengono messe all\'asta per comporre il montepremi. Offri per arricchire il tuo mazzo!\n3. Scambi: Usa soldi o carte per interagire con i tuoi avversari (tocca sulle carte tue o altrui).\n4. Eliminazione: Il mercante pesca le carte. Se vengono pescate, queste carte non varranno nulla!\n5. Premi: Le ultime carte a rimanere vincono i premi formati con il montepremi!</string>
+    <string name="ho_capito">Ho capito!</string>
 </resources>

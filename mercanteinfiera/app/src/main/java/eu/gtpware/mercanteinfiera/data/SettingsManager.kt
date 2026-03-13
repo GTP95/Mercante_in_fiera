@@ -13,6 +13,7 @@ class SettingsManager(private val context: Context) {
         private const val KEY_THEME = "theme_mode"
         private const val KEY_LANGUAGE = "language"
         private const val KEY_FIRST_STARTUP = "first_startup"
+        private const val KEY_HAS_SEEN_TUTORIAL = "has_seen_tutorial"
         
         const val THEME_LIGHT = "Light"
         const val THEME_DARK = "Dark"
@@ -68,6 +69,14 @@ class SettingsManager(private val context: Context) {
                 .putBoolean(KEY_FIRST_STARTUP, false)
                 .apply()
         }
+    }
+
+    fun hasSeenTutorial(): Boolean {
+        return prefs.getBoolean(KEY_HAS_SEEN_TUTORIAL, false)
+    }
+
+    fun setTutorialSeen() {
+        prefs.edit().putBoolean(KEY_HAS_SEEN_TUTORIAL, true).apply()
     }
 
     fun getPlayerName(): String {
