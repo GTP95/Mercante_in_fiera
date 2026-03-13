@@ -7,6 +7,7 @@ import eu.gtpware.mercanteinfiera.R
 import eu.gtpware.mercanteinfiera.data.DeckManager
 import eu.gtpware.mercanteinfiera.data.SettingsManager
 import eu.gtpware.mercanteinfiera.models.*
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -63,6 +64,11 @@ class GameViewModel(application: Application) : AndroidViewModel(application) {
 
     private val _merchantPot = MutableStateFlow(0)
     val merchantPot: StateFlow<Int> = _merchantPot.asStateFlow()
+
+    private val _auctionTimer = MutableStateFlow(0)
+    val auctionTimer: StateFlow<Int> = _auctionTimer.asStateFlow()
+
+    private var auctionTimerJob: Job? = null
 
     // Settings State
     private val _playerName = MutableStateFlow(settingsManager.getPlayerName())
@@ -247,9 +253,27 @@ class GameViewModel(application: Application) : AndroidViewModel(application) {
         _highestBidder.value = null
         _currentMessage.value = getString(R.string.msg_all_asta_carta, card.name)
         
+        startAuctionTimer()
+        
         viewModelScope.launch {
             delay(2000)
             simulateAiBidding()
+        }
+    }
+
+    private fun startAuctionTimer() {
+        auctionTimerJob?.cancel()
+        _auctionTimer.value = 10 // 10 seconds for each card
+        auctionTimerJob = viewModelScope.launch {
+            while (_auctionTimer.value > 0) {
+                delay(1000)
+                _auctionTimer.value -= 1
+            }
+            if (_gameState.value == GamePhase.AUCTION) {
+                _currentMessage.value = getString(R.string.msg_andata, _highestBidder.value?.name ?: getString(R.string.nessuno), _currentBid.value)
+                delay(1000)
+                concludeAuction()
+            }
         }
     }
 
@@ -257,8 +281,10 @@ class GameViewModel(application: Application) : AndroidViewModel(application) {
         if (_gameState.value != GamePhase.AUCTION) return
 
         var active = true
-        while (active) {
+        while (active && _auctionTimer.value > 2) { // Bots only bid if there is time
             delay(1500)
+            if (_auctionTimer.value <= 2) break
+
             val currentHighest = _currentBid.value
             val aiPlayers = _players.value.filter { !it.isHuman }
             
@@ -272,6 +298,7 @@ class GameViewModel(application: Application) : AndroidViewModel(application) {
                     _currentBid.value = newBid
                     _highestBidder.value = bidder
                     _currentMessage.value = getString(R.string.msg_offerta_ia, bidder.name, newBid)
+                    resetAuctionTimer()
                 } else {
                     active = false
                 }
@@ -279,11 +306,11 @@ class GameViewModel(application: Application) : AndroidViewModel(application) {
                 active = false
             }
         }
-        
-        delay(1000)
-        _currentMessage.value = getString(R.string.msg_andata, _highestBidder.value?.name ?: getString(R.string.nessuno), _currentBid.value)
-        delay(1000)
-        concludeAuction()
+    }
+
+    private fun resetAuctionTimer() {
+        // Every time someone bids, we reset the timer to 10s
+        _auctionTimer.value = 10
     }
 
     fun playerBid() {
@@ -295,6 +322,7 @@ class GameViewModel(application: Application) : AndroidViewModel(application) {
             _currentBid.value = newBid
             _highestBidder.value = human
             _currentMessage.value = getString(R.string.msg_hai_offerto, newBid)
+            resetAuctionTimer()
         } else {
             _currentMessage.value = getString(R.string.msg_non_abbastanza_soldi)
         }

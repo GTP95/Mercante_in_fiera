@@ -95,6 +95,7 @@
     <string name="msg_acquisto_accettato">%1$s bought %2$s for %3$d €!</string>
     <string name="msg_acquisto_rifiutato">%1$s is not interested in buying.</string>
     <string name="msg_scambio_proposto_accettato">%1$s accepted the trade: %2$s for %3$s!</string>
+    <string name="msg_sei_gia_miglior_offerente">You are already the highest bidder!</string>
 
     <!-- AI Proposal Strings -->
     <string name="titolo_proposta_ia">Proposal from %1$s</string>

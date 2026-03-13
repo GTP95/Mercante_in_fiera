@@ -16,7 +16,8 @@ data class GameRoom(
     @get:PropertyName("auctionCard") @set:PropertyName("auctionCard") var auctionCard: CardModel? = null,
     @get:PropertyName("currentBid") @set:PropertyName("currentBid") var currentBid: Int = 0,
     @get:PropertyName("highestBidderId") @set:PropertyName("highestBidderId") var highestBidderId: String? = null,
-    @get:PropertyName("tradeRequest") @set:PropertyName("tradeRequest") var tradeRequest: TradeRequest? = null
+    @get:PropertyName("tradeRequest") @set:PropertyName("tradeRequest") var tradeRequest: TradeRequest? = null,
+    @get:PropertyName("auctionTimer") @set:PropertyName("auctionTimer") var auctionTimer: Int = 0
 )
 
 data class RoomPlayer(

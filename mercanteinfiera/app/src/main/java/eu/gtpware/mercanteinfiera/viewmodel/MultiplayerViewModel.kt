@@ -11,6 +11,7 @@ import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.ValueEventListener
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.TimeoutCancellationException
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -45,6 +46,8 @@ class MultiplayerViewModel : ViewModel() {
     val offeringCard: StateFlow<CardModel?> = _offeringCard.asStateFlow()
 
     private val lastProposalTimes = mutableMapOf<String, Long>()
+
+    private var auctionTimerJob: Job? = null
 
     init {
         startBotTradeLoop()
@@ -291,9 +294,11 @@ class MultiplayerViewModel : ViewModel() {
             
             val cardsToAuction = currentRoomData.cardsToAuction.toMutableList()
             if (cardsToAuction.isEmpty()) {
+                auctionTimerJob?.cancel()
                 database.child("rooms").child(room.code).updateChildren(mapOf(
                     "status" to RoomStatus.DISTRIBUTION,
                     "auctionCard" to null,
+                    "auctionTimer" to 0,
                     "currentMessage" to "Asta terminata! Il Mercante ha raccolto ${currentRoomData.merchantPot} €. Ora stabiliamo i premi."
                 )).await()
                 return@launch
@@ -305,11 +310,42 @@ class MultiplayerViewModel : ViewModel() {
                 "auctionCard" to card,
                 "currentBid" to 0,
                 "highestBidderId" to null,
+                "auctionTimer" to 10,
                 "currentMessage" to "All'asta la carta: ${card.name}. Chi offre di più?"
             )).await()
 
+            startAuctionTimer(room.code)
+
             delay(2000)
             simulateAiBidding()
+        }
+    }
+
+    private fun startAuctionTimer(roomCode: String) {
+        auctionTimerJob?.cancel()
+        auctionTimerJob = viewModelScope.launch {
+            while (true) {
+                delay(1000)
+                val snapshot = database.child("rooms").child(roomCode).get().await()
+                val room = snapshot.getValue(GameRoom::class.java) ?: break
+                if (room.status != RoomStatus.AUCTION) break
+                
+                val newTimerValue = room.auctionTimer - 1
+                if (newTimerValue >= 0) {
+                    database.child("rooms").child(roomCode).child("auctionTimer").setValue(newTimerValue).await()
+                } else {
+                    // Timer finished
+                    val winnerId = room.highestBidderId
+                    val winnerName = if (winnerId != null) room.players[winnerId]?.name ?: "Nessuno" else "Nessuno"
+                    
+                    database.child("rooms").child(roomCode).child("currentMessage")
+                        .setValue("Andata! A $winnerName per ${room.currentBid} €").await()
+                    
+                    delay(1000)
+                    concludeAuction()
+                    break
+                }
+            }
         }
     }
 
@@ -324,22 +360,25 @@ class MultiplayerViewModel : ViewModel() {
             val snapshot = database.child("rooms").child(room.code).get().await()
             val currentRoomData = snapshot.getValue(GameRoom::class.java) ?: break
             if (currentRoomData.status != RoomStatus.AUCTION) break
+            if (currentRoomData.auctionTimer <= 2) break // Bots stop bidding when time is low
 
             val currentHighest = currentRoomData.currentBid
             val bots = currentRoomData.players.values.filter { it.isBot }
             
-            val bidder = bots.filter { it.money > currentHighest + 2 }.shuffled().firstOrNull {
+            val bidder = bots.filter { it.id != currentRoomData.highestBidderId && it.money > currentHighest + 2 }.shuffled().firstOrNull {
                 Random.nextInt(100) > 60 
             }
 
             if (bidder != null) {
                 val newBid = currentHighest + Random.nextInt(1, 5)
                 if (newBid <= bidder.money) {
-                    database.child("rooms").child(room.code).updateChildren(mapOf(
+                    val updateMap = mutableMapOf<String, Any>(
                         "currentBid" to newBid,
                         "highestBidderId" to bidder.id,
-                        "currentMessage" to "${bidder.name} offre $newBid €!"
-                    )).await()
+                        "currentMessage" to "${bidder.name} offre $newBid €!",
+                        "auctionTimer" to 10
+                    )
+                    database.child("rooms").child(room.code).updateChildren(updateMap).await()
                 } else {
                     active = false
                 }
@@ -347,18 +386,6 @@ class MultiplayerViewModel : ViewModel() {
                 active = false
             }
         }
-        
-        delay(1000)
-        val finalSnapshot = database.child("rooms").child(room.code).get().await()
-        val finalRoomData = finalSnapshot.getValue(GameRoom::class.java) ?: return
-        val winnerId = finalRoomData.highestBidderId
-        val winnerName = if (winnerId != null) finalRoomData.players[winnerId]?.name ?: "Nessuno" else "Nessuno"
-        
-        database.child("rooms").child(room.code).child("currentMessage")
-            .setValue("Andata! A $winnerName per ${finalRoomData.currentBid} €").await()
-        
-        delay(1000)
-        concludeAuction()
     }
 
     fun playerBid() {
@@ -366,14 +393,22 @@ class MultiplayerViewModel : ViewModel() {
         val user = auth.currentUser ?: return
         val player = room.players[user.uid] ?: return
         
+        if (room.highestBidderId == user.uid) {
+            // Locally we can't easily change the message since it's in the DB, 
+            // but we can at least prevent the bid.
+            return
+        }
+
         val newBid = room.currentBid + 5
         if (newBid <= player.money) {
             viewModelScope.launch {
-                database.child("rooms").child(room.code).updateChildren(mapOf(
+                val updateMap = mutableMapOf<String, Any>(
                     "currentBid" to newBid,
                     "highestBidderId" to user.uid,
-                    "currentMessage" to "${player.name} offre $newBid €!"
-                )).await()
+                    "currentMessage" to "${player.name} offre $newBid €!",
+                    "auctionTimer" to 10
+                )
+                database.child("rooms").child(room.code).updateChildren(updateMap).await()
             }
         } else {
             _error.value = "Non hai abbastanza soldi!"
@@ -517,7 +552,8 @@ class MultiplayerViewModel : ViewModel() {
                 "merchantPot" to 0,
                 "auctionCard" to null,
                 "cardsToAuction" to emptyList<CardModel>(),
-                "tradeRequest" to null
+                "tradeRequest" to null,
+                "auctionTimer" to 0
             )).await()
         }
     }

@@ -65,6 +65,7 @@ fun GameScreen(
     val currentBid by viewModel.currentBid.collectAsState()
     val highestBidder by viewModel.highestBidder.collectAsState()
     val merchantPot by viewModel.merchantPot.collectAsState()
+    val auctionTimer by viewModel.auctionTimer.collectAsState()
 
     val humanPlayer = players.find { it.isHuman }
     val aiPlayers = players.filter { !it.isHuman }
@@ -147,6 +148,7 @@ fun GameScreen(
                     currentBid = currentBid,
                     highestBidder = highestBidder,
                     merchantPot = merchantPot,
+                    auctionTimer = auctionTimer,
                     prizes = prizes,
                     eliminatedCards = eliminatedCards,
                     onBackClick = { viewModel.goToMenu() },
@@ -213,6 +215,7 @@ fun SinglePlayerGameLayout(
     currentBid: Int,
     highestBidder: Player?,
     merchantPot: Int,
+    auctionTimer: Int,
     prizes: List<Prize>,
     eliminatedCards: Set<Int>,
     onBackClick: () -> Unit,
@@ -223,6 +226,8 @@ fun SinglePlayerGameLayout(
     onInspectPlayer: (Player) -> Unit,
     onOfferCard: (CardModel) -> Unit
 ) {
+    val isWin = highestBidder?.id == humanPlayer?.id
+
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -278,7 +283,7 @@ fun SinglePlayerGameLayout(
                 card = auctionCard,
                 currentBid = currentBid,
                 highestBidderName = highestBidder?.name ?: stringResource(R.string.nessuno),
-                onBidClick = onBidClick
+                timer = auctionTimer
             )
         }
 
@@ -352,7 +357,11 @@ fun SinglePlayerGameLayout(
                         }
                     }
                     GamePhase.AUCTION -> {
-                        Button(onClick = onBidClick, modifier = Modifier.fillMaxWidth()) {
+                        Button(
+                            onClick = onBidClick,
+                            modifier = Modifier.fillMaxWidth(),
+                            enabled = !isWin
+                        ) {
                             Text(stringResource(R.string.fai_un_offerta))
                         }
                     }
@@ -383,6 +392,7 @@ fun MultiplayerGameLayout(
     val me = room.players[myId]
     val opponents = room.players.filter { it.key != myId }.values.toList()
     val isHost = room.hostId == myId
+    val isWin = room.highestBidderId == myId
 
     Column(
         modifier = Modifier
@@ -440,7 +450,7 @@ fun MultiplayerGameLayout(
                 card = room.auctionCard!!,
                 currentBid = room.currentBid,
                 highestBidderName = highestBidderName,
-                onBidClick = { multiplayerViewModel.playerBid() }
+                timer = room.auctionTimer
             )
         }
 
@@ -511,7 +521,11 @@ fun MultiplayerGameLayout(
                             }
                         }
                         RoomStatus.AUCTION -> {
-                            Button(onClick = { multiplayerViewModel.playerBid() }, modifier = Modifier.fillMaxWidth()) {
+                            Button(
+                                onClick = { multiplayerViewModel.playerBid() },
+                                modifier = Modifier.fillMaxWidth(),
+                                enabled = !isWin
+                            ) {
                                 Text(stringResource(R.string.fai_un_offerta))
                             }
                         }
@@ -540,7 +554,11 @@ fun MultiplayerGameLayout(
                     modifier = Modifier.padding(16.dp),
                     contentAlignment = Alignment.Center
                 ) {
-                    Button(onClick = { multiplayerViewModel.playerBid() }, modifier = Modifier.fillMaxWidth()) {
+                    Button(
+                        onClick = { multiplayerViewModel.playerBid() },
+                        modifier = Modifier.fillMaxWidth(),
+                        enabled = !isWin
+                    ) {
                         Text(stringResource(R.string.fai_un_offerta))
                     }
                 }
@@ -987,7 +1005,7 @@ fun AuctionPanel(
     card: CardModel,
     currentBid: Int,
     highestBidderName: String,
-    onBidClick: () -> Unit
+    timer: Int
 ) {
     Card(
         modifier = Modifier.fillMaxWidth(),
@@ -1012,8 +1030,21 @@ fun AuctionPanel(
                     color = MaterialTheme.colorScheme.onSecondaryContainer
                 )
             }
-            Button(onClick = onBidClick) {
-                Text("+5€")
+            Box(
+                modifier = Modifier
+                    .size(48.dp)
+                    .background(
+                        if (timer <= 5) MaterialTheme.colorScheme.errorContainer else MaterialTheme.colorScheme.primaryContainer,
+                        CircleShape
+                    ),
+                contentAlignment = Alignment.Center
+            ) {
+                Text(
+                    text = "$timer",
+                    style = MaterialTheme.typography.titleMedium,
+                    fontWeight = FontWeight.Bold,
+                    color = if (timer <= 5) MaterialTheme.colorScheme.error else MaterialTheme.colorScheme.onPrimaryContainer
+                )
             }
         }
     }
