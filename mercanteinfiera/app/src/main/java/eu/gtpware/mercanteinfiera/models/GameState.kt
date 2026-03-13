@@ -1,5 +1,7 @@
 package eu.gtpware.mercanteinfiera.models
 
+import com.google.firebase.database.IgnoreExtraProperties
+
 enum class GamePhase {
     MENU,
     SETTINGS,
@@ -20,9 +22,10 @@ data class Player(
     val money: Int = 100
 )
 
+@IgnoreExtraProperties
 data class Prize(
-    val card: CardModel = CardModel(),
-    val value: Int = 0
+    var card: CardModel = CardModel(),
+    var value: Int = 0
 )
 
 sealed class AIProposal {

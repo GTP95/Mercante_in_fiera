@@ -11,6 +11,7 @@ import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.ValueEventListener
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
+import kotlinx.coroutines.TimeoutCancellationException
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -119,7 +120,13 @@ class MultiplayerViewModel : ViewModel() {
         viewModelScope.launch {
             _error.value = null
             try {
-                val user = auth.currentUser ?: auth.signInAnonymously().await().user ?: throw Exception("Auth failed")
+                val user = auth.currentUser ?: try {
+                    withTimeout(30000) {
+                        auth.signInAnonymously().await().user ?: throw Exception("Auth failed")
+                    }
+                } catch (e: TimeoutCancellationException) {
+                    throw Exception("Auth timeout. Check connection.")
+                }
                 
                 val code = generateRoomCode()
                 val room = GameRoom(
@@ -129,8 +136,12 @@ class MultiplayerViewModel : ViewModel() {
                     players = mapOf(user.uid to RoomPlayer(id = user.uid, name = playerName, isReady = false))
                 )
                 
-                withTimeout(15000) {
-                    database.child("rooms").child(code).setValue(room).await()
+                try {
+                    withTimeout(30000) {
+                        database.child("rooms").child(code).setValue(room).await()
+                    }
+                } catch (e: TimeoutCancellationException) {
+                    throw Exception("Timeout during room creation. Please check your connection.")
                 }
                 observeRoom(code)
             } catch (e: Exception) {
@@ -144,9 +155,20 @@ class MultiplayerViewModel : ViewModel() {
         viewModelScope.launch {
             _error.value = null
             try {
-                val user = auth.currentUser ?: auth.signInAnonymously().await().user ?: throw Exception("Auth failed")
-                val snapshot = withTimeout(15000) {
-                    database.child("rooms").child(code).get().await()
+                val user = auth.currentUser ?: try {
+                    withTimeout(30000) {
+                        auth.signInAnonymously().await().user ?: throw Exception("Auth failed")
+                    }
+                } catch (e: TimeoutCancellationException) {
+                    throw Exception("Auth timeout. Check connection.")
+                }
+
+                val snapshot = try {
+                    withTimeout(30000) {
+                        database.child("rooms").child(code).get().await()
+                    }
+                } catch (e: TimeoutCancellationException) {
+                    throw Exception("Timeout joining room. Please check your connection.")
                 }
                 
                 if (snapshot.exists()) {
