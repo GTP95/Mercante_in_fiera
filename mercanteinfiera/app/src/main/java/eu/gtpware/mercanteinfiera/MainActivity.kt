@@ -16,6 +16,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.core.os.LocaleListCompat
 import eu.gtpware.mercanteinfiera.ui.theme.MercanteInFieraTheme
+import eu.gtpware.mercanteinfiera.utils.SoundManager
 import eu.gtpware.mercanteinfiera.viewmodel.GameViewModel
 import eu.gtpware.mercanteinfiera.viewmodel.MultiplayerViewModel
 
@@ -26,6 +27,7 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         
+        SoundManager.init(this)
         handleIntent(intent)
 
         setContent {
@@ -57,6 +59,11 @@ class MainActivity : AppCompatActivity() {
     override fun onNewIntent(intent: Intent?) {
         super.onNewIntent(intent)
         intent?.let { handleIntent(it) }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        SoundManager.release()
     }
 
     private fun handleIntent(intent: Intent) {

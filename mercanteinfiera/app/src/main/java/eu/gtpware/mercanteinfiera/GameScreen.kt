@@ -33,6 +33,7 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import eu.gtpware.mercanteinfiera.models.*
 import eu.gtpware.mercanteinfiera.ui.GameCard
+import eu.gtpware.mercanteinfiera.utils.rememberClickable
 import eu.gtpware.mercanteinfiera.viewmodel.GameViewModel
 import eu.gtpware.mercanteinfiera.viewmodel.MultiplayerViewModel
 import com.google.firebase.auth.ktx.auth
@@ -217,8 +218,9 @@ fun GameScreen(
 
 @Composable
 fun TutorialDialog(onDismiss: () -> Unit) {
+    val onClick = rememberClickable(onDismiss)
     AlertDialog(
-        onDismissRequest = onDismiss,
+        onDismissRequest = onClick,
         title = {
             Text(
                 text = stringResource(R.string.tutorial_title),
@@ -231,7 +233,7 @@ fun TutorialDialog(onDismiss: () -> Unit) {
             )
         },
         confirmButton = {
-            Button(onClick = onDismiss) {
+            Button(onClick = onClick) {
                 Text(stringResource(R.string.ho_capito))
             }
         }
@@ -262,6 +264,11 @@ fun SinglePlayerGameLayout(
     onOfferCard: (CardModel) -> Unit
 ) {
     val isWin = highestBidder?.id == humanPlayer?.id
+    val onBackClicked = rememberClickable(onBackClick)
+    val onBidClicked = rememberClickable(onBidClick)
+    val onStartPrizesClicked = rememberClickable(onStartPrizes)
+    val onDrawCardClicked = rememberClickable(onDrawCard)
+    val onNewGameClicked = rememberClickable(onNewGame)
 
     Column(
         modifier = Modifier
@@ -291,7 +298,7 @@ fun SinglePlayerGameLayout(
                     )
                 }
             }
-            IconButton(onClick = onBackClick) {
+            IconButton(onClick = onBackClicked) {
                 Icon(Icons.Default.Close, contentDescription = stringResource(R.string.torna_al_menu), tint = MaterialTheme.colorScheme.onBackground)
             }
         }
@@ -352,7 +359,7 @@ fun SinglePlayerGameLayout(
                     money = ai.money,
                     modifier = Modifier
                         .weight(1f)
-                        .clickable { onInspectPlayer(ai) }
+                        .clickable(onClick = rememberClickable { onInspectPlayer(ai) })
                 )
             }
         }
@@ -373,8 +380,8 @@ fun SinglePlayerGameLayout(
                         card = card,
                         isFaceUp = true,
                         modifier = Modifier
-                            .aspectRatio(3f / 4f)
-                            .clickable { onOfferCard(card) }
+                            .aspectRatio(3f / 4f),
+                        onClick = { onOfferCard(card) }
                     )
                 }
             }
@@ -392,13 +399,13 @@ fun SinglePlayerGameLayout(
             ) {
                 when (gameState) {
                     GamePhase.DISTRIBUTION -> {
-                        Button(onClick = onStartPrizes, modifier = Modifier.fillMaxWidth()) {
+                        Button(onClick = onStartPrizesClicked, modifier = Modifier.fillMaxWidth()) {
                             Text(stringResource(R.string.stabilisci_premi))
                         }
                     }
                     GamePhase.AUCTION -> {
                         Button(
-                            onClick = onBidClick,
+                            onClick = onBidClicked,
                             modifier = Modifier.fillMaxWidth(),
                             enabled = !isWin
                         ) {
@@ -407,7 +414,7 @@ fun SinglePlayerGameLayout(
                     }
                     GamePhase.ELIMINATION -> {
                         Button(
-                            onClick = onDrawCard,
+                            onClick = onDrawCardClicked,
                             modifier = Modifier.fillMaxWidth(),
                             enabled = aiProposal == null
                         ) {
@@ -416,7 +423,7 @@ fun SinglePlayerGameLayout(
                     }
                     GamePhase.FINISHED -> {
                         Button(
-                            onClick = onNewGame,
+                            onClick = onNewGameClicked,
                             enabled = isNewGameButtonEnabled
                         ) {
                             Text(stringResource(R.string.nuova_partita))
@@ -440,6 +447,12 @@ fun MultiplayerGameLayout(
     val opponents = room.players.filter { it.key != myId }.values.toList()
     val isHost = room.hostId == myId
     val isWin = room.highestBidderId == myId
+
+    val onBackClicked = rememberClickable(onBackClick)
+    val onStartPrizesClicked = rememberClickable { multiplayerViewModel.startPrizesPhase() }
+    val onBidClicked = rememberClickable { multiplayerViewModel.playerBid() }
+    val onDrawCardClicked = rememberClickable { multiplayerViewModel.drawEliminationCard() }
+    val onResetGameClicked = rememberClickable { multiplayerViewModel.resetGame() }
 
     Column(
         modifier = Modifier
@@ -469,7 +482,7 @@ fun MultiplayerGameLayout(
                     )
                 }
             }
-            IconButton(onClick = onBackClick) {
+            IconButton(onClick = onBackClicked) {
                 Icon(Icons.Default.Close, contentDescription = stringResource(R.string.torna_al_menu), tint = MaterialTheme.colorScheme.onBackground)
             }
         }
@@ -568,13 +581,13 @@ fun MultiplayerGameLayout(
                 ) {
                     when (room.status) {
                         RoomStatus.DISTRIBUTION -> {
-                            Button(onClick = { multiplayerViewModel.startPrizesPhase() }, modifier = Modifier.fillMaxWidth()) {
+                            Button(onClick = onStartPrizesClicked, modifier = Modifier.fillMaxWidth()) {
                                 Text(stringResource(R.string.stabilisci_premi))
                             }
                         }
                         RoomStatus.AUCTION -> {
                             Button(
-                                onClick = { multiplayerViewModel.playerBid() },
+                                onClick = onBidClicked,
                                 modifier = Modifier.fillMaxWidth(),
                                 enabled = !isWin
                             ) {
@@ -583,7 +596,7 @@ fun MultiplayerGameLayout(
                         }
                         RoomStatus.ELIMINATION -> {
                             Button(
-                                onClick = { multiplayerViewModel.drawEliminationCard() },
+                                onClick = onDrawCardClicked,
                                 modifier = Modifier.fillMaxWidth(),
                                 enabled = room.tradeRequest == null || room.tradeRequest?.receiverId != myId
                             ) {
@@ -591,7 +604,7 @@ fun MultiplayerGameLayout(
                             }
                         }
                         RoomStatus.FINISHED -> {
-                            Button(onClick = { multiplayerViewModel.resetGame() }) {
+                            Button(onClick = onResetGameClicked) {
                                 Text(stringResource(R.string.nuova_partita))
                             }
                         }
@@ -611,7 +624,7 @@ fun MultiplayerGameLayout(
                     contentAlignment = Alignment.Center
                 ) {
                     Button(
-                        onClick = { multiplayerViewModel.playerBid() },
+                        onClick = onBidClicked,
                         modifier = Modifier.fillMaxWidth(),
                         enabled = !isWin
                     ) {
@@ -651,7 +664,7 @@ fun MainMenu(
             verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
             Button(
-                onClick = onSinglePlayerClick,
+                onClick = rememberClickable(onSinglePlayerClick),
                 modifier = Modifier.fillMaxWidth(),
                 shape = RoundedCornerShape(12.dp)
             ) {
@@ -659,7 +672,7 @@ fun MainMenu(
             }
             
             Button(
-                onClick = onMultiplayerClick,
+                onClick = rememberClickable(onMultiplayerClick),
                 modifier = Modifier.fillMaxWidth(),
                 shape = RoundedCornerShape(12.dp)
             ) {
@@ -667,7 +680,7 @@ fun MainMenu(
             }
             
             Button(
-                onClick = onSettingsClick,
+                onClick = rememberClickable(onSettingsClick),
                 modifier = Modifier.fillMaxWidth(),
                 shape = RoundedCornerShape(12.dp)
             ) {
@@ -692,6 +705,8 @@ fun MultiplayerMenu(
     var isLoading by remember { mutableStateOf(false) }
     var showNameDialog by remember { mutableStateOf(false) }
     var pendingAction by remember { mutableStateOf<((String) -> Unit)?>(null) }
+    
+    val onBackClicked = rememberClickable(onBackClick)
 
     if (showNameDialog) {
         var tempName by remember { mutableStateOf("") }
@@ -709,7 +724,7 @@ fun MultiplayerMenu(
             confirmButton = {
                 Button(
                     enabled = tempName.isNotBlank(),
-                    onClick = {
+                    onClick = rememberClickable {
                         onNameUpdate(tempName)
                         showNameDialog = false
                         pendingAction?.invoke(tempName)
@@ -728,7 +743,7 @@ fun MultiplayerMenu(
             .padding(16.dp)
     ) {
         Row(verticalAlignment = Alignment.CenterVertically) {
-            IconButton(onClick = onBackClick) {
+            IconButton(onClick = onBackClicked) {
                 Icon(Icons.Default.ArrowBack, contentDescription = stringResource(R.string.indietro))
             }
             Text(stringResource(R.string.multigiocatore), style = MaterialTheme.typography.headlineMedium, fontWeight = FontWeight.Bold)
@@ -745,7 +760,7 @@ fun MultiplayerMenu(
                 CircularProgressIndicator()
             } else {
                 Button(
-                    onClick = { 
+                    onClick = rememberClickable { 
                         isLoading = true
                         if (playerName == defaultName || playerName.isBlank()) {
                             pendingAction = { onCreateRoom(it) }
@@ -773,7 +788,7 @@ fun MultiplayerMenu(
                         placeholder = { Text(stringResource(R.string.inserisci_codice)) }
                     )
                     Button(
-                        onClick = { 
+                        onClick = rememberClickable { 
                             if (code.length == 6) {
                                 isLoading = true
                                 if (playerName == defaultName || playerName.isBlank()) {
@@ -813,6 +828,10 @@ fun LobbyScreen(
     val myId = Firebase.auth.currentUser?.uid
     val isHost = room.hostId == myId
 
+    val onBackClicked = rememberClickable(onBackClick)
+    val onReadyClicked = rememberClickable(onReadyClick)
+    val onStartGameClicked = rememberClickable(onStartGame)
+
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -825,13 +844,13 @@ fun LobbyScreen(
             modifier = Modifier.fillMaxWidth()
         ) {
             Row(verticalAlignment = Alignment.CenterVertically) {
-                IconButton(onClick = onBackClick) {
+                IconButton(onClick = onBackClicked) {
                     Icon(Icons.Default.ArrowBack, contentDescription = stringResource(R.string.indietro))
                 }
                 Text(stringResource(R.string.codice_tavolo) + ": ${room.code}", style = MaterialTheme.typography.headlineSmall, fontWeight = FontWeight.Bold)
             }
             
-            IconButton(onClick = { shareTableCode(context, shareMessage) }) {
+            IconButton(onClick = rememberClickable { shareTableCode(context, shareMessage) }) {
                 Icon(Icons.Default.Share, contentDescription = stringResource(R.string.condividi_codice))
             }
         }
@@ -870,7 +889,7 @@ fun LobbyScreen(
         val everyoneReady = room.players.values.all { it.isReady }
         
         Button(
-            onClick = onReadyClick,
+            onClick = onReadyClicked,
             modifier = Modifier.fillMaxWidth(),
             shape = RoundedCornerShape(12.dp)
         ) {
@@ -881,7 +900,7 @@ fun LobbyScreen(
         
         if (isHost) {
             Button(
-                onClick = onStartGame,
+                onClick = onStartGameClicked,
                 modifier = Modifier.fillMaxWidth(),
                 enabled = everyoneReady,
                 shape = RoundedCornerShape(12.dp)
@@ -921,6 +940,8 @@ fun SettingsScreen(
     onLanguageChange: (String) -> Unit,
     onBackClick: () -> Unit
 ) {
+    val onBackClicked = rememberClickable(onBackClick)
+    
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -931,7 +952,7 @@ fun SettingsScreen(
             modifier = Modifier.fillMaxWidth(),
             verticalAlignment = Alignment.CenterVertically
         ) {
-            IconButton(onClick = onBackClick) {
+            IconButton(onClick = onBackClicked) {
                 Icon(Icons.Default.ArrowBack, contentDescription = stringResource(R.string.indietro), tint = MaterialTheme.colorScheme.onBackground)
             }
             Text(
@@ -987,7 +1008,7 @@ fun SettingsScreen(
                     themes.forEach { (label, mode) ->
                         FilterChip(
                             selected = currentTheme == mode,
-                            onClick = { onThemeChange(mode) },
+                            onClick = rememberClickable { onThemeChange(mode) },
                             label = { Text(label) }
                         )
                     }
@@ -1028,7 +1049,7 @@ fun SettingsScreen(
 
                 Box(modifier = Modifier.fillMaxWidth().padding(top = 8.dp)) {
                     OutlinedButton(
-                        onClick = { expanded = true },
+                        onClick = rememberClickable { expanded = true },
                         modifier = Modifier.fillMaxWidth(),
                         shape = RoundedCornerShape(8.dp)
                     ) {
@@ -1042,7 +1063,7 @@ fun SettingsScreen(
                         languages.forEach { (code, label) ->
                             DropdownMenuItem(
                                 text = { Text(label) },
-                                onClick = {
+                                onClick = rememberClickable {
                                     onLanguageChange(code)
                                     expanded = false
                                 }
@@ -1107,8 +1128,9 @@ fun AuctionPanel(
 
 @Composable
 fun InspectionDialog(player: Player, onDismiss: () -> Unit, onCardClick: (CardModel) -> Unit) {
+    val onClick = rememberClickable(onDismiss)
     AlertDialog(
-        onDismissRequest = onDismiss,
+        onDismissRequest = onClick,
         title = { Text(stringResource(R.string.carte_di, player.name)) },
         text = {
             LazyVerticalGrid(
@@ -1121,13 +1143,13 @@ fun InspectionDialog(player: Player, onDismiss: () -> Unit, onCardClick: (CardMo
                     GameCard(
                         card = card,
                         modifier = Modifier
-                            .aspectRatio(3f / 4f)
-                            .clickable { onCardClick(card) }
+                            .aspectRatio(3f / 4f),
+                        onClick = { onCardClick(card) }
                     )
                 }
             }
         },
-        confirmButton = { Button(onClick = onDismiss) { Text(stringResource(R.string.chiudi)) } }
+        confirmButton = { Button(onClick = onClick) { Text(stringResource(R.string.chiudi)) } }
     )
 }
 
@@ -1144,8 +1166,10 @@ fun OfferDialog(
     var requestAmount by remember { mutableStateOf("20") }
     var isSwapMode by remember { mutableStateOf(false) }
 
+    val onDismissed = rememberClickable(onDismiss)
+
     AlertDialog(
-        onDismissRequest = onDismiss,
+        onDismissRequest = onDismissed,
         title = { Text(stringResource(R.string.offri_carta, myCard.name)) },
         text = {
             Column(verticalArrangement = Arrangement.spacedBy(16.dp)) {
@@ -1154,7 +1178,7 @@ fun OfferDialog(
                     aiPlayers.forEach { player ->
                         FilterChip(
                             selected = selectedTarget == player,
-                            onClick = { selectedTarget = player },
+                            onClick = rememberClickable { selectedTarget = player },
                             label = { Text(player.name) }
                         )
                     }
@@ -1170,7 +1194,7 @@ fun OfferDialog(
                             onValueChange = { requestAmount = it.filter { c -> c.isDigit() } },
                             modifier = Modifier.fillMaxWidth()
                         )
-                        TextButton(onClick = { isSwapMode = true }) {
+                        TextButton(onClick = rememberClickable { isSwapMode = true }) {
                             Text(stringResource(R.string.chiedi_carta_scambio))
                         }
                     } else {
@@ -1180,12 +1204,12 @@ fun OfferDialog(
                                 GameCard(
                                     card = card,
                                     modifier = Modifier
-                                        .size(60.dp, 80.dp)
-                                        .clickable { onSwapClick(target, card) }
+                                        .size(60.dp, 80.dp),
+                                    onClick = { onSwapClick(target, card) }
                                 )
                             }
                         }
-                        TextButton(onClick = { isSwapMode = false }) {
+                        TextButton(onClick = rememberClickable { isSwapMode = false }) {
                             Text(stringResource(R.string.chiedi_soldi_invece))
                         }
                     }
@@ -1194,12 +1218,12 @@ fun OfferDialog(
         },
         confirmButton = {
             if (!isSwapMode) {
-                Button(onClick = { selectedTarget?.let { onSellClick(it, requestAmount.toIntOrNull() ?: 0) } }) {
+                Button(onClick = rememberClickable { selectedTarget?.let { onSellClick(it, requestAmount.toIntOrNull() ?: 0) } }) {
                     Text(stringResource(R.string.offri_per, requestAmount.toIntOrNull() ?: 0))
                 }
             }
         },
-        dismissButton = { TextButton(onClick = onDismiss) { Text(stringResource(R.string.annulla)) } }
+        dismissButton = { TextButton(onClick = onDismissed) { Text(stringResource(R.string.annulla)) } }
     )
 }
 
@@ -1215,9 +1239,10 @@ fun TradeDialog(
 ) {
     var offerAmount by remember { mutableStateOf("10") }
     var showCardTrade by remember { mutableStateOf(false) }
+    val onDismissed = rememberClickable(onDismiss)
 
     AlertDialog(
-        onDismissRequest = onDismiss,
+        onDismissRequest = onDismissed,
         title = { Text(stringResource(R.string.scambia_con, targetPlayer.name)) },
         text = {
             Column(verticalArrangement = Arrangement.spacedBy(16.dp)) {
@@ -1231,7 +1256,7 @@ fun TradeDialog(
                         modifier = Modifier.fillMaxWidth()
                     )
                     TextButton(
-                        onClick = { showCardTrade = true }
+                        onClick = rememberClickable { showCardTrade = true }
                     ) {
                         Text(stringResource(R.string.vuoi_offrire_carta_invece))
                     }
@@ -1242,12 +1267,12 @@ fun TradeDialog(
                             GameCard(
                                 card = card,
                                 modifier = Modifier
-                                    .size(60.dp, 80.dp)
-                                    .clickable { onCardOffer(card) }
+                                    .size(60.dp, 80.dp),
+                                onClick = { onCardOffer(card) }
                             )
                         }
                     }
-                    TextButton(onClick = { showCardTrade = false }) {
+                    TextButton(onClick = rememberClickable { showCardTrade = false }) {
                         Text(stringResource(R.string.torna_offerta_denaro))
                     }
                 }
@@ -1255,12 +1280,12 @@ fun TradeDialog(
         },
         confirmButton = {
             if (!showCardTrade) {
-                Button(onClick = { onMoneyOffer(offerAmount.toIntOrNull() ?: 0) }) {
+                Button(onClick = rememberClickable { onMoneyOffer(offerAmount.toIntOrNull() ?: 0) }) {
                     Text(stringResource(R.string.offri_amount, offerAmount.toIntOrNull() ?: 0))
                 }
             }
         },
-        dismissButton = { TextButton(onClick = onDismiss) { Text(stringResource(R.string.annulla)) } }
+        dismissButton = { TextButton(onClick = onDismissed) { Text(stringResource(R.string.annulla)) } }
     )
 }
 
@@ -1270,8 +1295,10 @@ fun AIProposalDialog(
     onAccept: () -> Unit,
     onReject: () -> Unit
 ) {
+    val onRejected = rememberClickable(onReject)
+    
     AlertDialog(
-        onDismissRequest = onReject,
+        onDismissRequest = onRejected,
         title = { Text(stringResource(R.string.titolo_proposta_ia, proposal.getAI().name)) },
         text = {
             Column(verticalArrangement = Arrangement.spacedBy(12.dp), horizontalAlignment = Alignment.CenterHorizontally) {
@@ -1300,10 +1327,10 @@ fun AIProposalDialog(
             }
         },
         confirmButton = {
-            Button(onClick = onAccept) { Text(stringResource(R.string.accetta)) }
+            Button(onClick = rememberClickable(onAccept)) { Text(stringResource(R.string.accetta)) }
         },
         dismissButton = {
-            TextButton(onClick = onReject) { Text(stringResource(R.string.rifiuta)) }
+            TextButton(onClick = onRejected) { Text(stringResource(R.string.rifiuta)) }
         }
     )
 }

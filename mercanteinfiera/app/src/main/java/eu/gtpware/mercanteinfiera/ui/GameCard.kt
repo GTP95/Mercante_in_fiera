@@ -2,6 +2,7 @@ package eu.gtpware.mercanteinfiera.ui
 
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
@@ -24,12 +25,14 @@ import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import eu.gtpware.mercanteinfiera.R
 import eu.gtpware.mercanteinfiera.models.CardModel
+import eu.gtpware.mercanteinfiera.utils.rememberClickable
 
 @Composable
 fun GameCard(
     card: CardModel,
     isFaceUp: Boolean = true,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    onClick: (() -> Unit)? = null
 ) {
     val density = LocalDensity.current.density
     val rotationAnimation by animateFloatAsState(
@@ -38,9 +41,15 @@ fun GameCard(
     )
 
     var hasImageSucceeded by remember { mutableStateOf(false) }
+    
+    val cardModifier = if (onClick != null) {
+        modifier.clickable(onClick = rememberClickable(onClick))
+    } else {
+        modifier
+    }
 
     Card(
-        modifier = modifier
+        modifier = cardModifier
             .graphicsLayer {
                 rotationY = rotationAnimation
                 cameraDistance = 12f * density

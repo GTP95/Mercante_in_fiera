@@ -9,3 +9,4 @@
 *.jar           binary
 # Track deck cards and possibly other images
 *.png filter=lfs diff=lfs merge=lfs -text
+*.mp3 filter=lfs diff=lfs merge=lfs -text
