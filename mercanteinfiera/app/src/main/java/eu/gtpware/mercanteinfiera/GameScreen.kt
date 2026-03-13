@@ -56,6 +56,7 @@ fun GameScreen(
     val themeMode by viewModel.themeMode.collectAsState()
     val language by viewModel.language.collectAsState()
     val showTutorial by viewModel.showTutorial.collectAsState()
+    val isNewGameButtonEnabled by viewModel.isNewGameButtonEnabled.collectAsState()
     
     // Multiplayer state
     val currentRoom by multiplayerViewModel.currentRoom.collectAsState()
@@ -153,6 +154,7 @@ fun GameScreen(
                     prizes = prizes,
                     eliminatedCards = eliminatedCards,
                     aiProposal = aiProposal,
+                    isNewGameButtonEnabled = isNewGameButtonEnabled,
                     onBackClick = { viewModel.goToMenu() },
                     onBidClick = { viewModel.playerBid() },
                     onStartPrizes = { viewModel.startPrizesPhase() },
@@ -250,6 +252,7 @@ fun SinglePlayerGameLayout(
     prizes: List<Prize>,
     eliminatedCards: Set<Int>,
     aiProposal: AIProposal?,
+    isNewGameButtonEnabled: Boolean,
     onBackClick: () -> Unit,
     onBidClick: () -> Unit,
     onStartPrizes: () -> Unit,
@@ -412,7 +415,10 @@ fun SinglePlayerGameLayout(
                         }
                     }
                     GamePhase.FINISHED -> {
-                        Button(onClick = onNewGame) {
+                        Button(
+                            onClick = onNewGame,
+                            enabled = isNewGameButtonEnabled
+                        ) {
                             Text(stringResource(R.string.nuova_partita))
                         }
                     }

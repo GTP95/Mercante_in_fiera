@@ -83,6 +83,9 @@ class GameViewModel(application: Application) : AndroidViewModel(application) {
     private val _showTutorial = MutableStateFlow(false)
     val showTutorial: StateFlow<Boolean> = _showTutorial.asStateFlow()
 
+    private val _isNewGameButtonEnabled = MutableStateFlow(true)
+    val isNewGameButtonEnabled: StateFlow<Boolean> = _isNewGameButtonEnabled.asStateFlow()
+
     private var merchantCardsRemaining = mutableListOf<CardModel>()
     private var cardsToAuction = mutableListOf<CardModel>()
 
@@ -437,6 +440,12 @@ class GameViewModel(application: Application) : AndroidViewModel(application) {
                 }
                 player.copy(money = player.money + roundWinnings)
             }
+        }
+
+        viewModelScope.launch {
+            _isNewGameButtonEnabled.value = false
+            delay(2000)
+            _isNewGameButtonEnabled.value = true
         }
     }
 

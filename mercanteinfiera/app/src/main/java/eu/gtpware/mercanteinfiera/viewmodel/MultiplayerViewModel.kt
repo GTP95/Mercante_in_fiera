@@ -45,6 +45,9 @@ class MultiplayerViewModel : ViewModel() {
     private val _offeringCard = MutableStateFlow<CardModel?>(null)
     val offeringCard: StateFlow<CardModel?> = _offeringCard.asStateFlow()
 
+    private val _isNewGameButtonEnabled = MutableStateFlow(true)
+    val isNewGameButtonEnabled: StateFlow<Boolean> = _isNewGameButtonEnabled.asStateFlow()
+
     private val lastProposalTimes = mutableMapOf<String, Long>()
 
     private var auctionTimerJob: Job? = null
@@ -537,6 +540,12 @@ class MultiplayerViewModel : ViewModel() {
             "players" to finalPlayers,
             "currentMessage" to "Gioco terminato! Ecco le vincite finali."
         )).await()
+
+        viewModelScope.launch {
+            _isNewGameButtonEnabled.value = false
+            delay(2000)
+            _isNewGameButtonEnabled.value = true
+        }
     }
 
     fun resetGame() {
