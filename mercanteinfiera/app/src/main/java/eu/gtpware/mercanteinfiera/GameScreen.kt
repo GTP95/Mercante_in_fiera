@@ -325,7 +325,12 @@ fun SinglePlayerGameLayout(
                 contentPadding = PaddingValues(vertical = 4.dp)
             ) {
                 items(prizes) { prize ->
-                    PrizeItem(prize, isRevealed = gameState == GamePhase.FINISHED || eliminatedCards.contains(prize.card.id))
+                    val isWon = humanPlayer?.cards?.any { it.id == prize.card.id } == true
+                    PrizeItem(
+                        prize = prize,
+                        isRevealed = gameState == GamePhase.FINISHED || eliminatedCards.contains(prize.card.id),
+                        isWon = isWon
+                    )
                 }
             }
         }
@@ -492,7 +497,12 @@ fun MultiplayerGameLayout(
                 contentPadding = PaddingValues(vertical = 4.dp)
             ) {
                 items(room.prizes) { prize ->
-                    PrizeItem(prize, isRevealed = room.status == RoomStatus.FINISHED || room.eliminatedCardIds.contains(prize.card.id))
+                    val isWon = me?.cards?.any { it.id == prize.card.id } == true
+                    PrizeItem(
+                        prize = prize,
+                        isRevealed = room.status == RoomStatus.FINISHED || room.eliminatedCardIds.contains(prize.card.id),
+                        isWon = isWon
+                    )
                 }
             }
         }
@@ -929,8 +939,7 @@ fun SettingsScreen(
                     text = stringResource(R.string.profilo_giocatore),
                     style = MaterialTheme.typography.titleLarge,
                     fontWeight = FontWeight.Bold,
-                    color = MaterialTheme.colorScheme.primary
-                )
+                    color = MaterialTheme.colorScheme.primary)
                 Spacer(modifier = Modifier.height(16.dp))
                 Text(text = stringResource(R.string.nome), style = MaterialTheme.typography.labelLarge, color = MaterialTheme.colorScheme.onSurface)
                 TextField(
@@ -1290,7 +1299,7 @@ private fun AIProposal.getAI() = when(this) {
 }
 
 @Composable
-fun PrizeItem(prize: Prize, isRevealed: Boolean) {
+fun PrizeItem(prize: Prize, isRevealed: Boolean, isWon: Boolean = false) {
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = Modifier.width(60.dp)
@@ -1304,7 +1313,11 @@ fun PrizeItem(prize: Prize, isRevealed: Boolean) {
             text = "${prize.value} €",
             style = MaterialTheme.typography.labelSmall,
             fontWeight = FontWeight.Bold,
-            color = if (isRevealed) Color(0xFFD32F2F) else MaterialTheme.colorScheme.onSurfaceVariant
+            color = when {
+                !isRevealed -> MaterialTheme.colorScheme.onSurfaceVariant
+                isWon -> Color(0xFF2E7D32) // Green
+                else -> Color(0xFFD32F2F) // Red
+            }
         )
     }
 }
