@@ -630,6 +630,7 @@ class MultiplayerViewModel : ViewModel() {
 
     // Trade Helpers to match GameViewModel API
     fun proposeMoneyTrade(targetPlayer: RoomPlayer, targetCard: CardModel, moneyOffer: Int) {
+        if (moneyOffer <= 0) return
         val myId = auth.currentUser?.uid ?: return
         proposeTrade(TradeRequest(myId, targetPlayer.id, "BUY", card1 = targetCard, money = moneyOffer))
     }
@@ -640,6 +641,7 @@ class MultiplayerViewModel : ViewModel() {
     }
 
     fun sellCardForMoney(targetPlayer: RoomPlayer, myCard: CardModel, moneyRequested: Int) {
+        if (moneyRequested <= 0) return
         val myId = auth.currentUser?.uid ?: return
         proposeTrade(TradeRequest(myId, targetPlayer.id, "SELL", card1 = myCard, money = moneyRequested))
     }

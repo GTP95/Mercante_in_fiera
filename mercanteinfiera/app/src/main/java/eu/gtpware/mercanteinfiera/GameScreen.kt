@@ -1248,7 +1248,10 @@ fun OfferDialog(
         },
         confirmButton = {
             if (!isSwapMode) {
-                Button(onClick = rememberClickable { selectedTarget?.let { onSellClick(it, requestAmount.toIntOrNull() ?: 0) } }) {
+                Button(
+                    onClick = rememberClickable { selectedTarget?.let { onSellClick(it, requestAmount.toIntOrNull() ?: 0) } },
+                    enabled = (requestAmount.toIntOrNull() ?: 0) > 0
+                ) {
                     Text(stringResource(R.string.offri_per, requestAmount.toIntOrNull() ?: 0))
                 }
             }
@@ -1310,7 +1313,10 @@ fun TradeDialog(
         },
         confirmButton = {
             if (!showCardTrade) {
-                Button(onClick = rememberClickable { onMoneyOffer(offerAmount.toIntOrNull() ?: 0) }) {
+                Button(
+                    onClick = rememberClickable { onMoneyOffer(offerAmount.toIntOrNull() ?: 0) },
+                    enabled = (offerAmount.toIntOrNull() ?: 0) > 0
+                ) {
                     Text(stringResource(R.string.offri_amount, offerAmount.toIntOrNull() ?: 0))
                 }
             }

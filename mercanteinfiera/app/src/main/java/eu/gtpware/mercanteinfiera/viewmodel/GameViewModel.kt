@@ -526,6 +526,8 @@ class GameViewModel(application: Application) : AndroidViewModel(application) {
     }
 
     fun proposeMoneyTrade(targetPlayer: Player, targetCard: CardModel, moneyOffer: Int) {
+        if (moneyOffer <= 0) return
+        
         viewModelScope.launch {
             val human = _players.value.find { it.isHuman } ?: return@launch
             
@@ -590,6 +592,8 @@ class GameViewModel(application: Application) : AndroidViewModel(application) {
     }
 
     fun sellCardForMoney(targetPlayer: Player, myCard: CardModel, moneyRequested: Int) {
+        if (moneyRequested <= 0) return
+
         viewModelScope.launch {
             if (targetPlayer.money < moneyRequested) {
                 _currentMessage.value = getString(R.string.msg_non_abbastanza_soldi) // Or more specific message if added
