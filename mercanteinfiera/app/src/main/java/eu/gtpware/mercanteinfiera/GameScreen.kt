@@ -694,7 +694,7 @@ fun MultiplayerGameLayout(
                             Button(
                                 onClick = onDrawCardClicked,
                                 modifier = Modifier.fillMaxWidth(),
-                                enabled = room.tradeRequest == null || room.tradeRequest?.receiverId != myId
+                                enabled = room.tradeRequest == null
                             ) {
                                 Text(stringResource(R.string.pesca_carta))
                             }
@@ -968,8 +968,7 @@ fun LobbyScreen(
                     Row(
                         modifier = Modifier.padding(16.dp),
                         horizontalArrangement = Arrangement.SpaceBetween,
-                        verticalAlignment = Alignment.CenterVertically
-                    ) {
+                        verticalAlignment = Alignment.CenterVertically) {
                         Text(player.name, fontWeight = FontWeight.Bold)
                         if (player.isReady) {
                             Text(stringResource(R.string.pronto), color = Color(0xFF2E7D32), fontWeight = FontWeight.Bold)
@@ -1325,7 +1324,7 @@ fun OfferDialog(
     val onDismissed = rememberClickable(onDismiss)
 
     AlertDialog(
-        onDismissRequest = onDismissed,
+        onDismissRequest = { },
         title = { Text(stringResource(R.string.offri_carta, myCard.name)) },
         text = {
             Column(verticalArrangement = Arrangement.spacedBy(16.dp)) {
@@ -1401,7 +1400,7 @@ fun TradeDialog(
     val onDismissed = rememberClickable(onDismiss)
 
     AlertDialog(
-        onDismissRequest = onDismissed,
+        onDismissRequest = { },
         title = { Text(stringResource(R.string.scambia_con, targetPlayerName)) },
         text = {
             Column(verticalArrangement = Arrangement.spacedBy(16.dp)) {
@@ -1457,10 +1456,8 @@ fun AIProposalDialog(
     onAccept: () -> Unit,
     onReject: () -> Unit
 ) {
-    val onRejected = rememberClickable(onReject)
-    
     AlertDialog(
-        onDismissRequest = onRejected,
+        onDismissRequest = { },
         title = { Text(stringResource(R.string.titolo_proposta_ia, proposal.getAI().name)) },
         text = {
             Column(verticalArrangement = Arrangement.spacedBy(12.dp), horizontalAlignment = Alignment.CenterHorizontally) {
@@ -1492,7 +1489,7 @@ fun AIProposalDialog(
             Button(onClick = rememberClickable(onAccept)) { Text(stringResource(R.string.accetta)) }
         },
         dismissButton = {
-            TextButton(onClick = onRejected) { Text(stringResource(R.string.rifiuta)) }
+            TextButton(onClick = rememberClickable(onReject)) { Text(stringResource(R.string.rifiuta)) }
         }
     )
 }
@@ -1506,7 +1503,7 @@ fun TradeRequestDialog(
 ) {
     val sender = room.players[request.senderId]
     AlertDialog(
-        onDismissRequest = onReject,
+        onDismissRequest = { },
         title = { Text("Proposta di scambio") },
         text = {
             val message = when (request.type) {

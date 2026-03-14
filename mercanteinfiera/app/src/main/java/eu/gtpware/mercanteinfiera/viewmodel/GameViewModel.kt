@@ -472,7 +472,7 @@ class GameViewModel(application: Application) : AndroidViewModel(application) {
     }
     
     fun drawEliminationCard() {
-        if (_gameState.value != GamePhase.ELIMINATION) return
+        if (_gameState.value != GamePhase.ELIMINATION || _aiProposal.value != null || _tradeDialogTarget.value != null || _offeringCard.value != null) return
         
         viewModelScope.launch {
             if (merchantCardsRemaining.isNotEmpty()) {

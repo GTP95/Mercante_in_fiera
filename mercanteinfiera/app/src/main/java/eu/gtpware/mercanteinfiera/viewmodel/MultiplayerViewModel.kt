@@ -492,7 +492,7 @@ class MultiplayerViewModel : ViewModel() {
     fun drawEliminationCard() {
         val room = _currentRoom.value ?: return
         val user = auth.currentUser ?: return
-        if (room.hostId != user.uid) return
+        if (room.hostId != user.uid || room.tradeRequest != null) return
 
         viewModelScope.launch {
             if (room.merchantCardsRemaining.isNotEmpty()) {
