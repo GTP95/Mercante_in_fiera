@@ -653,6 +653,8 @@ class MultiplayerViewModel : ViewModel() {
 
     // Local UI interactions in MP
     fun inspectPlayer(player: RoomPlayer) {
+        val room = _currentRoom.value ?: return
+        if (room.status != RoomStatus.ELIMINATION) return
         _inspectingPlayer.value = player
     }
 
@@ -669,6 +671,8 @@ class MultiplayerViewModel : ViewModel() {
     }
 
     fun openOfferDialog(card: CardModel) {
+        val room = _currentRoom.value ?: return
+        if (room.status != RoomStatus.ELIMINATION) return
         _offeringCard.value = card
     }
 

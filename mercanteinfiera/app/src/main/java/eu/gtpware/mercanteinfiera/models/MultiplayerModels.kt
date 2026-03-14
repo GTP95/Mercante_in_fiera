@@ -21,13 +21,13 @@ data class GameRoom(
 )
 
 data class RoomPlayer(
-    @get:PropertyName("id") @set:PropertyName("id") var id: String = "",
-    @get:PropertyName("name") @set:PropertyName("name") var name: String = "",
-    @get:PropertyName("money") @set:PropertyName("money") var money: Int = 100,
+    @get:PropertyName("id") @set:PropertyName("id") override var id: String = "",
+    @get:PropertyName("name") @set:PropertyName("name") override var name: String = "",
+    @get:PropertyName("money") @set:PropertyName("money") override var money: Int = 100,
     @get:PropertyName("isReady") @set:PropertyName("isReady") var isReady: Boolean = false,
-    @get:PropertyName("cards") @set:PropertyName("cards") var cards: List<CardModel> = emptyList(),
+    @get:PropertyName("cards") @set:PropertyName("cards") override var cards: List<CardModel> = emptyList(),
     @get:PropertyName("isBot") @set:PropertyName("isBot") var isBot: Boolean = false
-)
+) : PlayerBase
 
 data class TradeRequest(
     @get:PropertyName("senderId") @set:PropertyName("senderId") var senderId: String = "",

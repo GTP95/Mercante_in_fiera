@@ -68,6 +68,9 @@ fun GameScreen(
     // Multiplayer state
     val currentRoom by multiplayerViewModel.currentRoom.collectAsState()
     val mpError by multiplayerViewModel.error.collectAsState()
+    val mpInspectingPlayer by multiplayerViewModel.inspectingPlayer.collectAsState()
+    val mpTradeDialogTarget by multiplayerViewModel.tradeDialogTarget.collectAsState()
+    val mpOfferingCard by multiplayerViewModel.offeringCard.collectAsState()
 
     // Auction states
     val auctionCard by viewModel.auctionCard.collectAsState()
@@ -176,8 +179,70 @@ fun GameScreen(
         }
     }
 
-    // Dialogs (Local only)
-    if (!isMultiplayer) {
+    // Dialogs
+    if (isMultiplayer) {
+        mpInspectingPlayer?.let { player ->
+            InspectionDialog(
+                playerName = player.name,
+                cards = player.cards,
+                onDismiss = { multiplayerViewModel.stopInspecting() },
+                onCardClick = { card -> multiplayerViewModel.openTradeDialog(player, card) }
+            )
+        }
+        
+        mpTradeDialogTarget?.let { (targetPlayer, targetCard) ->
+            val me = currentRoom?.players?.get(Firebase.auth.currentUser?.uid)
+            TradeDialog(
+                targetPlayerName = targetPlayer.name,
+                targetCard = targetCard,
+                myCards = me?.cards ?: emptyList(),
+                myBalance = me?.money ?: 0,
+                onDismiss = { multiplayerViewModel.closeTradeDialog() },
+                onMoneyOffer = { amount -> 
+                    multiplayerViewModel.proposeMoneyTrade(targetPlayer, targetCard, amount)
+                    multiplayerViewModel.closeTradeDialog()
+                    multiplayerViewModel.stopInspecting()
+                },
+                onCardOffer = { card -> 
+                    multiplayerViewModel.proposeCardTrade(targetPlayer, targetCard, card)
+                    multiplayerViewModel.closeTradeDialog()
+                    multiplayerViewModel.stopInspecting()
+                }
+            )
+        }
+
+        mpOfferingCard?.let { card ->
+            val opponents = currentRoom?.players?.values?.filter { it.id != Firebase.auth.currentUser?.uid } ?: emptyList()
+            OfferDialog(
+                myCard = card,
+                targetPlayers = opponents,
+                onDismiss = { multiplayerViewModel.closeOfferDialog() },
+                onSellClick = { target, amount -> 
+                    if (target is RoomPlayer) {
+                        multiplayerViewModel.sellCardForMoney(target, card, amount)
+                    }
+                    multiplayerViewModel.closeOfferDialog()
+                },
+                onSwapClick = { target, targetCard -> 
+                    if (target is RoomPlayer) {
+                        multiplayerViewModel.swapCardForCard(target, card, targetCard)
+                    }
+                    multiplayerViewModel.closeOfferDialog()
+                }
+            )
+        }
+
+        currentRoom?.tradeRequest?.let { request ->
+            if (request.receiverId == Firebase.auth.currentUser?.uid) {
+                TradeRequestDialog(
+                    request = request,
+                    room = currentRoom!!,
+                    onAccept = { multiplayerViewModel.acceptTrade() },
+                    onReject = { multiplayerViewModel.rejectTrade() }
+                )
+            }
+        }
+    } else {
         if (showTutorial) {
             TutorialDialog(
                 onDismiss = { viewModel.markTutorialSeen() }
@@ -186,7 +251,8 @@ fun GameScreen(
 
         inspectingPlayer?.let { player ->
             InspectionDialog(
-                player = player,
+                playerName = player.name,
+                cards = player.cards,
                 onDismiss = { viewModel.stopInspecting() },
                 onCardClick = { card -> viewModel.openTradeDialog(player, card) }
             )
@@ -194,7 +260,7 @@ fun GameScreen(
 
         tradeDialogTarget?.let { (targetPlayer, targetCard) ->
             TradeDialog(
-                targetPlayer = targetPlayer,
+                targetPlayerName = targetPlayer.name,
                 targetCard = targetCard,
                 myCards = humanPlayer?.cards ?: emptyList(),
                 myBalance = humanPlayer?.money ?: 0,
@@ -207,10 +273,18 @@ fun GameScreen(
         offeringCard?.let { card ->
             OfferDialog(
                 myCard = card,
-                aiPlayers = aiPlayers,
+                targetPlayers = aiPlayers,
                 onDismiss = { viewModel.closeOfferDialog() },
-                onSellClick = { target, amount -> viewModel.sellCardForMoney(target, card, amount) },
-                onSwapClick = { target, targetCard -> viewModel.swapCardForCard(target, card, targetCard) }
+                onSellClick = { target, amount -> 
+                    if (target is Player) {
+                        viewModel.sellCardForMoney(target, card, amount)
+                    }
+                },
+                onSwapClick = { target, targetCard -> 
+                    if (target is Player) {
+                        viewModel.swapCardForCard(target, card, targetCard)
+                    }
+                }
             )
         }
 
@@ -367,7 +441,11 @@ fun SinglePlayerGameLayout(
                     money = ai.money,
                     modifier = Modifier
                         .weight(1f)
-                        .clickable(onClick = rememberClickable { onInspectPlayer(ai) })
+                        .then(
+                            if (gameState == GamePhase.ELIMINATION) {
+                                Modifier.clickable(onClick = rememberClickable { onInspectPlayer(ai) })
+                            } else Modifier
+                        )
                 )
             }
         }
@@ -389,7 +467,7 @@ fun SinglePlayerGameLayout(
                         isFaceUp = true,
                         modifier = Modifier
                             .aspectRatio(3f / 4f),
-                        onClick = { onOfferCard(card) }
+                        onClick = if (gameState == GamePhase.ELIMINATION) { { onOfferCard(card) } } else null
                     )
                 }
             }
@@ -550,7 +628,13 @@ fun MultiplayerGameLayout(
                     name = opp.name,
                     cardCount = opp.cards.size,
                     money = opp.money,
-                    modifier = Modifier.weight(1f)
+                    modifier = Modifier
+                        .weight(1f)
+                        .then(
+                            if (room.status == RoomStatus.ELIMINATION) {
+                                Modifier.clickable(onClick = rememberClickable { multiplayerViewModel.inspectPlayer(opp) })
+                            } else Modifier
+                        )
                 )
             }
         }
@@ -570,7 +654,8 @@ fun MultiplayerGameLayout(
                     GameCard(
                         card = card,
                         isFaceUp = true,
-                        modifier = Modifier.aspectRatio(3f / 4f)
+                        modifier = Modifier.aspectRatio(3f / 4f),
+                        onClick = if (room.status == RoomStatus.ELIMINATION) { { multiplayerViewModel.openOfferDialog(card) } } else null
                     )
                 }
             }
@@ -1156,11 +1241,11 @@ fun AuctionPanel(
 }
 
 @Composable
-fun InspectionDialog(player: Player, onDismiss: () -> Unit, onCardClick: (CardModel) -> Unit) {
+fun InspectionDialog(playerName: String, cards: List<CardModel>, onDismiss: () -> Unit, onCardClick: (CardModel) -> Unit) {
     val onClick = rememberClickable(onDismiss)
     AlertDialog(
         onDismissRequest = onClick,
-        title = { Text(stringResource(R.string.carte_di, player.name)) },
+        title = { Text(stringResource(R.string.carte_di, playerName)) },
         text = {
             LazyVerticalGrid(
                 columns = GridCells.Fixed(3),
@@ -1168,7 +1253,7 @@ fun InspectionDialog(player: Player, onDismiss: () -> Unit, onCardClick: (CardMo
                 horizontalArrangement = Arrangement.spacedBy(8.dp),
                 verticalArrangement = Arrangement.spacedBy(8.dp)
             ) {
-                items(player.cards) { card ->
+                items(cards) { card ->
                     GameCard(
                         card = card,
                         isFaceUp = true,
@@ -1187,12 +1272,12 @@ fun InspectionDialog(player: Player, onDismiss: () -> Unit, onCardClick: (CardMo
 @Composable
 fun OfferDialog(
     myCard: CardModel,
-    aiPlayers: List<Player>,
+    targetPlayers: List<PlayerBase>,
     onDismiss: () -> Unit,
-    onSellClick: (Player, Int) -> Unit,
-    onSwapClick: (Player, CardModel) -> Unit
+    onSellClick: (PlayerBase, Int) -> Unit,
+    onSwapClick: (PlayerBase, CardModel) -> Unit
 ) {
-    var selectedTarget by remember { mutableStateOf(aiPlayers.firstOrNull()) }
+    var selectedTarget by remember { mutableStateOf<PlayerBase?>(targetPlayers.firstOrNull()) }
     var requestAmount by remember { mutableStateOf("20") }
     var isSwapMode by remember { mutableStateOf(false) }
 
@@ -1205,9 +1290,9 @@ fun OfferDialog(
             Column(verticalArrangement = Arrangement.spacedBy(16.dp)) {
                 Text(stringResource(R.string.a_chi_offrire))
                 Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-                    aiPlayers.forEach { player ->
+                    targetPlayers.forEach { player ->
                         FilterChip(
-                            selected = selectedTarget == player,
+                            selected = selectedTarget?.id == player.id,
                             onClick = rememberClickable { selectedTarget = player },
                             label = { Text(player.name) }
                         )
@@ -1262,7 +1347,7 @@ fun OfferDialog(
 
 @Composable
 fun TradeDialog(
-    targetPlayer: Player,
+    targetPlayerName: String,
     targetCard: CardModel,
     myCards: List<CardModel>,
     myBalance: Int,
@@ -1276,7 +1361,7 @@ fun TradeDialog(
 
     AlertDialog(
         onDismissRequest = onDismissed,
-        title = { Text(stringResource(R.string.scambia_con, targetPlayer.name)) },
+        title = { Text(stringResource(R.string.scambia_con, targetPlayerName)) },
         text = {
             Column(verticalArrangement = Arrangement.spacedBy(16.dp)) {
                 Text(stringResource(R.string.vuoi_la_carta, targetCard.name))
@@ -1368,6 +1453,31 @@ fun AIProposalDialog(
         dismissButton = {
             TextButton(onClick = onRejected) { Text(stringResource(R.string.rifiuta)) }
         }
+    )
+}
+
+@Composable
+fun TradeRequestDialog(
+    request: TradeRequest,
+    room: GameRoom,
+    onAccept: () -> Unit,
+    onReject: () -> Unit
+) {
+    val sender = room.players[request.senderId]
+    AlertDialog(
+        onDismissRequest = onReject,
+        title = { Text("Proposta di scambio") },
+        text = {
+            val message = when (request.type) {
+                "BUY" -> "${sender?.name} vuole comprare la tua carta ${request.card1?.name} per ${request.money} €"
+                "SELL" -> "${sender?.name} ti offre la sua carta ${request.card1?.name} per ${request.money} €"
+                "EXCHANGE" -> "${sender?.name} vuole scambiare la sua carta ${request.card1?.name} con la tua ${request.card2?.name}"
+                else -> ""
+            }
+            Text(message)
+        },
+        confirmButton = { Button(onClick = onAccept) { Text("Accetta") } },
+        dismissButton = { TextButton(onClick = onReject) { Text("Rifiuta") } }
     )
 }
 

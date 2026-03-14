@@ -14,13 +14,20 @@ enum class GamePhase {
     FINISHED
 }
 
+interface PlayerBase {
+    val id: String
+    val name: String
+    val money: Int
+    val cards: List<CardModel>
+}
+
 data class Player(
-    val id: String = "",
-    val name: String = "",
+    override val id: String = "",
+    override val name: String = "",
     val isHuman: Boolean = false,
-    val cards: List<CardModel> = emptyList(),
-    val money: Int = 100
-)
+    override val cards: List<CardModel> = emptyList(),
+    override val money: Int = 100
+) : PlayerBase
 
 @IgnoreExtraProperties
 data class Prize(

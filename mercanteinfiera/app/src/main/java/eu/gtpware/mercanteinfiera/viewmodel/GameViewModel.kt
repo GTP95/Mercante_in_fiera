@@ -502,6 +502,7 @@ class GameViewModel(application: Application) : AndroidViewModel(application) {
     }
 
     fun inspectPlayer(player: Player) {
+        if (_gameState.value != GamePhase.ELIMINATION) return
         _inspectingPlayer.value = player
     }
 
@@ -510,6 +511,7 @@ class GameViewModel(application: Application) : AndroidViewModel(application) {
     }
 
     fun openTradeDialog(player: Player, card: CardModel) {
+        if (_gameState.value != GamePhase.ELIMINATION) return
         _tradeDialogTarget.value = player to card
     }
 
@@ -518,6 +520,7 @@ class GameViewModel(application: Application) : AndroidViewModel(application) {
     }
 
     fun openOfferDialog(card: CardModel) {
+        if (_gameState.value != GamePhase.ELIMINATION) return
         _offeringCard.value = card
     }
 
@@ -526,6 +529,7 @@ class GameViewModel(application: Application) : AndroidViewModel(application) {
     }
 
     fun proposeMoneyTrade(targetPlayer: Player, targetCard: CardModel, moneyOffer: Int) {
+        if (_gameState.value != GamePhase.ELIMINATION) return
         if (moneyOffer <= 0) return
         
         viewModelScope.launch {
@@ -564,6 +568,8 @@ class GameViewModel(application: Application) : AndroidViewModel(application) {
     }
 
     fun proposeCardTrade(targetPlayer: Player, targetCard: CardModel, offeredCard: CardModel) {
+        if (_gameState.value != GamePhase.ELIMINATION) return
+        
         viewModelScope.launch {
             val human = _players.value.find { it.isHuman } ?: return@launch
             val accepted = Random.nextBoolean()
@@ -592,6 +598,7 @@ class GameViewModel(application: Application) : AndroidViewModel(application) {
     }
 
     fun sellCardForMoney(targetPlayer: Player, myCard: CardModel, moneyRequested: Int) {
+        if (_gameState.value != GamePhase.ELIMINATION) return
         if (moneyRequested <= 0) return
 
         viewModelScope.launch {
@@ -628,6 +635,8 @@ class GameViewModel(application: Application) : AndroidViewModel(application) {
     }
 
     fun swapCardForCard(targetPlayer: Player, myCard: CardModel, targetCard: CardModel) {
+        if (_gameState.value != GamePhase.ELIMINATION) return
+
         viewModelScope.launch {
             val accepted = Random.nextBoolean() // IA logic
 
