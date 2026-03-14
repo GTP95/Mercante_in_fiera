@@ -44,6 +44,11 @@
     <string name="ai_name_2">UI 2</string>
     <string name="card_back_initial">M</string>
 
+    <string name="difficolta">Težina</string>
+    <string name="difficolta_facile">Lako</string>
+    <string name="difficolta_media">Srednje</string>
+    <string name="difficolta_difficile">Teško</string>
+
     <!-- Theme names -->
     <string name="theme_system">Sustav</string>
     <string name="theme_light">Svijetla</string>

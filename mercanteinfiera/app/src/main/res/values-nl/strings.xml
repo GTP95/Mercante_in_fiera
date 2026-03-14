@@ -37,12 +37,17 @@
     <string name="vuoi_offrire_carta_invece">Wil je in plaats daarvan een kaart aanbieden?</string>
     <string name="scegli_tua_carta_offrire">Kies een van je kaarten om aan te bieden:</string>
     <string name="torna_offerta_denaro">Terug naar geldaanbod</string>
-    <string name="offri_amount">%1$d € aanbieden</string>
+    <string name="offri_amount">Offer %1$d €</string>
     <string name="carte">Kaarten</string>
     <string name="default_player_name">Jij (Speler)</string>
     <string name="ai_name_1">AI 1</string>
     <string name="ai_name_2">AI 2</string>
     <string name="card_back_initial">M</string>
+
+    <string name="difficolta">Moeilijkheidsgraad</string>
+    <string name="difficolta_facile">Gemakkelijk</string>
+    <string name="difficolta_media">Gemiddeld</string>
+    <string name="difficolta_difficile">Moeilijk</string>
 
     <!-- Theme names -->
     <string name="theme_system">Systeem</string>
@@ -118,7 +123,7 @@
     <string name="errore_codice">Ongeldige code of tafel bestaat niet</string>
     <string name="share_table_code_message">Gebruik deze code om deel te nemen aan mijn tafel op Mercante in Fiera: %1$s
 
-Of klik hier: https://gtpware.eu/join/%1$s</string>
+Or click here: https://gtpware.eu/join/%1$s</string>
     <string name="condividi_codice">Code delen</string>
     <string name="attesa_host">Wachten tot de host het spel start&#8230;</string>
 

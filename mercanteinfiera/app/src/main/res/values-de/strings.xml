@@ -44,6 +44,11 @@
     <string name="ai_name_2">KI 2</string>
     <string name="card_back_initial">M</string>
 
+    <string name="difficolta">Schwierigkeitsgrad</string>
+    <string name="difficolta_facile">Einfach</string>
+    <string name="difficolta_media">Mittel</string>
+    <string name="difficolta_difficile">Schwer</string>
+
     <!-- Theme names -->
     <string name="theme_system">System</string>
     <string name="theme_light">Hell</string>

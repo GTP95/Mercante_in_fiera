@@ -44,6 +44,11 @@
     <string name="ai_name_2">ИИ 2</string>
     <string name="card_back_initial">М</string>
 
+    <string name="difficolta">Трудност</string>
+    <string name="difficolta_facile">Лесно</string>
+    <string name="difficolta_media">Средно</string>
+    <string name="difficolta_difficile">Трудно</string>
+
     <!-- Theme names -->
     <string name="theme_system">Системна</string>
     <string name="theme_light">Светла</string>

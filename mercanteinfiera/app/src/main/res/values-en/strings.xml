@@ -44,6 +44,11 @@
     <string name="ai_name_2">AI 2</string>
     <string name="card_back_initial">M</string>
 
+    <string name="difficolta">Difficulty</string>
+    <string name="difficolta_facile">Easy</string>
+    <string name="difficolta_media">Medium</string>
+    <string name="difficolta_difficile">Hard</string>
+
     <!-- Theme names -->
     <string name="theme_system">System</string>
     <string name="theme_light">Light</string>

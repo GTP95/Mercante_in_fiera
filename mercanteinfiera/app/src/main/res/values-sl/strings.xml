@@ -44,6 +44,11 @@
     <string name="ai_name_2">UI 2</string>
     <string name="card_back_initial">M</string>
 
+    <string name="difficolta">Težavnost</string>
+    <string name="difficolta_facile">Enostavno</string>
+    <string name="difficolta_media">Srednje</string>
+    <string name="difficolta_difficile">Težko</string>
+
     <!-- Theme names -->
     <string name="theme_system">Sistemska</string>
     <string name="theme_light">Svetla</string>

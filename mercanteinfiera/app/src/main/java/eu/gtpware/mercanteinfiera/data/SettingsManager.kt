@@ -3,6 +3,7 @@ package eu.gtpware.mercanteinfiera.data
 import android.content.Context
 import android.content.SharedPreferences
 import eu.gtpware.mercanteinfiera.R
+import eu.gtpware.mercanteinfiera.models.DifficultyLevel
 import java.util.Locale
 
 class SettingsManager(private val context: Context) {
@@ -15,6 +16,7 @@ class SettingsManager(private val context: Context) {
         private const val KEY_SOUND_ENABLED = "sound_enabled"
         private const val KEY_FIRST_STARTUP = "first_startup"
         private const val KEY_HAS_SEEN_TUTORIAL = "has_seen_tutorial"
+        private const val KEY_DIFFICULTY_LEVEL = "difficulty_level"
         
         const val THEME_LIGHT = "Light"
         const val THEME_DARK = "Dark"
@@ -111,5 +113,18 @@ class SettingsManager(private val context: Context) {
 
     fun saveSoundEnabled(enabled: Boolean) {
         prefs.edit().putBoolean(KEY_SOUND_ENABLED, enabled).apply()
+    }
+
+    fun getDifficultyLevel(): DifficultyLevel {
+        val name = prefs.getString(KEY_DIFFICULTY_LEVEL, DifficultyLevel.MEDIUM.name)
+        return try {
+            DifficultyLevel.valueOf(name!!)
+        } catch (e: Exception) {
+            DifficultyLevel.MEDIUM
+        }
+    }
+
+    fun saveDifficultyLevel(level: DifficultyLevel) {
+        prefs.edit().putString(KEY_DIFFICULTY_LEVEL, level.name).apply()
     }
 }

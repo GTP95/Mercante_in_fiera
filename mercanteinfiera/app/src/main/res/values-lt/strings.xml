@@ -44,6 +44,11 @@
     <string name="ai_name_2">DI 2</string>
     <string name="card_back_initial">M</string>
 
+    <string name="difficolta">Sudėtingumas</string>
+    <string name="difficolta_facile">Lengvas</string>
+    <string name="difficolta_media">Vidutinis</string>
+    <string name="difficolta_difficile">Sunkus</string>
+
     <!-- Theme names -->
     <string name="theme_system">Sistemos</string>
     <string name="theme_light">Šviesi</string>

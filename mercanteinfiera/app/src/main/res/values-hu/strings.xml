@@ -44,6 +44,11 @@
     <string name="ai_name_2">AI 2</string>
     <string name="card_back_initial">M</string>
 
+    <string name="difficolta">Nehézség</string>
+    <string name="difficolta_facile">Könnyű</string>
+    <string name="difficolta_media">Közepes</string>
+    <string name="difficolta_difficile">Nehéz</string>
+
     <!-- Theme names -->
     <string name="theme_system">Rendszer</string>
     <string name="theme_light">Világos</string>

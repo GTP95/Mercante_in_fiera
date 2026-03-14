@@ -14,11 +14,14 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import java.util.Random as JavaRandom
+import kotlin.math.exp
 import kotlin.random.Random
 
 class GameViewModel(application: Application) : AndroidViewModel(application) {
     
     private val settingsManager = SettingsManager(application)
+    private val javaRandom = JavaRandom()
     
     private val _gameState = MutableStateFlow(GamePhase.MENU)
     val gameState: StateFlow<GamePhase> = _gameState.asStateFlow()
@@ -89,6 +92,9 @@ class GameViewModel(application: Application) : AndroidViewModel(application) {
     private val _isSoundEnabled = MutableStateFlow(settingsManager.isSoundEnabled())
     val isSoundEnabled: StateFlow<Boolean> = _isSoundEnabled.asStateFlow()
 
+    private val _difficultyLevel = MutableStateFlow(settingsManager.getDifficultyLevel())
+    val difficultyLevel: StateFlow<DifficultyLevel> = _difficultyLevel.asStateFlow()
+
     private var merchantCardsRemaining = mutableListOf<CardModel>()
     private var cardsToAuction = mutableListOf<CardModel>()
 
@@ -128,20 +134,79 @@ class GameViewModel(application: Application) : AndroidViewModel(application) {
         }
     }
 
+    private fun calculateExpectedValue(): Double {
+        val remainingPrizes = _prizes.value.filter { prize ->
+            _players.value.any { player -> player.cards.any { it.id == prize.card.id } }
+        }
+        val totalRemainingPrizeMoney = remainingPrizes.sumOf { it.value }
+        val totalCardsInHands = _players.value.sumOf { it.cards.size }
+        
+        return if (totalCardsInHands > 0) {
+            totalRemainingPrizeMoney.toDouble() / totalCardsInHands.toDouble()
+        } else {
+            0.0
+        }
+    }
+
     private fun generateAIProposal(ai: Player, player: Player) {
         val type = Random.nextInt(3)
+        val maxPrizeValue = if (_prizes.value.isNotEmpty()) _prizes.value.maxOf { it.value } else 0
+        val avgPrizeValue = if (_prizes.value.isNotEmpty()) _prizes.value.map { it.value }.average() else 0.0
+        val expectedValue = calculateExpectedValue()
+
         when (type) {
             0 -> { // Buy from player
                 if (player.cards.isNotEmpty() && ai.money >= 10) {
                     val card = player.cards.random()
-                    val price = Random.nextInt(5, (ai.money / 2).coerceAtLeast(10))
+                    val price: Int
+                    
+                    price = when (_difficultyLevel.value) {
+                        DifficultyLevel.HARD -> {
+                            if (expectedValue > 1) {
+                                Random.nextInt(1, expectedValue.toInt().coerceAtLeast(2))
+                            } else 1
+                        }
+                        DifficultyLevel.MEDIUM -> {
+                            if (avgPrizeValue > 0) {
+                                val stdDev = (avgPrizeValue / 4).coerceAtLeast(5.0)
+                                (javaRandom.nextGaussian() * stdDev + avgPrizeValue).toInt().coerceIn(5, ai.money - 5)
+                            } else 5
+                        }
+                        else -> {
+                            var maxPrice = (ai.money / 2).coerceAtLeast(10)
+                            if (_difficultyLevel.value == DifficultyLevel.EASY && maxPrizeValue > 0) {
+                                maxPrice = maxPrice.coerceAtMost(maxPrizeValue)
+                            }
+                            if (maxPrice > 5) Random.nextInt(5, maxPrice) else 5
+                        }
+                    }
                     _aiProposal.value = AIProposal.Buy(ai, card, price)
                 }
             }
             1 -> { // Sell to player
                 if (ai.cards.isNotEmpty() && player.money >= 10) {
                     val card = ai.cards.random()
-                    val price = Random.nextInt(5, (player.money / 2).coerceAtLeast(10))
+                    val price: Int
+                    
+                    price = when (_difficultyLevel.value) {
+                        DifficultyLevel.HARD -> {
+                            // On hard, AI might want to sell for more than EV to make profit
+                            (expectedValue * 1.5).toInt().coerceIn(5, player.money - 5)
+                        }
+                        DifficultyLevel.MEDIUM -> {
+                            if (avgPrizeValue > 0) {
+                                val stdDev = (avgPrizeValue / 4).coerceAtLeast(5.0)
+                                (javaRandom.nextGaussian() * stdDev + avgPrizeValue).toInt().coerceIn(5, player.money - 5)
+                            } else 5
+                        }
+                        else -> {
+                            var maxPrice = (player.money / 2).coerceAtLeast(10)
+                            if (_difficultyLevel.value == DifficultyLevel.EASY && maxPrizeValue > 0) {
+                                maxPrice = maxPrice.coerceAtMost(maxPrizeValue)
+                            }
+                            if (maxPrice > 5) Random.nextInt(5, maxPrice) else 5
+                        }
+                    }
                     _aiProposal.value = AIProposal.Sell(ai, card, price)
                 }
             }
@@ -501,6 +566,11 @@ class GameViewModel(application: Application) : AndroidViewModel(application) {
         settingsManager.saveSoundEnabled(enabled)
     }
 
+    fun updateDifficultyLevel(newLevel: DifficultyLevel) {
+        _difficultyLevel.value = newLevel
+        settingsManager.saveDifficultyLevel(newLevel)
+    }
+
     fun inspectPlayer(player: Player) {
         if (_gameState.value != GamePhase.ELIMINATION) return
         _inspectingPlayer.value = player
@@ -540,7 +610,27 @@ class GameViewModel(application: Application) : AndroidViewModel(application) {
                 return@launch
             }
 
-            val accepted = Random.nextBoolean() 
+            val maxPrizeValue = if (_prizes.value.isNotEmpty()) _prizes.value.maxOf { it.value } else 0
+            val expectedValue = calculateExpectedValue()
+            
+            val accepted = when (_difficultyLevel.value) {
+                DifficultyLevel.EASY -> {
+                    if (maxPrizeValue > 0 && moneyOffer > maxPrizeValue) false else Random.nextBoolean()
+                }
+                DifficultyLevel.MEDIUM -> {
+                    if (maxPrizeValue > 0 && moneyOffer >= maxPrizeValue) {
+                        true
+                    } else {
+                        val x0 = maxPrizeValue / 2.0
+                        val k = 10.0 / maxPrizeValue.toDouble().coerceAtLeast(1.0)
+                        val prob = 1.0 / (1.0 + exp(-k * (moneyOffer - x0)))
+                        Random.nextDouble() < prob
+                    }
+                }
+                DifficultyLevel.HARD -> {
+                    moneyOffer.toDouble() >= expectedValue
+                }
+            }
 
             if (accepted) {
                 _players.update { currentPlayers ->
@@ -603,12 +693,33 @@ class GameViewModel(application: Application) : AndroidViewModel(application) {
 
         viewModelScope.launch {
             if (targetPlayer.money < moneyRequested) {
-                _currentMessage.value = getString(R.string.msg_non_abbastanza_soldi) // Or more specific message if added
+                _currentMessage.value = getString(R.string.msg_non_abbastanza_soldi)
                 closeOfferDialog()
                 return@launch
             }
 
-            val accepted = Random.nextBoolean() // IA logic
+            val maxPrizeValue = if (_prizes.value.isNotEmpty()) _prizes.value.maxOf { it.value } else 0
+            val expectedValue = calculateExpectedValue()
+            
+            val accepted = when (_difficultyLevel.value) {
+                DifficultyLevel.EASY -> {
+                    if (maxPrizeValue > 0 && moneyRequested > maxPrizeValue) false else Random.nextBoolean()
+                }
+                DifficultyLevel.MEDIUM -> {
+                    if (maxPrizeValue > 0 && moneyRequested >= maxPrizeValue) {
+                        false
+                    } else {
+                        val x0 = maxPrizeValue / 2.0
+                        val k = 10.0 / maxPrizeValue.toDouble().coerceAtLeast(1.0)
+                        val prob = 1.0 / (1.0 + exp(k * (moneyRequested - x0)))
+                        Random.nextDouble() < prob
+                    }
+                }
+                DifficultyLevel.HARD -> {
+                    // AI accepts to buy only if requested amount is <= expected value
+                    moneyRequested.toDouble() <= expectedValue
+                }
+            }
 
             if (accepted) {
                 _players.update { currentPlayers ->

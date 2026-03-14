@@ -44,6 +44,11 @@
     <string name="ai_name_2">ΤΝ 2</string>
     <string name="card_back_initial">Μ</string>
 
+    <string name="difficolta">Δυσκολία</string>
+    <string name="difficolta_facile">Εύκολο</string>
+    <string name="difficolta_media">Μέτριο</string>
+    <string name="difficolta_difficile">Δύσκολο</string>
+
     <!-- Theme names -->
     <string name="theme_system">Σύστημα</string>
     <string name="theme_light">Φωτεινό</string>

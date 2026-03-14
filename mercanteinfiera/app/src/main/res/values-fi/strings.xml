@@ -44,6 +44,11 @@
     <string name="ai_name_2">Äly 2</string>
     <string name="card_back_initial">M</string>
 
+    <string name="difficolta">Vaikeusaste</string>
+    <string name="difficolta_facile">Helppo</string>
+    <string name="difficolta_media">Keskitaso</string>
+    <string name="difficolta_difficile">Vaikea</string>
+
     <!-- Theme names -->
     <string name="theme_system">Järjestelmä</string>
     <string name="theme_light">Vaalea</string>

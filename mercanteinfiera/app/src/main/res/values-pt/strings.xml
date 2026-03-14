@@ -9,7 +9,7 @@
     <string name="pesca_carta">Retirar Carta do Mercador</string>
     <string name="nuova_partita">Iniciar Novo Jogo</string>
     <string name="giocatore_singolo">Um Jogador</string>
-    <string name="multigiocatore">Multijogador</string>
+    <string name="multigiocatore">Multijugador</string>
     <string name="impostazioni">Definições</string>
     <string name="indietro">Voltar</string>
     <string name="profilo_giocatore">Perfil do Jogador</string>
@@ -43,6 +43,11 @@
     <string name="ai_name_1">IA 1</string>
     <string name="ai_name_2">IA 2</string>
     <string name="card_back_initial">M</string>
+
+    <string name="difficolta">Dificuldade</string>
+    <string name="difficolta_facile">Fácil</string>
+    <string name="difficolta_media">Média</string>
+    <string name="difficolta_difficile">Difícil</string>
 
     <!-- Theme names -->
     <string name="theme_system">Sistema</string>

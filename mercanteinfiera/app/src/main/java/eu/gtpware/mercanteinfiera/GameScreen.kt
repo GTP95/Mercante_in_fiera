@@ -60,6 +60,7 @@ fun GameScreen(
     val showTutorial by viewModel.showTutorial.collectAsState()
     val isNewGameButtonEnabled by viewModel.isNewGameButtonEnabled.collectAsState()
     val isSoundEnabled by viewModel.isSoundEnabled.collectAsState()
+    val difficultyLevel by viewModel.difficultyLevel.collectAsState()
     
     LaunchedEffect(isSoundEnabled) {
         SoundManager.setEnabled(isSoundEnabled)
@@ -119,10 +120,12 @@ fun GameScreen(
                     currentTheme = themeMode,
                     currentLanguage = language,
                     isSoundEnabled = isSoundEnabled,
+                    currentDifficulty = difficultyLevel,
                     onNameChange = { viewModel.updatePlayerName(it) },
                     onThemeChange = { viewModel.updateThemeMode(it) },
                     onLanguageChange = { viewModel.updateLanguage(it) },
                     onSoundEnabledChange = { viewModel.updateSoundEnabled(it) },
+                    onDifficultyChange = { viewModel.updateDifficultyLevel(it) },
                     onBackClick = { viewModel.goToMenu() }
                 )
             }
@@ -1029,10 +1032,12 @@ fun SettingsScreen(
     currentTheme: String,
     currentLanguage: String,
     isSoundEnabled: Boolean,
+    currentDifficulty: DifficultyLevel,
     onNameChange: (String) -> Unit,
     onThemeChange: (String) -> Unit,
     onLanguageChange: (String) -> Unit,
     onSoundEnabledChange: (Boolean) -> Unit,
+    onDifficultyChange: (DifficultyLevel) -> Unit,
     onBackClick: () -> Unit
 ) {
     val onBackClicked = rememberClickable(onBackClick)
@@ -1066,124 +1071,160 @@ fun SettingsScreen(
             colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface),
             elevation = CardDefaults.cardElevation(2.dp)
         ) {
-            Column(modifier = Modifier.padding(16.dp)) {
-                Text(
-                    text = stringResource(R.string.profilo_giocatore),
-                    style = MaterialTheme.typography.titleLarge,
-                    fontWeight = FontWeight.Bold,
-                    color = MaterialTheme.colorScheme.primary)
-                Spacer(modifier = Modifier.height(16.dp))
-                Text(text = stringResource(R.string.nome), style = MaterialTheme.typography.labelLarge, color = MaterialTheme.colorScheme.onSurface)
-                TextField(
-                    value = currentName,
-                    onValueChange = onNameChange,
-                    modifier = Modifier.fillMaxWidth(),
-                    singleLine = true,
-                    placeholder = { Text(stringResource(R.string.inserisci_nome)) }
-                )
-                
-                Spacer(modifier = Modifier.height(24.dp))
-                
-                Text(
-                    text = stringResource(R.string.aspetto),
-                    style = MaterialTheme.typography.titleLarge,
-                    fontWeight = FontWeight.Bold,
-                    color = MaterialTheme.colorScheme.primary)
-                Spacer(modifier = Modifier.height(16.dp))
-                Text(text = stringResource(R.string.tema), style = MaterialTheme.typography.labelLarge, color = MaterialTheme.colorScheme.onSurface)
-                Row(
-                    modifier = Modifier.fillMaxWidth(),
-                    horizontalArrangement = Arrangement.spacedBy(8.dp)
-                ) {
-                    val themes = listOf(
-                        stringResource(R.string.theme_system) to "System",
-                        stringResource(R.string.theme_light) to "Light",
-                        stringResource(R.string.theme_dark) to "Dark"
+            LazyColumn(modifier = Modifier.padding(16.dp)) {
+                item {
+                    Text(
+                        text = stringResource(R.string.profilo_giocatore),
+                        style = MaterialTheme.typography.titleLarge,
+                        fontWeight = FontWeight.Bold,
+                        color = MaterialTheme.colorScheme.primary)
+                    Spacer(modifier = Modifier.height(16.dp))
+                    Text(text = stringResource(R.string.nome), style = MaterialTheme.typography.labelLarge, color = MaterialTheme.colorScheme.onSurface)
+                    TextField(
+                        value = currentName,
+                        onValueChange = onNameChange,
+                        modifier = Modifier.fillMaxWidth(),
+                        singleLine = true,
+                        placeholder = { Text(stringResource(R.string.inserisci_nome)) }
                     )
-                    themes.forEach { (label, mode) ->
-                        FilterChip(
-                            selected = currentTheme == mode,
-                            onClick = rememberClickable { onThemeChange(mode) },
-                            label = { Text(label) }
-                        )
-                    }
+                    
+                    Spacer(modifier = Modifier.height(24.dp))
                 }
 
-                Spacer(modifier = Modifier.height(24.dp))
-
-                Text(text = stringResource(R.string.lingua), style = MaterialTheme.typography.labelLarge, color = MaterialTheme.colorScheme.onSurface)
-                
-                var expanded by remember { mutableStateOf(false) }
-                val languages = listOf(
-                    "it" to stringResource(R.string.lingua_it),
-                    "en" to stringResource(R.string.lingua_en),
-                    "de" to stringResource(R.string.lingua_de),
-                    "fr" to stringResource(R.string.lingua_fr),
-                    "es" to stringResource(R.string.lingua_es),
-                    "pt" to stringResource(R.string.lingua_pt),
-                    "nl" to stringResource(R.string.lingua_nl),
-                    "pl" to stringResource(R.string.lingua_pl),
-                    "sv" to stringResource(R.string.lingua_sv),
-                    "da" to stringResource(R.string.lingua_da),
-                    "fi" to stringResource(R.string.lingua_fi),
-                    "el" to stringResource(R.string.lingua_el),
-                    "cs" to stringResource(R.string.lingua_cs),
-                    "hu" to stringResource(R.string.lingua_hu),
-                    "ro" to stringResource(R.string.lingua_ro),
-                    "bg" to stringResource(R.string.lingua_bg),
-                    "sk" to stringResource(R.string.lingua_sk),
-                    "hr" to stringResource(R.string.lingua_hr),
-                    "lt" to stringResource(R.string.lingua_lt),
-                    "sl" to stringResource(R.string.lingua_sl),
-                    "lv" to stringResource(R.string.lingua_lv),
-                    "et" to stringResource(R.string.lingua_et),
-                    "ga" to stringResource(R.string.lingua_ga),
-                    "mt" to stringResource(R.string.lingua_mt)
-                )
-                val currentLangLabel = languages.find { it.first == currentLanguage }?.second ?: stringResource(R.string.lingua_en)
-
-                Box(modifier = Modifier.fillMaxWidth().padding(top = 8.dp)) {
-                    OutlinedButton(
-                        onClick = rememberClickable { expanded = true },
+                item {
+                    Text(
+                        text = stringResource(R.string.difficolta),
+                        style = MaterialTheme.typography.titleLarge,
+                        fontWeight = FontWeight.Bold,
+                        color = MaterialTheme.colorScheme.primary)
+                    Spacer(modifier = Modifier.height(16.dp))
+                    Row(
                         modifier = Modifier.fillMaxWidth(),
-                        shape = RoundedCornerShape(8.dp)
+                        horizontalArrangement = Arrangement.spacedBy(8.dp)
                     ) {
-                        Text(currentLangLabel)
-                    }
-                    DropdownMenu(
-                        expanded = expanded,
-                        onDismissRequest = { expanded = false },
-                        modifier = Modifier.fillMaxWidth(0.9f)
-                    ) {
-                        languages.forEach { (code, label) ->
-                            DropdownMenuItem(
-                                text = { Text(label) },
-                                onClick = rememberClickable {
-                                    onLanguageChange(code)
-                                    expanded = false
-                                }
+                        val levels = listOf(
+                            DifficultyLevel.EASY to stringResource(R.string.difficolta_facile),
+                            DifficultyLevel.MEDIUM to stringResource(R.string.difficolta_media),
+                            DifficultyLevel.HARD to stringResource(R.string.difficolta_difficile)
+                        )
+                        levels.forEach { (level, label) ->
+                            FilterChip(
+                                selected = currentDifficulty == level,
+                                onClick = rememberClickable { onDifficultyChange(level) },
+                                label = { Text(label) }
                             )
                         }
                     }
+                    
+                    Spacer(modifier = Modifier.height(24.dp))
                 }
                 
-                Spacer(modifier = Modifier.height(24.dp))
-                
-                Row(
-                    modifier = Modifier.fillMaxWidth(),
-                    verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.SpaceBetween
-                ) {
-                    Text(text = "Sound Effects", style = MaterialTheme.typography.titleLarge)
-                    // The Switch is a special case: we cannot easily wrap onCheckedChange with rememberClickable 
-                    // without it affecting the state toggling logic, so we directly trigger the sound playback here.
-                    Switch(
-                        checked = isSoundEnabled, 
-                        onCheckedChange = { 
-                            SoundManager.playClickSound()
-                            onSoundEnabledChange(it) 
+                item {
+                    Text(
+                        text = stringResource(R.string.aspetto),
+                        style = MaterialTheme.typography.titleLarge,
+                        fontWeight = FontWeight.Bold,
+                        color = MaterialTheme.colorScheme.primary)
+                    Spacer(modifier = Modifier.height(16.dp))
+                    Text(text = stringResource(R.string.tema), style = MaterialTheme.typography.labelLarge, color = MaterialTheme.colorScheme.onSurface)
+                    Row(
+                        modifier = Modifier.fillMaxWidth(),
+                        horizontalArrangement = Arrangement.spacedBy(8.dp)
+                    ) {
+                        val themes = listOf(
+                            stringResource(R.string.theme_system) to "System",
+                            stringResource(R.string.theme_light) to "Light",
+                            stringResource(R.string.theme_dark) to "Dark"
+                        )
+                        themes.forEach { (label, mode) ->
+                            FilterChip(
+                                selected = currentTheme == mode,
+                                onClick = rememberClickable { onThemeChange(mode) },
+                                label = { Text(label) }
+                            )
                         }
+                    }
+
+                    Spacer(modifier = Modifier.height(24.dp))
+                }
+
+                item {
+                    Text(text = stringResource(R.string.lingua), style = MaterialTheme.typography.labelLarge, color = MaterialTheme.colorScheme.onSurface)
+                    
+                    var expanded by remember { mutableStateOf(false) }
+                    val languages = listOf(
+                        "it" to stringResource(R.string.lingua_it),
+                        "en" to stringResource(R.string.lingua_en),
+                        "de" to stringResource(R.string.lingua_de),
+                        "fr" to stringResource(R.string.lingua_fr),
+                        "es" to stringResource(R.string.lingua_es),
+                        "pt" to stringResource(R.string.lingua_pt),
+                        "nl" to stringResource(R.string.lingua_nl),
+                        "pl" to stringResource(R.string.lingua_pl),
+                        "sv" to stringResource(R.string.lingua_sv),
+                        "da" to stringResource(R.string.lingua_da),
+                        "fi" to stringResource(R.string.lingua_fi),
+                        "el" to stringResource(R.string.lingua_el),
+                        "cs" to stringResource(R.string.lingua_cs),
+                        "hu" to stringResource(R.string.lingua_hu),
+                        "ro" to stringResource(R.string.lingua_ro),
+                        "bg" to stringResource(R.string.lingua_bg),
+                        "sk" to stringResource(R.string.lingua_sk),
+                        "hr" to stringResource(R.string.lingua_hr),
+                        "lt" to stringResource(R.string.lingua_lt),
+                        "sl" to stringResource(R.string.lingua_sl),
+                        "lv" to stringResource(R.string.lingua_lv),
+                        "et" to stringResource(R.string.lingua_et),
+                        "ga" to stringResource(R.string.lingua_ga),
+                        "mt" to stringResource(R.string.lingua_mt)
                     )
+                    val currentLangLabel = languages.find { it.first == currentLanguage }?.second ?: stringResource(R.string.lingua_en)
+
+                    Box(modifier = Modifier.fillMaxWidth().padding(top = 8.dp)) {
+                        OutlinedButton(
+                            onClick = rememberClickable { expanded = true },
+                            modifier = Modifier.fillMaxWidth(),
+                            shape = RoundedCornerShape(8.dp)
+                        ) {
+                            Text(currentLangLabel)
+                        }
+                        DropdownMenu(
+                            expanded = expanded,
+                            onDismissRequest = { expanded = false },
+                            modifier = Modifier.fillMaxWidth(0.9f)
+                        ) {
+                            languages.forEach { (code, label) ->
+                                DropdownMenuItem(
+                                    text = { Text(label) },
+                                    onClick = rememberClickable {
+                                        onLanguageChange(code)
+                                        expanded = false
+                                    }
+                                )
+                            }
+                        }
+                    }
+                    
+                    Spacer(modifier = Modifier.height(24.dp))
+                }
+                
+                item {
+                    Row(
+                        modifier = Modifier.fillMaxWidth(),
+                        verticalAlignment = Alignment.CenterVertically,
+                        horizontalArrangement = Arrangement.SpaceBetween
+                    ) {
+                        Text(text = "Sound Effects", style = MaterialTheme.typography.titleLarge)
+                        // The Switch is a special case: we cannot easily wrap onCheckedChange with rememberClickable 
+                        // without it affecting the state toggling logic, so we directly trigger the sound playback here.
+                        Switch(
+                            checked = isSoundEnabled, 
+                            onCheckedChange = { 
+                                SoundManager.playClickSound()
+                                onSoundEnabledChange(it) 
+                            }
+                        )
+                    }
                 }
             }
         }

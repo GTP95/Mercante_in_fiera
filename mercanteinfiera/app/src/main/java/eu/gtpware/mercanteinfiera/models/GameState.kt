@@ -14,6 +14,12 @@ enum class GamePhase {
     FINISHED
 }
 
+enum class DifficultyLevel {
+    EASY,
+    MEDIUM,
+    HARD
+}
+
 interface PlayerBase {
     val id: String
     val name: String

@@ -44,6 +44,11 @@
     <string name="ai_name_2">SI 2</string>
     <string name="card_back_initial">M</string>
 
+    <string name="difficolta">Poziom trudności</string>
+    <string name="difficolta_facile">Łatwy</string>
+    <string name="difficolta_media">Średni</string>
+    <string name="difficolta_difficile">Trudny</string>
+
     <!-- Theme names -->
     <string name="theme_system">Systemowy</string>
     <string name="theme_light">Jasny</string>
@@ -66,7 +71,7 @@
     <string name="lingua_cs">Čeština</string>
     <string name="lingua_hu">Magyar</string>
     <string name="lingua_ro">Română</string>
-    <string name="lingua_bg">Български</string>
+    <string name="lingua_bg">Bългарски</string>
     <string name="lingua_sk">Slovenčina</string>
     <string name="lingua_hr">Hrvatski</string>
     <string name="lingua_lt">Lietuvių</string>
