@@ -129,6 +129,6 @@ Oder klicke hier: https://gtpware.eu/join/%1$s</string>
 
     <!-- Tutorial Strings -->
     <string name="tutorial_title">Wie man spielt</string>
-    <string name="tutorial_message">Willkommen bei Mercante in Fiera!\n\n1. Verteilung: Du und die KI-Spieler erhalten Karten.\n2. Auktion: Die verbleibenden Karten werden versteigert. Biete, um dein Deck zu erweitern!\n3. Handel: Tippe auf deine Karten oder die Elemente deiner Gegner, um Tausche vorzuschlagen (Geld oder Karten).\n4. Eliminierung: Der Händler zieht Karten. Wenn sie gezogen werden, sind diese Karten wertlos!\n5. Preise: Die am Ende verbleibenden Karten gewinnen das Geld aus dem Topf!</string>
+    <string name="tutorial_message">Willkommen bei Mercante in Fiera!\n\nZiel ist es, so viel Geld wie möglich anzuhäufen. Du kannst so viele Runden spielen, wie du möchtest, aber der endgültige Gewinner ist derjenige mit dem höchsten Guthaben.\n\n1. Verteilung: Du und die KI-Spieler erhalten Karten.\n2. Auktion: Die verbleibenden Karten werden versteigert, um den Topf zu füllen. Biete, um dein Deck zu erweitern!\n3. Handel: Tippe auf deine Karten oder die Elemente deiner Gegner, um Tausche vorzuschlagen (Geld oder Karten).\n4. Eliminierung: Der Händler zieht Karten. Wenn sie gezogen werden, sind diese Karten wertlos!\n5. Preise: Die am Ende verbleibenden Karten gewinnen die Preise aus dem Topf!</string>
     <string name="ho_capito">Verstanden!</string>
 </resources>

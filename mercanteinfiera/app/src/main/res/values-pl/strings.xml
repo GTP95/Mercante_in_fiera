@@ -30,7 +30,7 @@
     <string name="scegli_carta_chiedere">Wybierz kartę od %1$s, o którą chcesz poprosić:</string>
     <string name="chiedi_soldi_invece">Zamiast tego poproś o pieniądze</string>
     <string name="offri_per">Zaoferuj za %1$d €</string>
-    <string name="annulla">Anuluj</string>
+    <string name="annulla">Annulluj</string>
     <string name="scambia_con">Wymień się z %1$s</string>
     <string name="vuoi_la_carta">Czy chcesz kartę: %1$s?</string>
     <string name="offri_soldi">Zaoferuj pieniądze (Saldo: %1$d €):</string>
@@ -129,6 +129,6 @@ Lub kliknij tutaj: https://gtpware.eu/join/%1$s</string>
 
     <!-- Tutorial Strings -->
     <string name="tutorial_title">Jak grać</string>
-    <string name="tutorial_message">Witaj w Mercante in Fiera!\n\n1. Rozdawanie: Ty i gracze SI otrzymujecie karty.\n2. Aukcja: Pozostałe karty są licytowane. Licytuj, aby powiększyć swoją talię!\n3. Handel: Dotknij swoich kart lub elementów przeciwników, aby zaproponować wymianę (pieniądze lub karty).\n4. Eliminacja: Kupiec wyciąga karty. Jeśli zostaną wyciągnięte, tracą one wartość!\n5. Nagrody: Karty, które pozostaną na koniec, wygrywają nagrody z puli!</string>
+    <string name="tutorial_message">Witaj w Mercante in Fiera!\n\nCelem jest zgromadzenie jak największej ilości pieniędzy. Możesz rozegrać dowolną liczbę rund, ale ostatecznym zwycięzcą zostanie ten, kto będzie miał najwyższe saldo.\n\n1. Rozdawanie: Ty i gracze SI otrzymujecie karty.\n2. Aukcja: Pozostałe karty są licytowane w celu zbudowania puli. Licytuj, aby powiększyć swoją talię!\n3. Handel: Dotknij swoich kart lub elementów przeciwników, aby zaproponować wymianę (pieniądze lub karty).\n4. Eliminacja: Kupiec wyciąga karty. Jeśli zostaną wyciągnięte, tracą one wartość!\n5. Nagrody: Karty, które pozostaną na koniec, wygrywają nagrody utworzone z puli!</string>
     <string name="ho_capito">Rozumiem!</string>
 </resources>

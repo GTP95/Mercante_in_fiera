@@ -129,6 +129,6 @@ Or click here: https://gtpware.eu/join/%1$s</string>
 
     <!-- Tutorial Strings -->
     <string name="tutorial_title">Hoe te spelen</string>
-    <string name="tutorial_message">Welkom bij Mercante in Fiera!\n\n1. Verdeling: Jij en de AI-spelers ontvangen kaarten.\n2. Veiling: De resterende kaarten worden geveild. Bied om je stapel uit te breiden!\n3. Ruilen: Tik op je kaarten of de elementen van tegenstanders om ruilen voor te stellen (geld of kaarten).\n4. Eliminatie: De handelaar trekt kaarten. Indien getrokken, zijn die kaarten waardeloos!\n5. Prijzen: De overgebleven kaarten aan het einde winnen het potgeld!</string>
+    <string name="tutorial_message">Welkom bij Mercante in Fiera!\n\nHet doel is om zoveel mogelijk geld te verzamelen. Je kunt zoveel rondes spelen als je wilt, maar de uiteindelijke winnaar is degene met het hoogste saldo.\n\n1. Verdeling: Jij en de AI-spelers ontvangen kaarten.\n2. Veiling: De resterende kaarten worden geveild om de pot op te bouwen. Bied om je stapel uit te breiden!\n3. Ruilen: Tik op je kaarten of de elementen van tegenstanders om ruilen voor te stellen (geld of kaarten).\n4. Eliminatie: De handelaar trekt kaarten. Indien getrokken, zijn die kaarten waardeloos!\n5. Prijzen: De overgebleven kaarten aan het einde winnen de prijzen die uit de pot zijn gevormd!</string>
     <string name="ho_capito">Begrepen!</string>
 </resources>

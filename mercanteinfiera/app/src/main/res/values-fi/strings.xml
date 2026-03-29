@@ -129,6 +129,6 @@ Tai klikkaa tästä: https://gtpware.eu/join/%1$s</string>
 
     <!-- Tutorial Strings -->
     <string name="tutorial_title">Kuinka pelata</string>
-    <string name="tutorial_message">Tervetuloa Mercante in Fiera -peliin!\n\n1. Jakelu: Sinä ja tekoälypelaajat saatte kortteja.\n2. Huutokauppa: Loput kortit huutokaupataan. Tarjoa kasvattaaksesi pakkaasi!\n3. Vaihto: Napauta korttejasi tai vastustajien elementtejä ehdottaaksesi vaihtoja (rahaa tai kortteja).\n4. Karsinta: Kauppias nostaa kortteja. Jos kortti nostetaan, se on arvoton!\n5. Palkinnot: Viimeiset jäljellä olevat kortit voittavat potin rahat!</string>
+    <string name="tutorial_message">Tervetuloa Mercante in Fiera -peliin!\n\nTavoitteena on kerätä mahdollisimman paljon rahaa. Voit pelata niin monta kierrosta kuin haluat, mutta lopullinen voittaja on se, jolla on korkein saldo.\n\n1. Jakelu: Sinä ja tekoälypelaajat saatte kortteja.\n2. Huutokauppa: Loput kortit huutokaupataan potin kasvattamiseksi. Tarjoa kasvattaaksesi pakkaasi!\n3. Vaihto: Napauta korttejasi tai vastustajien elementtejä ehdottaaksesi vaihtoja (rahaa tai kortteja).\n4. Karsinta: Kauppias nostaa kortteja. Jos kortti nostetaan, se on arvoton!\n5. Palkinnot: Viimeiset jäljellä olevat kortit voittavat potin muodostamat palkinnot!</string>
     <string name="ho_capito">Selvä!</string>
 </resources>

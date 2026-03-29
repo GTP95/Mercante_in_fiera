@@ -96,7 +96,7 @@
     <string name="msg_scambio_accettato">%1$s accepterade bytet för %2$d €!</string>
     <string name="msg_scambio_rifiutato">%1$s avvisade erbjudandet.</string>
     <string name="msg_scambio_carte_accettato">%1$s bytte %2$s mot %3$s!</string>
-    <string name="msg_scambio_carte_rifiutato">%1$s avvisade kortbytet.</string>
+    <string name="msg_scambio_carte_rifiutato">%1$s avvisade kortbyttet.</string>
     <string name="msg_acquisto_accettato">%1$s köpte %2$s för %3$d €!</string>
     <string name="msg_acquisto_rifiutato">%1$s är inte intresserad av att köpa.</string>
     <string name="msg_scambio_proposto_accettato">%1$s accepterade bytet: %2$s mot %3$s!</string>
@@ -129,6 +129,6 @@ Eller klicka här: https://gtpware.eu/join/%1$s</string>
 
     <!-- Tutorial Strings -->
     <string name="tutorial_title">Hur man spelar</string>
-    <string name="tutorial_message">Välkommen till Mercante in Fiera!\n\n1. Utdelning: Du och AI-spelarna får kort.\n2. Auktion: Återstående kort auktioneras ut. Bjud för att utöka din kortlek!\n3. Handel: Tryck på dina kort eller motståndarnas element för att föreslå byten (pengar eller kort).\n4. Eliminering: Köpmannen drar kort. Om de dras är dessa kort värdelösa!\n5. Priser: De återstående korten i slutet vinner pengarna i potten!</string>
+    <string name="tutorial_message">Välkommen till Mercante in Fiera!\n\nMålet är att samla så mycket pengar som möjligt. Du kan spela så många runder du vill, men den slutliga vinnaren är den som har det högsta saldot.\n\n1. Utdelning: Du och AI-spelarna får kort.\n2. Auktion: Återstående kort auktioneras ut för att bygga upp potten. Bjud för att utöka din kortlek!\n3. Handel: Tryck på dina kort eller motståndarnas element för att föreslå byten (pengar eller kort).\n4. Eliminering: Köpmannen drar kort. Om de dras är dessa kort värdelösa!\n5. Priser: De återstående korten i slutet vinner priserna som bildats av potten!</string>
     <string name="ho_capito">Uppfattat!</string>
 </resources>

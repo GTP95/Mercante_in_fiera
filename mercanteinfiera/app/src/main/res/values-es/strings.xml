@@ -129,6 +129,6 @@ O haz clic aquí: https://gtpware.eu/join/%1$s</string>
 
     <!-- Tutorial Strings -->
     <string name="tutorial_title">Cómo jugar</string>
-    <string name="tutorial_message">¡Bienvenido a Mercante in Fiera!\n\n1. Distribución: Tú y los jugadores IA recibís cartas.\n2. Subasta: Las cartas restantes se subastan. ¡Puja para ampliar tu mazo!\n3. Intercambio: Toca tus cartas o elementos de oponentes para proponer tratos (dinero o cartas).\n4. Eliminación: El Mercader saca cartas. ¡Si salen, esas cartas no valen nada!\n5. Premios: ¡Las últimas cartas que queden ganan el dinero del bote!</string>
+    <string name="tutorial_message">¡Bienvenido a Mercante in Fiera!\n\nEl objetivo es acumular tanto dinero como sea posible. Puedes jugar tantas rondas como desees, pero el ganador final será quien tenga el saldo más alto.\n\n1. Distribución: Tú y los jugadores IA recibís cartas.\n2. Subasta: Las cartas restantes se subastan para formar el bote. ¡Puja para ampliar tu mazo!\n3. Intercambio: Toca tus cartas o elementos de oponentes para proponer tratos (dinero o cartas).\n4. Eliminación: El Mercader saca cartas. ¡Si salen, esas cartas no valen nada!\n5. Premios: ¡Las últimas cartas que queden ganan los premios formados por el bote!</string>
     <string name="ho_capito">¡Entendido!</string>
 </resources>

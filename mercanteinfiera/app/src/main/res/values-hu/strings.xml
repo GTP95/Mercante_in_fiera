@@ -129,6 +129,6 @@ Vagy kattints ide: https://gtpware.eu/join/%1$s</string>
 
     <!-- Tutorial Strings -->
     <string name="tutorial_title">Hogyan kell játszani</string>
-    <string name="tutorial_message">Üdvözöljük a Mercante in Fiera játékban!\n\n1. Osztás: Te és az AI játékosok kártyákat kaptok.\n2. Árverés: A maradék kártyákat elárverezik. Licitálj, hogy bővítsd a paklidat!\n3. Kereskedés: Érintsd meg a kártyáidat vagy az ellenfeleid elemeit cserejavaslatokhoz (pénz vagy kártya).\n4. Kiesés: A kereskedő kártyákat húz. Ha kihúzzák, azok a kártyák értéktelenné válnak!\n5. Nyeremények: A végén megmaradó kártyák nyerik meg az alapban lévő pénzt!</string>
+    <string name="tutorial_message">Üdvözöljük a Mercante in Fiera játékban!\n\nA cél a lehető legtöbb pénz összegyűjtése. Akárhány kört játszhatsz, de a végső győztes az lesz, akinek a legmagasabb az egyenlege.\n\n1. Osztás: Te és az AI játékosok kártyákat kaptok.\n2. Árverés: A maradék kártyákat elárverezik az alap növelése érdekében. Licitálj, hogy bővítsd a paklidat!\n3. Kereskedés: Érintsd meg a kártyáidat vagy az ellenfeleid elemeit cserejavaslatokhoz (pénz vagy kártya).\n4. Kiesés: A kereskedő kártyákat húz. Ha kihúzzák, azok a kártyák értéktelenné válnak!\n5. Nyeremények: A végén megmaradó kártyák nyerik meg az alapból képzett nyereményeket!</string>
     <string name="ho_capito">Megértettem!</string>
 </resources>

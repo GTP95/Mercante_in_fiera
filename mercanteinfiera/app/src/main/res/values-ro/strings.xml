@@ -129,6 +129,6 @@ Sau dă clic aici: https://gtpware.eu/join/%1$s</string>
 
     <!-- Tutorial Strings -->
     <string name="tutorial_title">Cum se joacă</string>
-    <string name="tutorial_message">Bun venit la Mercante in Fiera!\n\n1. Distribuție: Tu și jucătorii IA primiți cărți.\n2. Licitație: Cărțile rămase sunt licitate. Licitează pentru a-ți mări pachetul!\n3. Schimburi: Atinge cărțile tale sau elementele adversarilor pentru a propune schimburi (bani sau cărți).\n4. Eliminare: Negustorul trage cărți. Dacă sunt trase, acele cărți nu mai valorează nimic!\n5. Premii: Cărțile rămase la final câștigă banii din fondul de premiere!</string>
+    <string name="tutorial_message">Bun venit la Mercante in Fiera!\n\nScopul este să acumulezi cât mai mulți bani. Poți juca oricâte runde dorești, dar câștigătorul final va fi cel care are cel mai mare sold.\n\n1. Distribuție: Tu și jucătorii IA primiți cărți.\n2. Licitație: Cărțile rămase sunt licitate pentru a forma fondul de premiere. Licitează pentru a-ți mări pachetul!\n3. Schimburi: Atinge cărțile tale sau elementele adversarilor pentru a propune schimburi (bani sau cărți).\n4. Eliminare: Negustorul trage cărți. Dacă sunt trase, acele cărți nu mai valorează nimic!\n5. Premii: Cărțile rămase la final câștigă premiile formate din fondul de premiere!</string>
     <string name="ho_capito">Am înțeles!</string>
 </resources>

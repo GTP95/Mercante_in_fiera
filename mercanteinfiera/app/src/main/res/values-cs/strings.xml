@@ -74,7 +74,7 @@
     <string name="lingua_bg">Български</string>
     <string name="lingua_sk">Slovenčina</string>
     <string name="lingua_hr">Hrvatski</string>
-    <string name="lingua_lt">Lietuvių</string>
+    <string name="lingua_lt">Lietuviů</string>
     <string name="lingua_sl">Slovenščina</string>
     <string name="lingua_lv">Latviešu</string>
     <string name="lingua_et">Eesti</string>
@@ -129,6 +129,6 @@ Nebo klikněte zde: https://gtpware.eu/join/%1$s</string>
 
     <!-- Tutorial Strings -->
     <string name="tutorial_title">Jak hrát</string>
-    <string name="tutorial_message">Vítejte ve hře Mercante in Fiera!\n\n1. Rozdělení: Vy a hráči s UI obdržíte karty.\n2. Aukce: Zbývající karty jsou draženy. Přihazujte, abyste rozšířili svůj balíček!\n3. Obchodování: Klepnutím na své karty nebo prvky soupeřů navrhněte výměnu (peníze nebo karty).\n4. Vyřazování: Obchodník táhne karty. Pokud je karta vytažena, ztrácí svou hodnotu!\n5. Ceny: Zbývající karty na konci vyhrávají peníze z banku!</string>
+    <string name="tutorial_message">Vítejte ve hře Mercante in Fiera!\n\nCílem je nashromáždit co nejvíce peněz. Můžete odehrát libovolný počet kol, ale konečným vítězem se stane ten, kdo bude mít nejvyšší zůstatek.\n\n1. Rozdělení: Vy a hráči s UI obdržíte karty.\n2. Aukce: Zbývající karty jsou draženy za účelem vytvoření banku. Přihazujte, abyste rozšířili svůj balíček!\n3. Obchodování: Klepnutím na své karty nebo prvky soupeřů navrhněte výměnu (peníze nebo karty).\n4. Vyřazování: Obchodník táhne karty. Pokud je karta vytažena, ztrácí svou hodnotu!\n5. Ceny: Zbývající karty na konci vyhrávají ceny tvořené bankem!</string>
     <string name="ho_capito">Rozumím!</string>
 </resources>

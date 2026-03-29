@@ -18,7 +18,7 @@
     <string name="aspetto">Videz</string>
     <string name="tema">Tema</string>
     <string name="all_asta">Na dražbi!</string>
-    <string name="offerta_attuale">Trenutna ponudba: %1$d €</string>
+    <string name="offerta_attuale">Trenutna ponuba: %1$d €</string>
     <string name="miglior_offerente">Najboljši ponudnik: %1$s</string>
     <string name="nessuno">Nihče</string>
     <string name="carte_di">Karte igralca %1$s</string>
@@ -106,7 +106,7 @@
     <string name="titolo_proposta_ia">Predlog igralca %1$s</string>
     <string name="msg_ia_vuole_comprare">%1$s želi kupiti vašo karto %2$s za %3$d €.</string>
     <string name="msg_ia_vuole_vendere">%1$s vam želi prodati svojo karto %2$s za %3$d €.</string>
-    <string name="msg_ia_vuole_scambiare">%1$s želi zamenjati svojo karto %2$s za vašo %3$s.</string>
+    <string name="msg_ia_vuole_scambiare">%1$s želi zamenjati svojo karto %2$s za vašu %3$s.</string>
     <string name="accetta">Sprejmi</string>
     <string name="rifiuta">Zavrni</string>
 
@@ -129,6 +129,6 @@ Ali kliknite tukaj: https://gtpware.eu/join/%1$s</string>
 
     <!-- Tutorial Strings -->
     <string name="tutorial_title">Kako igrati</string>
-    <string name="tutorial_message">Dobrodošli v Mercante in Fiera!\n\n1. Razdelitev: Vi in UI igralci prejmete karte.\n2. Dražba: Preostale karte se prodajajo na dražbi. Oddajte ponudbo, da razširite svoj kupček!\n3. Trgovanje: Tapnite na svoje karte ali elemente nasprotnikov, da predlagate zamenjavo (denar ali karte).\n4. Izločanje: Trgovec vleče karte. Če so izvlečene, te karte niso vredne nič!\n5. Nagrade: Preostale karte na koncu osvojijo denar iz sklada!</string>
+    <string name="tutorial_message">Dobrodošli v Mercante in Fiera!\n\nCilj je zbrati čim več denarja. Igrate lahko poljubno število krogov, vendar je končni zmagovalec tisti, ki ima najvišje stanje.\n\n1. Razdelitev: Vi in UI igralci prejmete karte.\n2. Dražba: Preostale karte se prodajajo na dražbi za oblikovanje sklada. Oddajte ponudbo, da razširite svoj kupček!\n3. Trgovanje: Tapnite na svoje karte ali elemente nasprotnikov, da predlagate zamenjavo (denar ali karte).\n4. Izločanje: Trgovec vleče karte. Če so izvlečene, te karte niso vredne nič!\n5. Nagrade: Preostale karte na koncu osvojijo nagrade, oblikovane iz sklada!</string>
     <string name="ho_capito">Razumem!</string>
 </resources>

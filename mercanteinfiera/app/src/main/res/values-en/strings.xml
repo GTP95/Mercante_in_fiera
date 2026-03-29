@@ -129,6 +129,6 @@ Or click here: https://gtpware.eu/join/%1$s</string>
 
     <!-- Tutorial Strings -->
     <string name="tutorial_title">How to Play</string>
-    <string name="tutorial_message">Welcome to Mercante in Fiera!\n\n1. Distribution: You and the AI players receive cards.\n2. Auction: Remaining cards are auctioned. Bid to expand your deck!\n3. Trading: Tap on your cards or opponents\' elements to propose trades (money or cards).\n4. Elimination: The Merchant draws cards. If drawn, those cards are worthless!\n5. Prizes: The remaining cards at the end win the pot money!</string>
+    <string name="tutorial_message">Welcome to Mercante in Fiera!\n\nThe goal is to accumulate as much money as possible. You can play as many rounds as you wish, but the final winner is whoever has the highest balance.\n\n1. Distribution: You and the AI players receive cards.\n2. Auction: Remaining cards are auctioned to build the pot. Bid to expand your deck!\n3. Trading: Tap on your cards or opponents\' elements to propose trades (money or cards).\n4. Elimination: The Merchant draws cards. If drawn, those cards are worthless!\n5. Prizes: The remaining cards at the end win the prizes formed by the pot!</string>
     <string name="ho_capito">Got it!</string>
 </resources>

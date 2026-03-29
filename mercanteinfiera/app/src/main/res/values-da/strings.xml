@@ -129,6 +129,6 @@ Eller klik her: https://gtpware.eu/join/%1$s</string>
 
     <!-- Tutorial Strings -->
     <string name="tutorial_title">Sådan spiller du</string>
-    <string name="tutorial_message">Velkommen til Mercante in Fiera!\n\n1. Fordeling: Du og AI-spillerne modtager kort.\n2. Auktion: De resterende kort bortauktioneres. Byd for at udvide dit kortspil!\n3. Handel: Tryk på dine kort eller modstandernes elementer for at foreslå byttehandler (penge eller kort).\n4. Eliminering: Købmanden trækker kort. Hvis de trækkes, er de kort værdiløse!\n5. Præmier: De resterende kort til sidst vinder pengene i puljen!</string>
+    <string name="tutorial_message">Velkommen til Mercante in Fiera!\n\nMålet er at samle så mange penge som muligt. Du kan spille så mange runder, du vil, men den endelige vinder er den, der har den højeste saldo.\n\n1. Fordeling: Du og AI-spillerne modtager kort.\n2. Auktion: De resterende kort bortauktioneres for at opbygge puljen. Byd for at udvide dit kortspil!\n3. Handel: Tryk på dine kort eller modstandernes elementer for at foreslå byttehandler (penge eller kort).\n4. Eliminering: Købmanden trækker kort. Hvis de trækkes, er de kort værdiløse!\n5. Præmier: De resterende kort til sidst vinder præmierne fra puljen!</string>
     <string name="ho_capito">Forstået!</string>
 </resources>

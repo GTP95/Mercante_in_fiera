@@ -129,6 +129,6 @@ Arba spustelėkite čia: https://gtpware.eu/join/%1$s</string>
 
     <!-- Tutorial Strings -->
     <string name="tutorial_title">Kaip žaisti</string>
-    <string name="tutorial_message">Sveiki atvykę į „Mercante in Fiera“!\n\n1. Paskirstymas: Jūs ir DI žaidėjai gaunate kortas.\n2. Aukcionas: Likusios kortos parduodamos aukcione. Statykite, kad padidintumėte savo kaladę!\n3. Mainai: Bakstelėkite savo kortas arba priešininkų elementus, kad pasiūlytumėte mainus (pinigus ar kortas).\n4. Eliminavimas: Prekiautojas traukia kortas. Jei korta ištraukiama, ji tampa bevertė!\n5. Prizai: Likusios kortos pabaigoje laimi fondo pinigus!</string>
+    <string name="tutorial_message">Sveiki atvykę į „Mercante in Fiera“!\n\nTikslas yra sukaupti kuo daugiau pinigų. Galite žaisti tiek raundų, kiek norite, bet galutinis laimėtojas bus tas, kurio balansas bus didžiausias.\n\n1. Paskirstymas: Jūs ir DI žaidėjai gaunate kortas.\n2. Aukcionas: Likusios kortos parduodamos aukcione, kad būtų sudarytas fondas. Statykite, kad padidintumėte savo kaladę!\n3. Mainai: Bakstelėkite savo kortas arba priešininkų elementus, kad pasiūlytumėte mainus (pinigus ar kortas).\n4. Eliminavimas: Prekiautojas traukia kortas. Jei korta ištraukiama, ji tampa bevertė!\n5. Prizai: Likusios kortos pabaigoje laimi fondo sudarytus prizus!</string>
     <string name="ho_capito">Supratau!</string>
 </resources>

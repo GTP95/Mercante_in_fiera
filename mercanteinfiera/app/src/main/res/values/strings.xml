@@ -129,6 +129,6 @@ Oppure clicca qui: https://gtpware.eu/join/%1$s</string>
 
     <!-- Tutorial Strings -->
     <string name="tutorial_title">Come Giocare</string>
-    <string name="tutorial_message">Benvenuto al Mercante in Fiera!\n\n1. Distribuzione: Ricevi le carte insieme alle intelligenze artificiali.\n2. Asta: Le carte rimanenti vengono messe all\'asta per comporre il montepremi. Offri per arricchire il tuo mazzo!\n3. Scambi: Usa soldi o carte per interagire con i tuoi avversari (tocca sulle carte tue o altrui).\n4. Eliminazione: Il mercante pesca le carte. Se vengono pescate, queste carte non varranno nulla!\n5. Premi: Le ultime carte a rimanere vincono i premi formati con il montepremi!</string>
+    <string name="tutorial_message">Benvenuto al Mercante in Fiera!\n\nL\'obiettivo è accumulare più denaro possibile. Puoi giocare quanti round desideri, ma il vincitore finale sarà chi avrà il saldo più alto.\n\n1. Distribuzione: Ricevi le carte insieme alle intelligenze artificiali.\n2. Asta: Le carte rimanenti vengono messe all\'asta per comporre il montepremi. Offri per arricchire il tuo mazzo!\n3. Scambi: Usa soldi o carte per interagire con i tuoi avversari (tocca sulle carte tue o altrui).\n4. Eliminazione: Il mercante pesca le carte. Se vengono pescate, queste carte non varranno nulla!\n5. Premi: Le ultime carte a rimanere vincono i premi formati con il montepremi!</string>
     <string name="ho_capito">Ho capito!</string>
 </resources>

@@ -129,6 +129,6 @@ Alebo kliknite sem: https://gtpware.eu/join/%1$s</string>
 
     <!-- Tutorial Strings -->
     <string name="tutorial_title">Ako hrať</string>
-    <string name="tutorial_message">Vitajte v hre Mercante in Fiera!\n\n1. Rozdelenie: Vy a hráči s UI dostanete karty.\n2. Aukcia: Zvyšné karty sa dražia. Prihadzujte, aby ste si rozšírili balíček!\n3. Obchodovanie: Klepnutím na svoje karty alebo prvky súperov navrhnete výmenu (peniaze alebo karty).\n4. Vyraďovanie: Obchodník ťahá karty. Ak sa vytiahnu, tie karty sú bezcenné!\n5. Ceny: Zostávajúce karty na konci vyhrávajú peniaze z banku!</string>
+    <string name="tutorial_message">Vitajte v hre Mercante in Fiera!\n\nCieľom je nazhromaždiť čo najviac peňazí. Môžete odohrať ľubovoľný počet kôl, ale konečným víťazom sa stane ten, kto bude mať najvyšší zostatok.\n\n1. Rozdelenie: Vy a hráči s UI dostanete karty.\n2. Aukcia: Zvyšné karty sa dražia za účelom vytvorenia banku. Prihadzujte, aby ste si rozšírili balíček!\n3. Obchodovanie: Klepnutím na svoje karty alebo prvky súperov navrhnete výmenu (peniaze alebo karty).\n4. Vyraďovanie: Obchodník ťahá karty. Ak sa vytiahnu, tie karty sú bezcenné!\n5. Ceny: Zostávajúce karty na konci vyhrávajú ceny tvorené bankom!</string>
     <string name="ho_capito">Rozumiem!</string>
 </resources>

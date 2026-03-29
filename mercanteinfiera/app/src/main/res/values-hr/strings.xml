@@ -129,6 +129,6 @@ Ili kliknite ovdje: https://gtpware.eu/join/%1$s</string>
 
     <!-- Tutorial Strings -->
     <string name="tutorial_title">Kako igrati</string>
-    <string name="tutorial_message">Dobrodošli u Mercante in Fiera!\n\n1. Podjela: Vi i UI igrači dobivate karte.\n2. Aukcija: Preostale karte se prodaju na aukciji. Licitiirajte kako biste proširili svoj špil!\n3. Trgovanje: Dodirnite svoje karte ili elemente protivnika kako biste predložili razmjenu (novac ili karte).\n4. Eliminacija: Trgovac izvlači karte. Ako se izvuku, te karte više ne vrijede ništa!\n5. Nagrade: Preostale karte na kraju osvajaju novac iz nagradnog fonda!</string>
+    <string name="tutorial_message">Dobrodošli u Mercante in Fiera!\n\nCilj je prikupiti što više novca. Možete igrati koliko god želite rundi, ali konačni pobjednik je onaj tko ima najveće stanje.\n\n1. Podjela: Vi i UI igrači dobivate karte.\n2. Aukcija: Preostale karte se prodaju na aukciji radi formiranja nagradnog fonda. Licitirajte kako biste proširili svoj špil!\n3. Trgovanje: Dodirnite svoje karte ili elemente protivnika kako biste predložili razmjenu (novac ili karte).\n4. Eliminacija: Trgovac izvlači karte. Ako se izvuku, te karte više ne vrijede ništa!\n5. Nagrade: Preostale karte na kraju osvajaju nagrade formirane iz nagradnog fonda!</string>
     <string name="ho_capito">Razumijem!</string>
 </resources>

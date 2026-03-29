@@ -129,6 +129,6 @@ Ou clica aqui: https://gtpware.eu/join/%1$s</string>
 
     <!-- Tutorial Strings -->
     <string name="tutorial_title">Como Jogar</string>
-    <string name="tutorial_message">Bem-vindo ao Mercante in Fiera!\n\n1. Distribuição: Tu e os jogadores de IA recebem cartas.\n2. Leilão: As cartas restantes sont leiloadas. Licita para expandir o teu baralho!\n3. Trocas: Toca nas tuas cartas ou nos elementos dos adversários para propor trocas (dinero ou cartas).\n4. Eliminação: O Mercador retira cartas. Se forem retiradas, essas cartas deixam de ter valor!\n5. Prémios: As cartas que restarem no final ganham o dinheiro do pote!</string>
+    <string name="tutorial_message">Bem-vindo ao Mercante in Fiera!\n\nO objetivo é acumular o máximo de dinheiro possível. Podes jogar as rondas que quiseres, mas o vencedor final será quem tiver o saldo mais elevado.\n\n1. Distribuição: Tu e os jogadores de IA recebem cartas.\n2. Leilão: As cartas restantes são leiloadas para formar o pote. Licita para expandir o teu baralho!\n3. Trocas: Toca nas tuas cartas ou nos elementos dos adversários para propor trocas (dinheiro ou cartas).\n4. Eliminação: O Mercador retira cartas. Se forem retiradas, essas cartas deixam de ter valor!\n5. Prémios: As cartas que restarem no final ganham os prémios formados pelo pote!</string>
     <string name="ho_capito">Percebi!</string>
 </resources>
