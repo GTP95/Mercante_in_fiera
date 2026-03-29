@@ -72,6 +72,7 @@ class GameViewModel(application: Application) : AndroidViewModel(application) {
     val auctionTimer: StateFlow<Int> = _auctionTimer.asStateFlow()
 
     private var auctionTimerJob: Job? = null
+    private var aiBiddingJob: Job? = null
 
     // Settings State
     private val _playerName = MutableStateFlow(settingsManager.getPlayerName())
@@ -222,10 +223,22 @@ class GameViewModel(application: Application) : AndroidViewModel(application) {
 
     fun acceptAIProposal() {
         val proposal = _aiProposal.value ?: return
+        val humanPlayer = _players.value.find { it.isHuman } ?: return
+        
+        if (proposal is AIProposal.Sell && humanPlayer.money < proposal.price) {
+            _currentMessage.value = getString(R.string.msg_non_abbastanza_soldi)
+            return
+        }
+
         _players.update { currentPlayers ->
             val human = currentPlayers.find { it.isHuman } ?: return@update currentPlayers
             val ai = currentPlayers.find { it.id == proposal.getAI().id } ?: return@update currentPlayers
             
+            // Re-check inside update to be absolutely safe
+            if (proposal is AIProposal.Sell && human.money < proposal.price) {
+                return@update currentPlayers
+            }
+
             when (proposal) {
                 is AIProposal.Buy -> {
                     currentPlayers.map { p ->
@@ -326,6 +339,7 @@ class GameViewModel(application: Application) : AndroidViewModel(application) {
             _gameState.value = GamePhase.DISTRIBUTION
             _currentMessage.value = getString(R.string.msg_asta_terminata, _merchantPot.value)
             _auctionCard.value = null
+            aiBiddingJob?.cancel()
             return
         }
 
@@ -337,7 +351,8 @@ class GameViewModel(application: Application) : AndroidViewModel(application) {
         
         startAuctionTimer()
         
-        viewModelScope.launch {
+        aiBiddingJob?.cancel()
+        aiBiddingJob = viewModelScope.launch {
             delay(2000)
             simulateAiBidding()
         }
@@ -393,7 +408,7 @@ class GameViewModel(application: Application) : AndroidViewModel(application) {
 
     private fun resetAuctionTimer() {
         // Every time someone bids, we reset the timer to 10s
-        _auctionTimer.value = 10
+        startAuctionTimer()
     }
 
     fun playerBid() {
