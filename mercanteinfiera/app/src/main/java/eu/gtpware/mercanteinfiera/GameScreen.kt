@@ -102,7 +102,10 @@ fun GameScreen(
     if (isMultiplayer) {
         MultiplayerGameLayout(
             room = currentRoom!!,
-            onBackClick = { viewModel.goToMenu() },
+            onBackClick = { 
+                multiplayerViewModel.leaveRoom()
+                viewModel.goToMenu() 
+            },
             multiplayerViewModel = multiplayerViewModel
         )
     } else {
@@ -145,6 +148,7 @@ fun GameScreen(
                     LobbyScreen(
                         room = room,
                         onBackClick = { 
+                            multiplayerViewModel.leaveRoom()
                             viewModel.goToMenu() 
                         },
                         onStartGame = { multiplayerViewModel.startGame() },

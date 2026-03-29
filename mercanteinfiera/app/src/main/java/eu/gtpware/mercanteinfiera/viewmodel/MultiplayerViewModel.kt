@@ -146,6 +146,8 @@ class MultiplayerViewModel : ViewModel() {
                     withTimeout(30000) {
                         database.child("rooms").child(code).setValue(room).await()
                     }
+                    // Remove player and room if disconnected
+                    database.child("rooms").child(code).child("players").child(user.uid).onDisconnect().removeValue()
                 } catch (e: TimeoutCancellationException) {
                     throw Exception("Timeout during room creation. Please check your connection.")
                 }
@@ -197,6 +199,9 @@ class MultiplayerViewModel : ViewModel() {
 
                         updatedPlayers[user.uid] = RoomPlayer(id = user.uid, name = finalName)
                         database.child("rooms").child(code).child("players").setValue(updatedPlayers).await()
+                        // Remove player if disconnected
+                        database.child("rooms").child(code).child("players").child(user.uid).onDisconnect().removeValue()
+                        
                         observeRoom(code)
                     } else {
                         _error.value = "Invalid room data"
@@ -680,6 +685,40 @@ class MultiplayerViewModel : ViewModel() {
         _offeringCard.value = null
     }
 
+    fun leaveRoom() {
+        val room = _currentRoom.value ?: return
+        val user = auth.currentUser ?: return
+        val roomCode = room.code
+
+        viewModelScope.launch {
+            try {
+                // Remove the player from the room
+                database.child("rooms").child(roomCode).child("players").child(user.uid).removeValue().await()
+                
+                // Check if any human players are left
+                val snapshot = database.child("rooms").child(roomCode).child("players").get().await()
+                val players = snapshot.children.mapNotNull { it.getValue(RoomPlayer::class.java) }
+                val humanPlayers = players.filter { !it.isBot }
+
+                if (humanPlayers.isEmpty()) {
+                    // No human players left, delete the entire room
+                    database.child("rooms").child(roomCode).removeValue().await()
+                } else if (room.hostId == user.uid) {
+                    // Host left, assign a new host from remaining human players
+                    val newHost = humanPlayers.first()
+                    database.child("rooms").child(roomCode).child("hostId").setValue(newHost.id).await()
+                }
+                
+                // Clear local listener and state
+                roomListener?.let { database.child("rooms").child(roomCode).removeEventListener(it) }
+                roomListener = null
+                _currentRoom.value = null
+            } catch (e: Exception) {
+                Log.e("MultiplayerVM", "Error leaving room", e)
+            }
+        }
+    }
+
     private fun observeRoom(code: String) {
         roomListener?.let { database.child("rooms").child(_currentRoom.value?.code ?: "").removeEventListener(it) }
         
@@ -687,6 +726,11 @@ class MultiplayerViewModel : ViewModel() {
             override fun onDataChange(snapshot: DataSnapshot) {
                 try {
                     val room = snapshot.getValue(GameRoom::class.java)
+                    if (room == null || (room.players.isEmpty() && room.status != RoomStatus.LOBBY)) {
+                        // Room was deleted or has no players
+                        _currentRoom.value = null
+                        return
+                    }
                     _currentRoom.value = room
                 } catch (e: Exception) {
                     Log.e("MultiplayerVM", "Error parsing room data", e)
@@ -707,8 +751,6 @@ class MultiplayerViewModel : ViewModel() {
 
     override fun onCleared() {
         super.onCleared()
-        _currentRoom.value?.code?.let { code ->
-            roomListener?.let { database.child("rooms").child(code).removeEventListener(it) }
-        }
+        leaveRoom()
     }
 }
