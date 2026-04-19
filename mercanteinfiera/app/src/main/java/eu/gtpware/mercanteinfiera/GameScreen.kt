@@ -61,10 +61,15 @@ fun GameScreen(
     val showTutorial by viewModel.showTutorial.collectAsState()
     val isNewGameButtonEnabled by viewModel.isNewGameButtonEnabled.collectAsState()
     val isSoundEnabled by viewModel.isSoundEnabled.collectAsState()
+    val isMusicEnabled by viewModel.isMusicEnabled.collectAsState()
     val difficultyLevel by viewModel.difficultyLevel.collectAsState()
     
     LaunchedEffect(isSoundEnabled) {
         SoundManager.setEnabled(isSoundEnabled)
+    }
+
+    LaunchedEffect(isMusicEnabled) {
+        SoundManager.setMusicEnabled(isMusicEnabled)
     }
     
     // Multiplayer state
@@ -124,11 +129,13 @@ fun GameScreen(
                     currentTheme = themeMode,
                     currentLanguage = language,
                     isSoundEnabled = isSoundEnabled,
+                    isMusicEnabled = isMusicEnabled,
                     currentDifficulty = difficultyLevel,
                     onNameChange = { viewModel.updatePlayerName(it) },
                     onThemeChange = { viewModel.updateThemeMode(it) },
                     onLanguageChange = { viewModel.updateLanguage(it) },
                     onSoundEnabledChange = { viewModel.updateSoundEnabled(it) },
+                    onMusicEnabledChange = { viewModel.updateMusicEnabled(it) },
                     onDifficultyChange = { viewModel.updateDifficultyLevel(it) },
                     onBackClick = { viewModel.goToMenu() }
                 )
@@ -1036,11 +1043,13 @@ fun SettingsScreen(
     currentTheme: String,
     currentLanguage: String,
     isSoundEnabled: Boolean,
+    isMusicEnabled: Boolean,
     currentDifficulty: DifficultyLevel,
     onNameChange: (String) -> Unit,
     onThemeChange: (String) -> Unit,
     onLanguageChange: (String) -> Unit,
     onSoundEnabledChange: (Boolean) -> Unit,
+    onMusicEnabledChange: (Boolean) -> Unit,
     onDifficultyChange: (DifficultyLevel) -> Unit,
     onBackClick: () -> Unit
 ) {
@@ -1226,6 +1235,23 @@ fun SettingsScreen(
                             onCheckedChange = { 
                                 SoundManager.playClickSound()
                                 onSoundEnabledChange(it) 
+                            }
+                        )
+                    }
+
+                    Spacer(modifier = Modifier.height(16.dp))
+
+                    Row(
+                        modifier = Modifier.fillMaxWidth(),
+                        verticalAlignment = Alignment.CenterVertically,
+                        horizontalArrangement = Arrangement.SpaceBetween
+                    ) {
+                        Text(text = stringResource(R.string.musica), style = MaterialTheme.typography.titleLarge)
+                        Switch(
+                            checked = isMusicEnabled,
+                            onCheckedChange = {
+                                SoundManager.setMusicEnabled(it)
+                                onMusicEnabledChange(it)
                             }
                         )
                     }

@@ -93,6 +93,9 @@ class GameViewModel(application: Application) : AndroidViewModel(application) {
     private val _isSoundEnabled = MutableStateFlow(settingsManager.isSoundEnabled())
     val isSoundEnabled: StateFlow<Boolean> = _isSoundEnabled.asStateFlow()
 
+    private val _isMusicEnabled = MutableStateFlow(settingsManager.isMusicEnabled())
+    val isMusicEnabled: StateFlow<Boolean> = _isMusicEnabled.asStateFlow()
+
     private val _difficultyLevel = MutableStateFlow(settingsManager.getDifficultyLevel())
     val difficultyLevel: StateFlow<DifficultyLevel> = _difficultyLevel.asStateFlow()
 
@@ -579,6 +582,11 @@ class GameViewModel(application: Application) : AndroidViewModel(application) {
     fun updateSoundEnabled(enabled: Boolean) {
         _isSoundEnabled.value = enabled
         settingsManager.saveSoundEnabled(enabled)
+    }
+    
+    fun updateMusicEnabled(enabled: Boolean) {
+        _isMusicEnabled.value = enabled
+        settingsManager.saveMusicEnabled(enabled)
     }
 
     fun updateDifficultyLevel(newLevel: DifficultyLevel) {

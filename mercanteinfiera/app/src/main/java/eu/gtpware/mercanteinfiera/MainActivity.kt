@@ -27,7 +27,8 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         
-        SoundManager.init(this)
+        val settingsManager = eu.gtpware.mercanteinfiera.data.SettingsManager(this)
+        SoundManager.init(this, settingsManager.isSoundEnabled(), settingsManager.isMusicEnabled())
         handleIntent(intent)
 
         setContent {

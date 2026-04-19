@@ -49,6 +49,8 @@
     <string name="difficolta_media">Moyenne</string>
     <string name="difficolta_difficile">Difficile</string>
 
+    <string name="musica">Musique</string>
+
     <!-- Theme names -->
     <string name="theme_system">Système</string>
     <string name="theme_light">Clair</string>
@@ -131,4 +133,6 @@ Ou cliquez ici : https://gtpware.eu/join/%1$s</string>
     <string name="tutorial_title">Comment jouer</string>
     <string name="tutorial_message">Bienvenue à Mercante in Fiera !\n\nL\'objectif est d\'accumuler autant d\'argent que possible. Vous pouvez jouer autant de manches que vous le souhaitez, mais le vainqueur final est celui qui possède le solde le plus élevé.\n\n1. Distribution : Vous et les joueurs IA recevez des cartes.\n2. Enchère : Les cartes restantes sont mises aux enchères pour constituer le pot. Enchérissez pour agrandir votre jeu !\n3. Échange : Appuyez sur vos cartes ou les éléments des adversaires pour proposer des échanges (argent ou cartes).\n4. Élimination : Le marchand tire des cartes. Si elles sont tirées, ces cartes ne valent plus rien !\n5. Prix : Les cartes restantes à la fin gagnent les prix formés par le pot !</string>
     <string name="ho_capito">J\'ai compris !</string>
+    <string name="music_on">OUI</string>
+    <string name="music_off">NON</string>
 </resources>

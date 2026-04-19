@@ -14,6 +14,7 @@ class SettingsManager(private val context: Context) {
         private const val KEY_THEME = "theme_mode"
         private const val KEY_LANGUAGE = "language"
         private const val KEY_SOUND_ENABLED = "sound_enabled"
+        private const val KEY_MUSIC_ENABLED = "music_enabled"
         private const val KEY_FIRST_STARTUP = "first_startup"
         private const val KEY_HAS_SEEN_TUTORIAL = "has_seen_tutorial"
         private const val KEY_DIFFICULTY_LEVEL = "difficulty_level"
@@ -113,6 +114,14 @@ class SettingsManager(private val context: Context) {
 
     fun saveSoundEnabled(enabled: Boolean) {
         prefs.edit().putBoolean(KEY_SOUND_ENABLED, enabled).apply()
+    }
+
+    fun isMusicEnabled(): Boolean {
+        return prefs.getBoolean(KEY_MUSIC_ENABLED, true)
+    }
+
+    fun saveMusicEnabled(enabled: Boolean) {
+        prefs.edit().putBoolean(KEY_MUSIC_ENABLED, enabled).apply()
     }
 
     fun getDifficultyLevel(): DifficultyLevel {
