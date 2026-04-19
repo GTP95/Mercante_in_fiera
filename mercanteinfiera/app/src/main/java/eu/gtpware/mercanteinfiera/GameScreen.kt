@@ -39,6 +39,7 @@ import eu.gtpware.mercanteinfiera.viewmodel.GameViewModel
 import eu.gtpware.mercanteinfiera.viewmodel.MultiplayerViewModel
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
+import eu.gtpware.mercanteinfiera.BuildConfig
 
 @Composable
 fun GameScreen(
@@ -1228,6 +1229,17 @@ fun SettingsScreen(
                             }
                         )
                     }
+                }
+
+                item {
+                    Spacer(modifier = Modifier.height(32.dp))
+                    Text(
+                        text = stringResource(R.string.versione, BuildConfig.VERSION_NAME),
+                        style = MaterialTheme.typography.bodySmall,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant,
+                        modifier = Modifier.fillMaxWidth(),
+                        textAlign = TextAlign.Center
+                    )
                 }
             }
         }
