@@ -64,6 +64,16 @@ object SoundManager {
         }
     }
 
+    fun pauseMusic() {
+        mediaPlayer?.pause()
+    }
+
+    fun resumeMusic() {
+        if (isMusicEnabled && mediaPlayer?.isPlaying == false) {
+            mediaPlayer?.start()
+        }
+    }
+
     fun playClickSound() {
         if (isEnabled && isLoaded) {
             soundPool?.play(clickSoundId, 1f, 1f, 1, 0, 1f)

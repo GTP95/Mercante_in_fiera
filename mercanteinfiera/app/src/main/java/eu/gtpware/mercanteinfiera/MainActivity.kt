@@ -62,6 +62,16 @@ class MainActivity : AppCompatActivity() {
         intent?.let { handleIntent(it) }
     }
 
+    override fun onResume() {
+        super.onResume()
+        SoundManager.resumeMusic()
+    }
+
+    override fun onPause() {
+        super.onPause()
+        SoundManager.pauseMusic()
+    }
+
     override fun onDestroy() {
         super.onDestroy()
         SoundManager.release()
