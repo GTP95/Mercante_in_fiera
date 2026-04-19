@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">MercanteInFiera</string>
+    <string name="app_name">Mercante in Fiera</string>
     <string name="saldo">Balansas: %1$d €</string>
     <string name="torna_al_menu">Atgal į meniu</string>
     <string name="premi_in_palio">Prizai (Fondu: %1$d €):</string>
@@ -131,4 +131,12 @@ Arba spustelėkite čia: https://gtpware.eu/join/%1$s</string>
     <string name="tutorial_title">Kaip žaisti</string>
     <string name="tutorial_message">Sveiki atvykę į „Mercante in Fiera“!\n\nTikslas yra sukaupti kuo daugiau pinigų. Galite žaisti tiek raundų, kiek norite, bet galutinis laimėtojas bus tas, kurio balansas bus didžiausias.\n\n1. Paskirstymas: Jūs ir DI žaidėjai gaunate kortas.\n2. Aukcionas: Likusios kortos parduodamos aukcione, kad būtų sudarytas fondas. Statykite, kad padidintumėte savo kaladę!\n3. Mainai: Bakstelėkite savo kortas arba priešininkų elementus, kad pasiūlytumėte mainus (pinigus ar kortas).\n4. Eliminavimas: Prekiautojas traukia kortas. Jei korta ištraukiama, ji tampa bevertė!\n5. Prizai: Likusios kortos pabaigoje laimi fondo sudarytus prizus!</string>
     <string name="ho_capito">Supratau!</string>
+    <string name="musica">Muzika</string>
+    <string name="uscire_titolo">Išeiti iš žaidimo?</string>
+    <string name="uscire_messaggio">Ar tikrai norite grįžti į pagrindinį meniu? Dabartinis žaidimas bus nutrauktas.</string>
+    <string name="si">Taip</string>
+    <string name="no">Ne</string>
+    <string name="versione">Versija %1$s</string>
+    <string name="music_on">TAIP</string>
+    <string name="music_off">NE</string>
 </resources>

@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">MercanteInFiera</string>
+    <string name="app_name">Mercante in Fiera</string>
     <string name="saldo">Egyenleg: %1$d €</string>
     <string name="torna_al_menu">Vissza a menühöz</string>
     <string name="premi_in_palio">Nyeremények (Alap: %1$d €):</string>
@@ -131,4 +131,12 @@ Vagy kattints ide: https://gtpware.eu/join/%1$s</string>
     <string name="tutorial_title">Hogyan kell játszani</string>
     <string name="tutorial_message">Üdvözöljük a Mercante in Fiera játékban!\n\nA cél a lehető legtöbb pénz összegyűjtése. Akárhány kört játszhatsz, de a végső győztes az lesz, akinek a legmagasabb az egyenlege.\n\n1. Osztás: Te és az AI játékosok kártyákat kaptok.\n2. Árverés: A maradék kártyákat elárverezik az alap növelése érdekében. Licitálj, hogy bővítsd a paklidat!\n3. Kereskedés: Érintsd meg a kártyáidat vagy az ellenfeleid elemeit cserejavaslatokhoz (pénz vagy kártya).\n4. Kiesés: A kereskedő kártyákat húz. Ha kihúzzák, azok a kártyák értéktelenné válnak!\n5. Nyeremények: A végén megmaradó kártyák nyerik meg az alapból képzett nyereményeket!</string>
     <string name="ho_capito">Megértettem!</string>
+    <string name="musica">Zene</string>
+    <string name="uscire_titolo">Kilépés a játékból?</string>
+    <string name="uscire_messaggio">Valóban vissza szeretnél térni a főmenübe? A jelenlegi játék véget ér.</string>
+    <string name="si">Igen</string>
+    <string name="no">Nem</string>
+    <string name="versione">Verzió %1$s</string>
+    <string name="music_on">BE</string>
+    <string name="music_off">KI</string>
 </resources>

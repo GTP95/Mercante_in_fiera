@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">MercanteInFiera</string>
+    <string name="app_name">Mercante in Fiera</string>
     <string name="saldo">Zůstatek: %1$d €</string>
     <string name="torna_al_menu">Zpět do menu</string>
     <string name="premi_in_palio">Ceny (Bank: %1$d €):</string>
@@ -131,4 +131,12 @@ Nebo klikněte zde: https://gtpware.eu/join/%1$s</string>
     <string name="tutorial_title">Jak hrát</string>
     <string name="tutorial_message">Vítejte ve hře Mercante in Fiera!\n\nCílem je nashromáždit co nejvíce peněz. Můžete odehrát libovolný počet kol, ale konečným vítězem se stane ten, kdo bude mít nejvyšší zůstatek.\n\n1. Rozdělení: Vy a hráči s UI obdržíte karty.\n2. Aukce: Zbývající karty jsou draženy za účelem vytvoření banku. Přihazujte, abyste rozšířili svůj balíček!\n3. Obchodování: Klepnutím na své karty nebo prvky soupeřů navrhněte výměnu (peníze nebo karty).\n4. Vyřazování: Obchodník táhne karty. Pokud je karta vytažena, ztrácí svou hodnotu!\n5. Ceny: Zbývající karty na konci vyhrávají ceny tvořené bankem!</string>
     <string name="ho_capito">Rozumím!</string>
+    <string name="musica">Hudba</string>
+    <string name="uscire_titolo">Ukončit hru?</string>
+    <string name="uscire_messaggio">Opravdu se chcete vrátit do hlavního menu? Aktuální hra bude ukončena.</string>
+    <string name="si">Ano</string>
+    <string name="no">Ne</string>
+    <string name="versione">Verze %1$s</string>
+    <string name="music_on">ZAP</string>
+    <string name="music_off">VYP</string>
 </resources>

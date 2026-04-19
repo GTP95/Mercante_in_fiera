@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">MercanteInFiera</string>
+    <string name="app_name">Mercante in Fiera</string>
     <string name="saldo">Saldo: %1$d €</string>
     <string name="torna_al_menu">Powrót do menu</string>
     <string name="premi_in_palio">Nagrody (Pula: %1$d €):</string>
@@ -48,6 +48,8 @@
     <string name="difficolta_facile">Łatwy</string>
     <string name="difficolta_media">Średni</string>
     <string name="difficolta_difficile">Trudny</string>
+
+    <string name="musica">Muzyka</string>
 
     <!-- Theme names -->
     <string name="theme_system">Systemowy</string>
@@ -131,4 +133,11 @@ Lub kliknij tutaj: https://gtpware.eu/join/%1$s</string>
     <string name="tutorial_title">Jak grać</string>
     <string name="tutorial_message">Witaj w Mercante in Fiera!\n\nCelem jest zgromadzenie jak największej ilości pieniędzy. Możesz rozegrać dowolną liczbę rund, ale ostatecznym zwycięzcą zostanie ten, kto będzie miał najwyższe saldo.\n\n1. Rozdawanie: Ty i gracze SI otrzymujecie karty.\n2. Aukcja: Pozostałe karty są licytowane w celu zbudowania puli. Licytuj, aby powiększyć swoją talię!\n3. Handel: Dotknij swoich kart lub elementów przeciwników, aby zaproponować wymianę (pieniądze lub karty).\n4. Eliminacja: Kupiec wyciąga karty. Jeśli zostaną wyciągnięte, tracą one wartość!\n5. Nagrody: Karty, które pozostaną na koniec, wygrywają nagrody utworzone z puli!</string>
     <string name="ho_capito">Rozumiem!</string>
+    <string name="uscire_titolo">Wyjść z gry?</string>
+    <string name="uscire_messaggio">Czy na pewno chcesz wrócić do menu głównego? Bieżąca gra zostanie zakończona.</string>
+    <string name="si">Tak</string>
+    <string name="no">Nie</string>
+    <string name="versione">Wersja %1$s</string>
+    <string name="music_on">TAK</string>
+    <string name="music_off">NIE</string>
 </resources>

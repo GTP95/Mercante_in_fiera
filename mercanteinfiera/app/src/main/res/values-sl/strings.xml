@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">MercanteInFiera</string>
+    <string name="app_name">Mercante in Fiera</string>
     <string name="saldo">Stanje: %1$d €</string>
     <string name="torna_al_menu">Nazaj v meni</string>
     <string name="premi_in_palio">Nagrade (Sklad: %1$d €):</string>
@@ -131,4 +131,12 @@ Ali kliknite tukaj: https://gtpware.eu/join/%1$s</string>
     <string name="tutorial_title">Kako igrati</string>
     <string name="tutorial_message">Dobrodošli v Mercante in Fiera!\n\nCilj je zbrati čim več denarja. Igrate lahko poljubno število krogov, vendar je končni zmagovalec tisti, ki ima najvišje stanje.\n\n1. Razdelitev: Vi in UI igralci prejmete karte.\n2. Dražba: Preostale karte se prodajajo na dražbi za oblikovanje sklada. Oddajte ponudbo, da razširite svoj kupček!\n3. Trgovanje: Tapnite na svoje karte ali elemente nasprotnikov, da predlagate zamenjavo (denar ali karte).\n4. Izločanje: Trgovec vleče karte. Če so izvlečene, te karte niso vredne nič!\n5. Nagrade: Preostale karte na koncu osvojijo nagrade, oblikovane iz sklada!</string>
     <string name="ho_capito">Razumem!</string>
+    <string name="musica">Glasba</string>
+    <string name="uscire_titolo">Zapustiti igro?</string>
+    <string name="uscire_messaggio">Ali se res želite vrniti v glavni meni? Trenutna igra bo prekinjena.</string>
+    <string name="si">Da</string>
+    <string name="no">Ne</string>
+    <string name="versione">Različica %1$s</string>
+    <string name="music_on">DA</string>
+    <string name="music_off">NE</string>
 </resources>

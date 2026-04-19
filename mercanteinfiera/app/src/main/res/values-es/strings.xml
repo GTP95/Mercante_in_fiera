@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">MercanteInFiera</string>
+    <string name="app_name">Mercante in Fiera</string>
     <string name="saldo">Saldo: %1$d €</string>
     <string name="torna_al_menu">Volver al Menú</string>
     <string name="premi_in_palio">Premios (Bote: %1$d €):</string>
@@ -133,6 +133,11 @@ O haz clic aquí: https://gtpware.eu/join/%1$s</string>
     <string name="tutorial_title">Cómo jugar</string>
     <string name="tutorial_message">¡Bienvenido a Mercante in Fiera!\n\nEl objetivo es acumular tanto dinero como sea posible. Puedes jugar tantas rondas como desees, pero el ganador final será quien tenga el saldo más alto.\n\n1. Distribución: Tú y los jugadores IA recibís cartas.\n2. Subasta: Las cartas restantes se subastan para formar el bote. ¡Puja para ampliar tu mazo!\n3. Intercambio: Toca tus cartas o elementos de oponentes para proponer tratos (dinero o cartas).\n4. Eliminación: El Mercader saca cartas. ¡Si salen, esas cartas no valen nada!\n5. Premios: ¡Las últimas cartas que queden ganan los premios formados por el bote!</string>
     <string name="ho_capito">¡Entendido!</string>
+    <string name="uscire_titolo">¿Salir del juego?</string>
+    <string name="uscire_messaggio">¿Realmente quieres volver al menú principal? La partida actual terminará.</string>
+    <string name="si">Sí</string>
+    <string name="no">No</string>
+    <string name="versione">Versión %1$s</string>
     <string name="music_on">SÍ</string>
     <string name="music_off">NO</string>
 </resources>

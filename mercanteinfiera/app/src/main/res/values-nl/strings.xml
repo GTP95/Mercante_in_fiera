@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">MercanteInFiera</string>
+    <string name="app_name">Mercante in Fiera</string>
     <string name="saldo">Saldo: %1$d €</string>
     <string name="torna_al_menu">Terug naar menu</string>
     <string name="premi_in_palio">Prijzen (Pot: %1$d €):</string>
@@ -48,6 +48,8 @@
     <string name="difficolta_facile">Gemakkelijk</string>
     <string name="difficolta_media">Gemiddeld</string>
     <string name="difficolta_difficile">Moeilijk</string>
+
+    <string name="musica">Muziek</string>
 
     <!-- Theme names -->
     <string name="theme_system">Systeem</string>
@@ -131,4 +133,11 @@ Or click here: https://gtpware.eu/join/%1$s</string>
     <string name="tutorial_title">Hoe te spelen</string>
     <string name="tutorial_message">Welkom bij Mercante in Fiera!\n\nHet doel is om zoveel mogelijk geld te verzamelen. Je kunt zoveel rondes spelen als je wilt, maar de uiteindelijke winnaar is degene met het hoogste saldo.\n\n1. Verdeling: Jij en de AI-spelers ontvangen kaarten.\n2. Veiling: De resterende kaarten worden geveild om de pot op te bouwen. Bied om je stapel uit te breiden!\n3. Ruilen: Tik op je kaarten of de elementen van tegenstanders om ruilen voor te stellen (geld of kaarten).\n4. Eliminatie: De handelaar trekt kaarten. Indien getrokken, zijn die kaarten waardeloos!\n5. Prijzen: De overgebleven kaarten aan het einde winnen de prijzen die uit de pot zijn gevormd!</string>
     <string name="ho_capito">Begrepen!</string>
+    <string name="uscire_titolo">Spel afsluiten?</string>
+    <string name="uscire_messaggio">Wil je echt terugkeren naar het hoofdmenu? Het huidige spel wordt beëindigd.</string>
+    <string name="si">Ja</string>
+    <string name="no">Nee</string>
+    <string name="versione">Versie %1$s</string>
+    <string name="music_on">JA</string>
+    <string name="music_off">NEE</string>
 </resources>

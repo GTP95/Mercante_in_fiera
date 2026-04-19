@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">MercanteInFiera</string>
+    <string name="app_name">Mercante in Fiera</string>
     <string name="saldo">Saldo: %1$d €</string>
     <string name="torna_al_menu">Takaisin valikkoon</string>
     <string name="premi_in_palio">Palkinnot (Potti: %1$d €):</string>
@@ -131,4 +131,12 @@ Tai klikkaa tästä: https://gtpware.eu/join/%1$s</string>
     <string name="tutorial_title">Kuinka pelata</string>
     <string name="tutorial_message">Tervetuloa Mercante in Fiera -peliin!\n\nTavoitteena on kerätä mahdollisimman paljon rahaa. Voit pelata niin monta kierrosta kuin haluat, mutta lopullinen voittaja on se, jolla on korkein saldo.\n\n1. Jakelu: Sinä ja tekoälypelaajat saatte kortteja.\n2. Huutokauppa: Loput kortit huutokaupataan potin kasvattamiseksi. Tarjoa kasvattaaksesi pakkaasi!\n3. Vaihto: Napauta korttejasi tai vastustajien elementtejä ehdottaaksesi vaihtoja (rahaa tai kortteja).\n4. Karsinta: Kauppias nostaa kortteja. Jos kortti nostetaan, se on arvoton!\n5. Palkinnot: Viimeiset jäljellä olevat kortit voittavat potin muodostamat palkinnot!</string>
     <string name="ho_capito">Selvä!</string>
+    <string name="musica">Musiikki</string>
+    <string name="uscire_titolo">Poistu pelistä?</string>
+    <string name="uscire_messaggio">Haluatko varmasti palata päävalikkoon? Nykyinen peli lopetetaan.</string>
+    <string name="si">Kyllä</string>
+    <string name="no">Ei</string>
+    <string name="versione">Versio %1$s</string>
+    <string name="music_on">KYLLÄ</string>
+    <string name="music_off">EI</string>
 </resources>

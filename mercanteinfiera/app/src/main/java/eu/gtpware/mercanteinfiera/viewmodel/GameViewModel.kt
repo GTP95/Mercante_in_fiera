@@ -99,6 +99,9 @@ class GameViewModel(application: Application) : AndroidViewModel(application) {
     private val _difficultyLevel = MutableStateFlow(settingsManager.getDifficultyLevel())
     val difficultyLevel: StateFlow<DifficultyLevel> = _difficultyLevel.asStateFlow()
 
+    private val _showExitDialog = MutableStateFlow(false)
+    val showExitDialog: StateFlow<Boolean> = _showExitDialog.asStateFlow()
+
     private var merchantCardsRemaining = mutableListOf<CardModel>()
     private var cardsToAuction = mutableListOf<CardModel>()
 
@@ -592,6 +595,14 @@ class GameViewModel(application: Application) : AndroidViewModel(application) {
     fun updateDifficultyLevel(newLevel: DifficultyLevel) {
         _difficultyLevel.value = newLevel
         settingsManager.saveDifficultyLevel(newLevel)
+    }
+
+    fun showExitConfirmation() {
+        _showExitDialog.value = true
+    }
+
+    fun dismissExitConfirmation() {
+        _showExitDialog.value = false
     }
 
     fun inspectPlayer(player: Player) {

@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">MercanteInFiera</string>
+    <string name="app_name">Mercante in Fiera</string>
     <string name="saldo">Saldo: %1$d €</string>
     <string name="torna_al_menu">Tilbage til menuen</string>
     <string name="premi_in_palio">Præmier (Pulje: %1$d €):</string>
@@ -48,6 +48,8 @@
     <string name="difficolta_facile">Let</string>
     <string name="difficolta_media">Middel</string>
     <string name="difficolta_difficile">Svær</string>
+
+    <string name="musica">Musik</string>
 
     <!-- Theme names -->
     <string name="theme_system">System</string>
@@ -131,4 +133,11 @@ Eller klik her: https://gtpware.eu/join/%1$s</string>
     <string name="tutorial_title">Sådan spiller du</string>
     <string name="tutorial_message">Velkommen til Mercante in Fiera!\n\nMålet er at samle så mange penge som muligt. Du kan spille så mange runder, du vil, men den endelige vinder er den, der har den højeste saldo.\n\n1. Fordeling: Du og AI-spillerne modtager kort.\n2. Auktion: De resterende kort bortauktioneres for at opbygge puljen. Byd for at udvide dit kortspil!\n3. Handel: Tryk på dine kort eller modstandernes elementer for at foreslå byttehandler (penge eller kort).\n4. Eliminering: Købmanden trækker kort. Hvis de trækkes, er de kort værdiløse!\n5. Præmier: De resterende kort til sidst vinder præmierne fra puljen!</string>
     <string name="ho_capito">Forstået!</string>
+    <string name="uscire_titolo">Afslut spillet?</string>
+    <string name="uscire_messaggio">Vil du virkelig vende tilbage til hovedmenuen? Det nuværende spil vil blive afbrudt.</string>
+    <string name="si">Ja</string>
+    <string name="no">Nej</string>
+    <string name="versione">Version %1$s</string>
+    <string name="music_on">JA</string>
+    <string name="music_off">NEJ</string>
 </resources>

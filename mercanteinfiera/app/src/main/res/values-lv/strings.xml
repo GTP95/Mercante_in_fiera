@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">MercanteInFiera</string>
+    <string name="app_name">Mercante in Fiera</string>
     <string name="saldo">Bilance: %1$d €</string>
     <string name="torna_al_menu">Atpakaļ uz izvēlni</string>
     <string name="premi_in_palio">Balvas (Fonds: %1$d €):</string>
@@ -131,4 +131,12 @@ Vai noklikšķiniet šeit: https://gtpware.eu/join/%1$s</string>
     <string name="tutorial_title">Kā spēlēt</string>
     <string name="tutorial_message">Laipni lūdzam Mercante in Fiera!\n\nMērķis ir uzkrāt pēc iespējas vairāk naudas. Jūs varat spēlēt tik daudz raundu, cik vēlaties, bet galīgais uzvarētājs būs tas, kuram būs vislielākā bilance.\n\n1. Sadale: Jūs un MI spēlētāji saņemat kārtis.\n2. Izsole: Atlikušās kārtis tiek izsolītas, lai izveidotu fondu. Soliet, lai paplašinātu savu kāršu komplektu!\n3. Tirdzniecība: Pieskarieties savām kārtīm vai pretinieku elementiem, lai ierosinātu apmaiņu (nauda vai kārtis).\n4. Izslēgšana: Tirgotājs velk kārtis. Ja tās tiek izvilktas, tās kļūst bezvērtīgas!\n5. Balvas: Atlikušās kārtis beigās laimē fonda veidotās balvas!</string>
     <string name="ho_capito">Sapratu!</string>
+    <string name="musica">Mūzika</string>
+    <string name="uscire_titolo">Iziet no spēles?</string>
+    <string name="uscire_messaggio">Vai tiešām vēlaties atgriezties galvenajā izvēlnē? Pašreizējā spēle tiks pārtraukta.</string>
+    <string name="si">Jā</string>
+    <string name="no">Nē</string>
+    <string name="versione">Versija %1$s</string>
+    <string name="music_on">JĀ</string>
+    <string name="music_off">NĒ</string>
 </resources>

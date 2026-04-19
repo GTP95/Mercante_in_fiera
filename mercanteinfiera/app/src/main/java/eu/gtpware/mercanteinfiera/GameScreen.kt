@@ -2,6 +2,8 @@ package eu.gtpware.mercanteinfiera
 
 import android.content.Context
 import android.content.Intent
+import androidx.activity.compose.BackHandler
+import androidx.activity.compose.LocalOnBackPressedDispatcherOwner
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -63,6 +65,7 @@ fun GameScreen(
     val isSoundEnabled by viewModel.isSoundEnabled.collectAsState()
     val isMusicEnabled by viewModel.isMusicEnabled.collectAsState()
     val difficultyLevel by viewModel.difficultyLevel.collectAsState()
+    val showExitDialog by viewModel.showExitDialog.collectAsState()
     
     LaunchedEffect(isSoundEnabled) {
         SoundManager.setEnabled(isSoundEnabled)
@@ -105,12 +108,43 @@ fun GameScreen(
 
     val isMultiplayer = currentRoom != null && currentRoom?.status != RoomStatus.LOBBY
 
+    if (showExitDialog) {
+        AlertDialog(
+            onDismissRequest = { viewModel.dismissExitConfirmation() },
+            title = { Text(stringResource(R.string.uscire_titolo)) },
+            text = { Text(stringResource(R.string.uscire_messaggio)) },
+            confirmButton = {
+                TextButton(onClick = {
+                    viewModel.dismissExitConfirmation()
+                    if (isMultiplayer) {
+                        multiplayerViewModel.leaveRoom()
+                    }
+                    viewModel.goToMenu()
+                }) {
+                    Text(stringResource(R.string.si))
+                }
+            },
+            dismissButton = {
+                TextButton(onClick = { viewModel.dismissExitConfirmation() }) {
+                    Text(stringResource(R.string.no))
+                }
+            }
+        )
+    }
+
+    // Back button handling
+    val isGameActive = gameState != GamePhase.MENU && gameState != GamePhase.SETTINGS && gameState != GamePhase.MULTIPLAYER_MENU && gameState != GamePhase.LOBBY
+    if (isGameActive) {
+        BackHandler {
+            viewModel.showExitConfirmation()
+        }
+    }
+
     if (isMultiplayer) {
         MultiplayerGameLayout(
             room = currentRoom!!,
             onBackClick = { 
-                multiplayerViewModel.leaveRoom()
-                viewModel.goToMenu() 
+                viewModel.showExitConfirmation()
             },
             multiplayerViewModel = multiplayerViewModel
         )
@@ -182,7 +216,7 @@ fun GameScreen(
                     eliminatedCards = eliminatedCards,
                     aiProposal = aiProposal,
                     isNewGameButtonEnabled = isNewGameButtonEnabled,
-                    onBackClick = { viewModel.goToMenu() },
+                    onBackClick = { viewModel.showExitConfirmation() },
                     onBidClick = { viewModel.playerBid() },
                     onStartPrizes = { viewModel.startPrizesPhase() },
                     onDrawCard = { viewModel.drawEliminationCard() },
@@ -195,6 +229,30 @@ fun GameScreen(
     }
 
     // Dialogs
+    if (showExitDialog) {
+        AlertDialog(
+            onDismissRequest = { viewModel.dismissExitConfirmation() },
+            title = { Text(stringResource(R.string.uscire_titolo)) },
+            text = { Text(stringResource(R.string.uscire_messaggio)) },
+            confirmButton = {
+                TextButton(onClick = {
+                    viewModel.dismissExitConfirmation()
+                    if (isMultiplayer) {
+                        multiplayerViewModel.leaveRoom()
+                    }
+                    viewModel.goToMenu()
+                }) {
+                    Text(stringResource(R.string.si))
+                }
+            },
+            dismissButton = {
+                TextButton(onClick = { viewModel.dismissExitConfirmation() }) {
+                    Text(stringResource(R.string.no))
+                }
+            }
+        )
+    }
+
     if (isMultiplayer) {
         mpInspectingPlayer?.let { player ->
             InspectionDialog(
@@ -1606,15 +1664,15 @@ fun OpponentInfo(name: String, cardCount: Int, money: Int, modifier: Modifier = 
             Spacer(modifier = Modifier.height(4.dp))
             Row(verticalAlignment = Alignment.CenterVertically) {
                 Box(
-                    modifier = Modifier.size(24.dp).background(MaterialTheme.colorScheme.secondaryContainer, CircleShape),
+                    modifier = Modifier.size(20.dp).background(MaterialTheme.colorScheme.secondaryContainer, CircleShape),
                     contentAlignment = Alignment.Center
                 ) {
-                    Text("$cardCount", fontSize = 11.sp, fontWeight = FontWeight.Bold, color = MaterialTheme.colorScheme.onSecondaryContainer)
+                    Text("$cardCount", fontSize = 10.sp, fontWeight = FontWeight.Bold, color = MaterialTheme.colorScheme.onSecondaryContainer)
                 }
                 Spacer(modifier = Modifier.width(4.dp))
-                Text("${money}€", fontSize = 12.sp, color = Color(0xFF2E7D32), fontWeight = FontWeight.Bold)
+                Text(stringResource(R.string.carte), style = MaterialTheme.typography.labelSmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
             }
-            Text(stringResource(R.string.carte), style = MaterialTheme.typography.labelSmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
+            Text("${money}€", fontSize = 12.sp, color = Color(0xFF2E7D32), fontWeight = FontWeight.Bold)
         }
     }
 }
