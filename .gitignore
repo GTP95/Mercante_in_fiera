@@ -25,6 +25,7 @@ captures/
 # Keystore files (Keep your keys safe!)
 *.jks
 *.keystore
+keystore.properties
 
 # External native build folder
 .externalNativeBuild
