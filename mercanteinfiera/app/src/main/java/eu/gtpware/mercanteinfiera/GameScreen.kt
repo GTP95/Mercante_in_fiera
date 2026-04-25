@@ -39,8 +39,8 @@ import eu.gtpware.mercanteinfiera.utils.SoundManager
 import eu.gtpware.mercanteinfiera.utils.rememberClickable
 import eu.gtpware.mercanteinfiera.viewmodel.GameViewModel
 import eu.gtpware.mercanteinfiera.viewmodel.MultiplayerViewModel
-import com.google.firebase.auth.ktx.auth
-import com.google.firebase.ktx.Firebase
+import com.google.firebase.auth.auth
+import com.google.firebase.Firebase
 import eu.gtpware.mercanteinfiera.BuildConfig
 
 @Composable
